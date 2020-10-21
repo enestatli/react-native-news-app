@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { BookmarkView, HomeView, SettingsView } from '../views';
 import TabBar from '../components/TabBar';
+import ColumnistView from '../views/tab/Columnist';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -32,6 +33,7 @@ export const TabNavigator = () => {
         tabBar={(props) => <TabBar {...props} />}
       >
         <Tab.Screen name="Bookmark" component={BookmarkView} />
+        <Tab.Screen name="Columnist" component={ColumnistView} />
         <Tab.Screen name="Home" component={HomeStack} />
         <Tab.Screen name="Settings" component={SettingsView} />
       </Tab.Navigator>

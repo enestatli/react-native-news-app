@@ -20,3 +20,4 @@ export { default as SettingsIcon } from './SettingsIcon';
 export { default as Bookmark } from './Bookmark';
 export { default as RightIcon } from './RightIcon';
 export { default as LeftIcon } from './LeftIcon';
+export { default as Pencil } from './Pencil';

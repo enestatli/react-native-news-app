@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 
-import { Bookmark, HomeIcon, SettingsIcon } from './icons';
+import { Bookmark, HomeIcon, SettingsIcon, Pencil } from './icons';
 
 const TabBar = ({ state, descriptors, navigation }) => {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
@@ -35,25 +35,22 @@ const TabBar = ({ state, descriptors, navigation }) => {
           }
         };
 
-        return label === 'Home' ? (
-          <View
-            style={[styles.homeButtonContainer, { backgroundColor: 'red' }]}
-            key={label}
-          >
-            <TouchableOpacity style={styles.homeButton} onPress={onPress}>
-              <HomeIcon width={24} height={24} color="#777777" />
-            </TouchableOpacity>
-          </View>
-        ) : (
+        return (
           <TouchableOpacity
             style={styles.otherButtons}
             key={label}
             onPress={onPress}
           >
+            {label === 'Columnist' && <Pencil size={24} color="#777" />}
+            {label === 'Home' && <HomeIcon width={24} color="#777" />}
             {label === 'Bookmark' && <Bookmark size={24} color="#777" />}
-            {label === 'Settings' && (
-              <SettingsIcon width={24} height={24} color="#777777" />
-            )}
+            {label === 'Settings' && <SettingsIcon width={24} color="#777" />}
+            <View
+              style={[
+                styles.focused,
+                isFocused && { backgroundColor: 'black' },
+              ]}
+            />
           </TouchableOpacity>
         );
       })}
@@ -63,27 +60,12 @@ const TabBar = ({ state, descriptors, navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     flexDirection: 'row',
-    // alignItems: 'center',
-    // justifyContent: 'space-between',
-    backgroundColor: '#f9f9f9',
-    // height: 48,
-  },
-  homeButtonContainer: {
-    padding: 24,
-    marginTop: -12,
-    backgroundColor: '#f9f9f9',
-    borderRadius: 9999,
-  },
-  homeButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // borderRadius: 9999,
   },
   otherButtons: {
     flex: 1,
-    flexDirection: 'column',
+    // flexDirection: 'column',
     height: 56,
     alignItems: 'center',
     justifyContent: 'center',
@@ -92,7 +74,7 @@ const styles = StyleSheet.create({
   focused: {
     width: 4,
     height: 4,
-    marginTop: 6,
+    marginTop: 2,
     backgroundColor: 'white',
   },
   icons: {
