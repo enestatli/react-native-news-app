@@ -8,7 +8,7 @@ import { Loading } from '../components';
 import AuthStack from './AuthStack';
 
 import { HomeView } from '../views';
-import HomeStack from './TabStack';
+import HomeStack, { TabNavigator } from './TabStack';
 
 export const Routes = () => {
   const [loading, setLoading] = useState(true);
@@ -40,5 +40,5 @@ export const Routes = () => {
     return <Loading />;
   }
 
-  return user ? <HomeStack /> : <AuthStack />;
+  return user ? <TabNavigator /> : <AuthStack />;
 };
