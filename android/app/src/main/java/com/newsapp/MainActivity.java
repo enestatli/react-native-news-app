@@ -1,4 +1,4 @@
-package com.newsapp;
+package com.cekmecem.newsapp;
 
 import com.facebook.react.ReactActivity;
 
