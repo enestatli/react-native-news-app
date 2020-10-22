@@ -30,6 +30,9 @@ export const AuthProvider = ({ children }) => {
         password,
       );
       try {
+        //TODO move this method to another file, you need auth user to logout correctly
+        //also add if-else to check wheter user is already created or not
+
         const id = registeredUser.user.uid;
         const data = { id, email, photoUrl: 'test.jpg' };
         const usersRef = firestore().collection('users');
@@ -48,7 +51,7 @@ export const AuthProvider = ({ children }) => {
         setError('That email address is invalid!');
       }
 
-      console.log('something else error', err);
+      console.log('something else error in register', err);
     }
   };
 
