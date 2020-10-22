@@ -17,7 +17,6 @@ import { theme } from '../../utils/theme';
 const SignupView = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [hide, setHide] = useState(true);
 
   const { register, error } = useContext(AuthContext);
 
@@ -32,9 +31,6 @@ const SignupView = ({ navigation }) => {
       }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <TouchableOpacity style={styles.close}>
-        <Close width={24} color="black" />
-      </TouchableOpacity>
       <View
         style={{
           alignItems: 'center',
@@ -65,23 +61,8 @@ const SignupView = ({ navigation }) => {
           placeholderText="Password"
           lines={1}
           onChangeText={(userPassword) => setPassword(userPassword)}
-          secureTextEntry={hide}
+          secureTextEntry={true}
         />
-        <TouchableOpacity
-          style={{
-            position: 'absolute',
-            bottom: 208,
-            right: 70,
-          }}
-          onPress={() => setHide(!hide)}
-        >
-          {hide ? (
-            <Eye size={24} color={'black'} />
-          ) : (
-            // TODO EyeOff does not shown
-            <Close size={24} color={'black'} />
-          )}
-        </TouchableOpacity>
         <FormButton
           buttonTitle="Signup"
           onPress={async () => await register(email, password)}
@@ -110,11 +91,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     paddingVertical: 24,
-  },
-  close: {
-    position: 'absolute',
-    top: 16,
-    left: 16,
-    zIndex: 1,
   },
 });
