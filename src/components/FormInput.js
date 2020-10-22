@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderRadius: 6,
     borderWidth: 0.5,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     borderColor: '#b1b1b1',
   },
 });

@@ -21,3 +21,6 @@ export { default as Bookmark } from './Bookmark';
 export { default as RightIcon } from './RightIcon';
 export { default as LeftIcon } from './LeftIcon';
 export { default as Pencil } from './Pencil';
+
+export { default as Eye } from './Eye';
+export { default as EyeOff } from './EyeOff';
