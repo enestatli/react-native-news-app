@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
+import { AuthContext } from '../context';
 
 import { windowHeight, windowWidth } from '../utils/dimensions';
 
 const FormInput = ({ labelValue, placeholderText, lines, ...props }) => {
+  const { setError } = useContext(AuthContext);
   return (
     <TextInput
       style={[styles.input, props.extraStyles]}
@@ -11,6 +13,7 @@ const FormInput = ({ labelValue, placeholderText, lines, ...props }) => {
       numberOfLines={lines}
       placeholder={placeholderText}
       placeholderTextColor="#666"
+      // onFocus={() => setError('')}
       {...props}
     />
   );
@@ -26,7 +29,9 @@ const styles = StyleSheet.create({
     width: windowWidth / 1.5,
     height: windowHeight / 15,
     fontSize: 16,
-    borderRadius: 8,
-    borderWidth: 1,
+    borderRadius: 6,
+    borderWidth: 0.5,
+    fontWeight: 'bold',
+    borderColor: '#b1b1b1',
   },
 });

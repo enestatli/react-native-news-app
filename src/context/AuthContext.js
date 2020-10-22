@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       await auth().signInWithEmailAndPassword(email, password);
+      setError('');
     } catch (err) {
       if (err.code === 'auth/invalid-email') {
         setError('That email address is invalid!');
@@ -29,6 +30,7 @@ export const AuthProvider = ({ children }) => {
         email,
         password,
       );
+      setError('');
       try {
         //TODO move this method to another file, you need auth user to logout correctly
         //also add if-else to check wheter user is already created or not
@@ -58,6 +60,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await auth().signOut();
+      setError('');
     } catch (err) {
       console.log('error while logging out', err);
     }
@@ -67,6 +70,7 @@ export const AuthProvider = ({ children }) => {
     user,
     setUser,
     error,
+    setError,
     login,
     register,
     logout,

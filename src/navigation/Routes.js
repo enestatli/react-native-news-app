@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 
 import { AuthContext } from '../context';
+
 import { Loading } from '../components';
 
 import AuthStack from './AuthStack';
-
 import { TabNavigator } from './TabStack';
 
 export const Routes = () => {
@@ -14,33 +13,33 @@ export const Routes = () => {
 
   const { user, setUser } = useContext(AuthContext);
 
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStatechanged);
+    return () => {
+      subscriber;
+    };
+  }, []);
+
   const onAuthStatechanged = async (user) => {
-    console.log(user);
-    // const userRef = firestore().collection('users');
-    // if (user) {
-    //   // const snap = await userRef.doc(user.uid).get();
-    //   // setUser(snap.data());
-    //   setUser(user);
-    //   setLoading(false);
+    // try {
+    //   const userRef = firestore().collection('users');
+    //   const snap = await userRef.doc(user?.uid).get();
+    //   if (user !== undefined) {
+    //     setUser(snap.data());
+    //   }
+    // } catch (err) {
+    //   console.log(err);
     // }
     setUser(user);
     if (loading) {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 555);
     }
   };
-
-  useEffect(() => {
-    console.log('listening???');
-    const subscriber = auth().onAuthStateChanged(onAuthStatechanged);
-    // return () => {
-    //   subscriber;
-    // };
-    return subscriber;
-  }, []);
 
   if (loading) {
     return <Loading />;
   }
-
   return user ? <TabNavigator /> : <AuthStack />;
 };
