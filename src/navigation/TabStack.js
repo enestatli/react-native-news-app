@@ -3,24 +3,34 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { BookmarkView, HomeView, SettingsView } from '../views';
+import { BookmarkView, DetailView, HomeView, SettingsView } from '../views';
 import TabBar from '../components/TabBar';
 import ColumnistView from '../views/tab/Columnist';
+import { BookmarkProvider } from '../context';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function HomeStack() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={HomeView}
-        options={() => {
-          return { headerShown: false };
-        }}
-      />
-    </Stack.Navigator>
+    <BookmarkProvider>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeView}
+          options={() => {
+            return { headerShown: false };
+          }}
+        />
+        <Stack.Screen
+          name="Detail"
+          component={DetailView}
+          options={() => {
+            return { headerShown: false };
+          }}
+        />
+      </Stack.Navigator>
+    </BookmarkProvider>
   );
 }
 

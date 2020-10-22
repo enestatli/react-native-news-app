@@ -52,7 +52,7 @@ const TrendNews = ({ navigation, trendNews }) => {
           <View style={styles.trendNews}>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('DetailView', {
+                navigation.navigate('Detail', {
                   data: item,
                 })
               }
@@ -82,12 +82,13 @@ export default TrendNews;
 
 const styles = StyleSheet.create({
   trendNewsContainer: {
+    //TODO flex:1, and also drop marginTop, recentNews margin too!!
     height: 183,
     marginTop: 32,
     width: '100%',
   },
   trendNews: {
-    paddingRight: 24,
+    paddingRight: 12,
     alignItems: 'center',
     justifyContent: 'center',
   },

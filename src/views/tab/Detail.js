@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
 import {
@@ -14,72 +14,48 @@ import {
   View,
 } from 'react-native';
 
-import AddListModal from '../../components/AddListModal';
-import BottomSheet from '../../components/BottomSheet';
-import CommentList from '../../components/CommentList';
+// import BottomSheet from '../../components/BottomSheet';
+// import CommentList from '../../components/CommentList';
 import { Bookmark, Bubble, EyeIcon, TimeIcon } from '../../components/icons';
-import FireContext from '../../context/fire';
-import ThemeContext from '../../context/themeContext';
-import { AuthContext } from '../../navigation/AuthProvider';
+
 import WebView from 'react-native-webview';
 import Loading from '../../components/Loading';
+import { BookmarkContext, ThemeContext } from '../../context';
 
 const DetailView = ({ route, navigation }) => {
   const data = route.params.data;
   const { mode, darkMode } = useContext(ThemeContext);
   const [addTodoVisible, setAddTodoVisible] = useState(false);
-  const {
-    setUrl,
-    testComments,
-    addToBookmarks,
-    removeFromBookmarks,
-    isBookmarked,
-  } = useContext(FireContext);
+  const { bookmarks, addToBookmarks, removeFromBookmarks, setUrl } = useContext(
+    BookmarkContext,
+  );
+
+  //TODO add timestamp recentNews in homeView, add bookmark too!
+  //TODO add bookmark, make webview look likes your app with colors, borders etc.
+
+  useEffect(() => {
+    setUrl(data.url);
+  }, []);
 
   const toggleAddToModal = () => {
     setAddTodoVisible(!addTodoVisible);
   };
 
-  const dateFormat = (date) => {
-    var mthNames = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-
-    const monthIndex = date.substring(5, 7).replace(/^0+/, '');
-    const monthName = mthNames[monthIndex - 1];
-    const day = date.substring(8, 10).replace(/^0+/, '');
-    const year = date.substring(0, 4);
-    const hour = date.substring(11, 16);
-    const formated =
-      monthName + ' ' + day + ',' + ' ' + year + ' ' + '-' + ' ' + hour;
-
-    return formated;
-  };
-  React.useEffect(() => {
-    setUrl(data.url);
-  }, [data.url]);
+  const run = `
+      document.body.style.backgroundColor = 'blue';
+      true;
+    `;
 
   return (
     <View style={{ flex: 1 }}>
-      <Modal
+      {/* <Modal
         animationType="slide"
         visible={addTodoVisible}
         onRequestClose={toggleAddToModal}
         statusBarTranslucent={addTodoVisible && true}
       >
         <CommentList closeModal={toggleAddToModal} data={data} />
-      </Modal>
+      </Modal> */}
       <View
         style={{
           width: '100%',
@@ -105,7 +81,7 @@ const DetailView = ({ route, navigation }) => {
             }}
           >
             See all comments
-            {testComments.length > 0 ? ` (${testComments.length})` : ''}
+            {/* {testComments.length > 0 ? ` (${testComments.length})` : ''} */}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -143,7 +119,8 @@ const DetailView = ({ route, navigation }) => {
         userAgent={
           'Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 XL Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3714.0 Mobile Safari/537.36'
         }
-        //TODO change avatar icon with the pencil svg and put columist view there
+        injectedJavaScript={run}
+        // injectJavaScript={run}
         //TODO try to block ads, for turkish just set to false javascript
       />
     </View>

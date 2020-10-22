@@ -18,7 +18,7 @@ const RecentNews = ({ recentNews, navigation }) => {
     <View style={[styles.recentNews, { backgroundColor: mode.colors.card }]}>
       <TouchableOpacity
         style={styles.recentNewsButton}
-        onPress={() => navigation.navigate('DetailView', { data: item })}
+        onPress={() => navigation.navigate('Detail', { data: item })}
       >
         <Image
           source={{ uri: item.urlToImage }}
@@ -81,11 +81,12 @@ export default RecentNews;
 
 const styles = StyleSheet.create({
   recentNewsContainer: {
+    flex: 1,
     marginTop: 20,
-    marginBottom: 40,
+    marginBottom: 12,
   },
   recentNews: {
-    marginTop: 10,
+    marginTop: 12,
     borderRadius: 6,
     width: '100%',
     backgroundColor: '#F3F3F3',
