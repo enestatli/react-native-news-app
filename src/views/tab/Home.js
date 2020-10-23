@@ -9,7 +9,13 @@ import {
 } from '../../utils/api';
 
 import { ThemeContext } from '../../context';
-import { CategoryBar, Header, RecentNews, TrendNews } from '../../components';
+import {
+  CategoryBar,
+  Header,
+  Placeholder,
+  RecentNews,
+  TrendNews,
+} from '../../components';
 
 const tabs = [
   {
@@ -137,6 +143,7 @@ const HomeView = ({ route, navigation }) => {
         {selectedTab && (
           <TrendNews trendNews={trendNews.articles} navigation={navigation} />
         )}
+
         <RecentNews recentNews={testData?.articles} navigation={navigation} />
 
         {/* Recent News */}

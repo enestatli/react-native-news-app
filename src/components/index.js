@@ -7,6 +7,8 @@ import TrendNews from './TrendNews';
 import RecentNews from './RecentNews';
 import CategoryBar from './CategoryBar';
 
+import Placeholder from './Placeholder';
+
 export {
   FormInput,
   FormButton,
@@ -15,4 +17,5 @@ export {
   RecentNews,
   TrendNews,
   CategoryBar,
+  Placeholder,
 };

@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import { ThemeContext } from '../context';
+import { Placeholder } from '../components';
 
 const RecentNews = ({ recentNews, navigation }) => {
   const { mode } = useContext(ThemeContext);
@@ -20,37 +21,60 @@ const RecentNews = ({ recentNews, navigation }) => {
         style={styles.recentNewsButton}
         onPress={() => navigation.navigate('Detail', { data: item })}
       >
-        <Image
-          source={{ uri: item.urlToImage }}
-          style={{ width: 106, height: 151, borderRadius: 6 }}
-        />
+        <Placeholder
+          autoRun
+          visible={item ? true : false}
+          width={106}
+          height={151}
+        >
+          <Image
+            source={{ uri: item.urlToImage }}
+            style={{ width: 106, height: 151, borderRadius: 6 }}
+          />
+        </Placeholder>
+
         <View
           style={{
             padding: 12,
           }}
         >
           <View style={styles.recentNewsBody}>
-            <Text
-              style={{
-                fontSize: 13,
-                color: mode.colors.icon,
-                fontWeight: 'bold',
-              }}
+            <Placeholder
+              autoRun
+              visible={item ? true : false}
+              width={150}
+              height={12}
             >
-              {item.title}
-            </Text>
-            <Text
-              style={{
-                fontSize: 18,
-                color: mode.colors.icon,
-                fontWeight: '100',
-              }}
+              <Text
+                style={{
+                  fontSize: 13,
+                  color: mode.colors.icon,
+                  fontWeight: 'bold',
+                }}
+              >
+                {item.title}
+              </Text>
+            </Placeholder>
+            <Placeholder
+              shimmerStyle={{ marginTop: 10 }}
+              autoRun
+              visible={item ? true : false}
+              width={225}
+              height={80}
             >
-              {!item.description
-                ? 'No description title'
-                : item.description?.slice(0, 75) +
-                  (item.description?.length > 75 ? '...' : '')}
-            </Text>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: mode.colors.icon,
+                  fontWeight: '100',
+                }}
+              >
+                {!item.description
+                  ? 'No description title'
+                  : item.description?.slice(0, 75) +
+                    (item.description?.length > 75 ? '...' : '')}
+              </Text>
+            </Placeholder>
           </View>
         </View>
       </TouchableOpacity>

@@ -26,7 +26,7 @@ const DetailView = ({ route, navigation }) => {
   const data = route.params.data;
   const { mode, darkMode } = useContext(ThemeContext);
   const [addTodoVisible, setAddTodoVisible] = useState(false);
-  const { bookmarks, addToBookmarks, removeFromBookmarks, setUrl } = useContext(
+  const { addToBookmarks, removeFromBookmarks, setUrl } = useContext(
     BookmarkContext,
   );
 
