@@ -21,6 +21,7 @@ import { Bookmark, Bubble, EyeIcon, TimeIcon } from '../../components/icons';
 import WebView from 'react-native-webview';
 import Loading from '../../components/Loading';
 import { BookmarkContext, ThemeContext } from '../../context';
+import { CommentList } from '../../components';
 
 const DetailView = ({ route, navigation }) => {
   const data = route.params.data;
@@ -48,14 +49,14 @@ const DetailView = ({ route, navigation }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      {/* <Modal
+      <Modal
         animationType="slide"
         visible={addTodoVisible}
         onRequestClose={toggleAddToModal}
         statusBarTranslucent={addTodoVisible && true}
       >
         <CommentList closeModal={toggleAddToModal} data={data} />
-      </Modal> */}
+      </Modal>
       <View
         style={{
           width: '100%',
