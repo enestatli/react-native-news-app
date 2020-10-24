@@ -14,98 +14,61 @@ export const BookmarkProvider = ({ children }) => {
 
   const { user } = useContext(AuthContext);
 
-  const usersRef = firestore().collection('usersCollection');
+  const commentsRef = firestore().collection('testComments');
 
   useEffect(() => {
     (async () => {
       try {
-        if (user) {
-          const snap = await usersRef
-            .doc(user.id)
-            .collection('bookmarks')
-            .orderBy('addedAt', 'desc')
-            .get();
-          const bookmarkList = [];
-          snap.docs.forEach((doc) => {
-            const article = doc.data();
-            bookmarkList.push(article);
-          });
-          if (!isEqual(bookmarkList, bookmarks)) {
-            setBookmarks(bookmarkList);
+        if (url) {
+          const newUrl = md5(url);
+          const article = (await commentsRef.doc(newUrl).get()).data();
+          if (article !== undefined) {
+            if (article.savedBy.includes(user.email)) {
+              setIsBookmarked(true);
+            } else {
+              setIsBookmarked(false);
+            }
+          } else {
+            setIsBookmarked(false);
           }
         }
       } catch (err) {
-        console.log('error while fetching bookmarks from fire', err);
+        console.log('error while fetching bookmarkeds', err);
       }
     })();
-  }, [user]);
+  }, [url]);
 
+  //TODO orderBy desc bookmarks!!!
   useEffect(() => {
-    console.log(url);
-    if (url) {
-      if (bookmarks.length > 0) {
-        const isBooked = bookmarks.find((item) => item.url === url);
-        setIsBookmarked(isBooked);
+    (async () => {
+      try {
+        if (user) {
+          const snap = await commentsRef.get();
+          const saveList = [];
+          snap.docs.forEach((doc) => {
+            const article = doc.data();
+            if (article.savedBy.includes(user.email)) {
+              saveList.push(article);
+            }
+          });
+          setBookmarks(saveList);
+        }
+      } catch (err) {
+        console.log('error while fetching bookmark list', err);
       }
-    }
-  }, [url, isBookmarked, bookmarks]);
-
-  const addToBookmarks = async (data) => {
-    const submitedDate = firestore.FieldValue.serverTimestamp();
-    try {
-      data.addedAt = submitedDate;
-      setBookmarks([data, ...bookmarks]);
-      setIsBookmarked(true);
-    } catch (err) {
-      console.log('error while adding favorite data on UI', err);
-    }
-    try {
-      if (user) {
-        const newUrl = md5(data.url);
-        await usersRef
-          .doc(user.id)
-          .collection('bookmarks')
-          .doc(newUrl)
-          .set({ ...data, addedAt: submitedDate });
-      }
-    } catch (err) {
-      console.log('error while adding to fire', err);
-    }
-  };
-
-  const removeFromBookmarks = async (data) => {
-    try {
-      const indexOfData = bookmarks.indexOf(data);
-      if (indexOfData > 0) {
-        bookmarks.splice(indexOfData, 1);
-      } else {
-        bookmarks.shift();
-      }
-      setBookmarks([...bookmarks]);
-      setIsBookmarked(false);
-    } catch (err) {
-      console.log('error while adding favorite data on UI', err);
-    }
-    try {
-      if (user) {
-        const newUrl = md5(data.url);
-        await usersRef
-          .doc(user.id)
-          .collection('bookmarks')
-          .doc(newUrl)
-          .delete();
-      }
-    } catch (err) {
-      console.log('error while removing from fire', err);
-    }
-  };
+    })();
+    console.log(bookmarks.length, 'BOOKMARKS');
+  }, []);
 
   const values = {
     bookmarks,
     isBookmarked,
-    setBookmarks,
-    removeFromBookmarks,
-    addToBookmarks,
+    setIsBookmarked: (bool) => {
+      setIsBookmarked(bool);
+    },
+    setBookmarks: (art) => {
+      setBookmarks(art);
+    },
     setUrl: (u) => {
       setUrl(u);
     },

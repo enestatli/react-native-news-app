@@ -13,40 +13,40 @@ const Tab = createBottomTabNavigator();
 
 export default function HomeStack() {
   return (
-    <BookmarkProvider>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeView}
-          options={() => {
-            return { headerShown: false };
-          }}
-        />
-        <Stack.Screen
-          name="Detail"
-          component={DetailView}
-          options={() => {
-            return { headerShown: false };
-          }}
-        />
-      </Stack.Navigator>
-    </BookmarkProvider>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={HomeView}
+        options={() => {
+          return { headerShown: false };
+        }}
+      />
+      <Stack.Screen
+        name="Detail"
+        component={DetailView}
+        options={() => {
+          return { headerShown: false };
+        }}
+      />
+    </Stack.Navigator>
   );
 }
 
 export const TabNavigator = () => {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        tabBarOptions={{ keyboardHidesTabBar: true }}
-        initialRouteName="Home"
-        tabBar={(props) => <TabBar {...props} />}
-      >
-        <Tab.Screen name="Bookmark" component={BookmarkView} />
-        <Tab.Screen name="Columnist" component={ColumnistView} />
-        <Tab.Screen name="Home" component={HomeStack} />
-        <Tab.Screen name="Settings" component={SettingsView} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <BookmarkProvider>
+      <NavigationContainer>
+        <Tab.Navigator
+          tabBarOptions={{ keyboardHidesTabBar: true }}
+          initialRouteName="Home"
+          tabBar={(props) => <TabBar {...props} />}
+        >
+          <Tab.Screen name="Bookmark" component={BookmarkView} />
+          <Tab.Screen name="Columnist" component={ColumnistView} />
+          <Tab.Screen name="Home" component={HomeStack} />
+          <Tab.Screen name="Settings" component={SettingsView} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </BookmarkProvider>
   );
 };

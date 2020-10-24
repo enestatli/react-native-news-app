@@ -2,13 +2,8 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
 import {
-  Dimensions,
-  Image,
   Keyboard,
   Modal,
-  Platform,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -17,9 +12,7 @@ import {
 import firestore from '@react-native-firebase/firestore';
 import md5 from 'md5';
 
-// import BottomSheet from '../../components/BottomSheet';
-// import CommentList from '../../components/CommentList';
-import { Bookmark, Bubble, EyeIcon, TimeIcon } from '../../components/icons';
+import { Bookmark, Bubble } from '../../components/icons';
 
 import WebView from 'react-native-webview';
 import Loading from '../../components/Loading';
@@ -32,9 +25,13 @@ const DetailView = ({ route, navigation }) => {
   //---Context--/
   const { mode, darkMode } = useContext(ThemeContext);
   const { user } = useContext(AuthContext);
-  const { addToBookmarks, removeFromBookmarks, setUrl } = useContext(
-    BookmarkContext,
-  );
+  const {
+    setUrl,
+    isBookmarked,
+    setIsBookmarked,
+    setBookmarks,
+    bookmarks,
+  } = useContext(BookmarkContext);
 
   //---Button,Modal---//
   const [addTodoVisible, setAddTodoVisible] = useState(false);
@@ -45,13 +42,16 @@ const DetailView = ({ route, navigation }) => {
   const [commentText, setCommentText] = useState('');
 
   //----Bookmarks----//
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  // const [isBookmarked, setIsBookmarked] = useState(false);
 
   const commentsRef = firestore().collection('testComments');
 
   //TODO add timestamp recentNews in homeView, add bookmark too!
   //TODO add bookmark, make webview look likes your app with colors, borders etc.
   //TODO cleanup for each useEffects!!
+
+  //TODO virtualizedList error, probably you should give 100% to trendNews
+  //TODO saveList and commentList lengths 0 then remove article
 
   useEffect(() => {
     setUrl(data.url);
@@ -62,24 +62,32 @@ const DetailView = ({ route, navigation }) => {
       try {
         if (data.url) {
           const newUrl = md5(data.url);
-          const snap = await commentsRef
-            .doc(newUrl)
-            .collection('comments')
-            .orderBy('submitTime', 'desc')
-            .get();
-          const commentList = [];
-          snap.docs.forEach((doc) => {
-            const comm = doc.data();
-            commentList.push(comm);
-          });
-          //TODO !isEqual commentList, comms
-          setComms(commentList);
+          const article = (await commentsRef.doc(newUrl).get()).data();
+          if (article !== undefined) {
+            const commentsList = article.commentsBy;
+            setComms(commentsList);
+          }
         }
       } catch (err) {
-        console.log('error while getting comments from db', err);
+        console.log('error while getting comments', err);
       }
     })();
+    //TODO depend on data.url so when refresh the page it can fetch comments
   }, []);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       if (data.url) {
+  //         const newUrl = md5(data.url);
+  //         const article_ = (await commentsRef.doc(newUrl).get()).data();
+  //         setArticle(article_);
+  //       }
+  //     } catch (err) {
+  //       console.log('error while listening article', err);
+  //     }
+  //   })();
+  // }, []);
 
   const addComment = async (url) => {
     const d = new Date().toString().split(' ');
@@ -104,21 +112,6 @@ const DetailView = ({ route, navigation }) => {
 
     setComms([commentData, ...comms]);
 
-    // try {
-    //   if (url) {
-    //     console.log('URL???');
-    //     const newUrl = md5(url);
-    //     const checkedRef = commentsRef.doc(newUrl);
-    //     if (!(await checkedRef.get()._exists)) {
-    //       await checkedRef.collection('comments').add(commentData);
-    //TODO check if data is already there then do not add new data
-    //       await checkedRef.set(data);
-    //     }
-    //   }
-    // } catch (err) {
-    //   console.log('error while adding comment to firebase', err);
-    // }
-
     try {
       if (url) {
         const newUrl = md5(url);
@@ -141,9 +134,9 @@ const DetailView = ({ route, navigation }) => {
     Keyboard.dismiss();
   };
 
-  //TODO comment yapilmamis url'leri de ekle doc'a, cunku her haber yorum yapilmamis olabilir
   const saveArt = async (url) => {
     try {
+      const submitedDate = firestore.FieldValue.serverTimestamp();
       const newUrl = md5(url);
       if (newUrl) {
         const ref = commentsRef.doc(newUrl);
@@ -152,12 +145,14 @@ const DetailView = ({ route, navigation }) => {
           if (!article.savedBy.includes(user.email)) {
             article.savedBy.push(user.email);
             setIsBookmarked(true);
+            setBookmarks([article, ...bookmarks]);
           }
           await ref.set({ ...article });
         } else {
           data.savedBy = [user.email];
           data.commentsBy = [];
           await ref.set(data);
+          setBookmarks([data, ...bookmarks]);
           setIsBookmarked(true);
         }
       }
@@ -172,7 +167,8 @@ const DetailView = ({ route, navigation }) => {
       if (newUrl) {
         const ref = commentsRef.doc(newUrl);
         const article = (await ref.get()).data();
-
+        console.log(bookmarks);
+        console.log(article);
         const savedUsers = article.savedBy;
         const savedIndex = savedUsers.indexOf(user.email);
 
@@ -181,12 +177,14 @@ const DetailView = ({ route, navigation }) => {
         } else {
           savedUsers.shift();
         }
+        // setBookmarks([...bookmarks]);
         setIsBookmarked(false);
         await ref.set({ ...article });
       }
     } catch (err) {
-      console.log('error when clicked bookmark button', err);
+      console.log('error when clicked UNbookmark button', err);
     }
+    // setArticle(null);
   };
 
   const toggleAddToModal = () => {
@@ -245,6 +243,8 @@ const DetailView = ({ route, navigation }) => {
             justifyContent: 'center',
             backgroundColor: mode.colors.card,
             borderRadius: 6,
+            borderRightColor: 'green',
+            borderRightWidth: 1,
           }}
           onPress={toggleAddToModal}
         >
@@ -266,7 +266,7 @@ const DetailView = ({ route, navigation }) => {
             justifyContent: 'center',
             // width: '100%',
             paddingHorizontal: 10,
-            backgroundColor: 'blue',
+            // backgroundColor: 'blue',
           }}
           onPress={toggleBottomSheet}
         >
@@ -278,7 +278,7 @@ const DetailView = ({ route, navigation }) => {
             alignItems: 'center',
             justifyContent: 'center',
             // width: '100%',
-            backgroundColor: 'red',
+            // backgroundColor: 'red',
             paddingHorizontal: 10,
           }}
           onPress={
