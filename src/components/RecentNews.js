@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 
 import { ThemeContext } from '../context';
-import { Placeholder } from '../components';
+import Placeholder from './Placeholder';
 
-const RecentNews = ({ recentNews, navigation }) => {
+const RecentNews = ({ articles, navigation }) => {
   const { mode } = useContext(ThemeContext);
 
   const renderItem = ({ item }) => (
@@ -28,7 +28,12 @@ const RecentNews = ({ recentNews, navigation }) => {
           height={151}
         >
           <Image
-            source={{ uri: item.urlToImage }}
+            source={{
+              uri:
+                item.urlToImage !== '' && item.urlToImage !== null
+                  ? item.urlToImage
+                  : 'https://images.unsplash.com/photo-1592312040171-267aa90d4783?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1376&q=80',
+            }}
             style={{ width: 106, height: 151, borderRadius: 6 }}
           />
         </Placeholder>
@@ -92,7 +97,7 @@ const RecentNews = ({ recentNews, navigation }) => {
         style={{ width: '100%', height: '100%' }}
         // maxToRenderPerBatch={10}
         initialNumToRender={1}
-        data={recentNews}
+        data={articles}
         keyExtractor={(item) => item.url}
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}

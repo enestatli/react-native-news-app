@@ -1,8 +1,7 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import {
   FlatList,
   Image,
-  Keyboard,
   KeyboardAvoidingView,
   Platform,
   StatusBar,
@@ -12,71 +11,25 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { AuthContext, ThemeContext } from '../context';
+import { ThemeContext } from '../context';
 
 import { Bubble, Close } from './icons';
 
-import firestore from '@react-native-firebase/firestore';
-import md5 from 'md5';
-
-const CommentList = ({ closeModal, addList, data }) => {
+const CommentList = ({
+  closeModal,
+  data,
+  comms,
+  addComment,
+  commentText,
+  setCommentText,
+}) => {
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
-  const [comment, setComment] = useState([]);
-  const [commentText, setCommentText] = useState('');
-  const { mode } = useContext(ThemeContext);
-  const { user } = useContext(AuthContext);
 
-  const commentsRef = firestore().collection('testComments');
+  const { mode } = useContext(ThemeContext);
 
   const toggleBottomSheet = () => {
     setBottomSheetVisible(!bottomSheetVisible);
   };
-
-  const addComment = async (url) => {
-    const d = new Date().toString().split(' ');
-    const submitTime =
-      d[2] +
-      ' ' +
-      d[1] +
-      ' ' +
-      d[3] +
-      ' ' +
-      d[4].split(':').splice(0, 2).join(':');
-    const timestamp = new Date().getTime();
-
-    const commentData = {
-      id: timestamp,
-      userId: user.id,
-      name: user.email,
-      imgUrl: 'avatarUrl',
-      commentText,
-      submitTime,
-    };
-
-    setComment([...comment, commentData]);
-
-    try {
-      if (url) {
-        console.log('URL???');
-        const newUrl = md5(url);
-        const checkedRef = commentsRef.doc(newUrl);
-        if (!(await checkedRef.get()._exists)) {
-          await checkedRef.collection('comments').add(commentData);
-          // await checkedRef.collection('comments').add({ comment: 'test' });
-
-          await checkedRef.set(data);
-        }
-      }
-    } catch (err) {
-      console.log('error while adding comment to firebase', err);
-    }
-    setCommentText('');
-    Keyboard.dismiss();
-  };
-
-  // useEffect(() => {
-  //   console.log(comment);
-  // }, [comment]);
 
   return (
     <KeyboardAvoidingView
@@ -147,7 +100,7 @@ const CommentList = ({ closeModal, addList, data }) => {
       {/* Comment List */}
       <View style={{ flex: 1, padding: 20, zIndex: 9999 }}>
         <FlatList
-          data={comment}
+          data={comms}
           keyExtractor={(item) => item.id?.toString()}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (

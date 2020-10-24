@@ -58,7 +58,12 @@ const TrendNews = ({ navigation, trendNews }) => {
               }
             >
               <Image
-                source={{ uri: item.urlToImage }}
+                source={{
+                  uri:
+                    item.urlToImage !== '' && item.urlToImage !== null
+                      ? item.urlToImage
+                      : 'https://images.unsplash.com/photo-1592312040171-267aa90d4783?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1376&q=80',
+                }}
                 style={{ width: 283, height: 183, borderRadius: 6 }}
                 resizeMode="cover"
               />

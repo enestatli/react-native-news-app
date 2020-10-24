@@ -9,6 +9,8 @@ import CategoryBar from './CategoryBar';
 
 import Placeholder from './Placeholder';
 import CommentList from './CommentList';
+import BottomSheet from './BottomSheetModal';
+import AddComment from './AddComment';
 
 export {
   FormInput,
@@ -20,4 +22,6 @@ export {
   CategoryBar,
   CommentList,
   Placeholder,
+  BottomSheet,
+  AddComment,
 };
