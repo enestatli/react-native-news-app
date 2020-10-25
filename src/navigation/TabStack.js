@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BookmarkView, DetailView, HomeView, SettingsView } from '../views';
 import TabBar from '../components/TabBar';
 import ColumnistView from '../views/tab/Columnist';
-import { BookmarkProvider } from '../context';
+import { BookmarkProvider, SettingsProvider } from '../context';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -34,19 +34,21 @@ export default function HomeStack() {
 
 export const TabNavigator = () => {
   return (
-    <BookmarkProvider>
-      <NavigationContainer>
-        <Tab.Navigator
-          tabBarOptions={{ keyboardHidesTabBar: true }}
-          initialRouteName="Home"
-          tabBar={(props) => <TabBar {...props} />}
-        >
-          <Tab.Screen name="Bookmark" component={BookmarkView} />
-          <Tab.Screen name="Columnist" component={ColumnistView} />
-          <Tab.Screen name="Home" component={HomeStack} />
-          <Tab.Screen name="Settings" component={SettingsView} />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </BookmarkProvider>
+    <SettingsProvider>
+      <BookmarkProvider>
+        <NavigationContainer>
+          <Tab.Navigator
+            tabBarOptions={{ keyboardHidesTabBar: true }}
+            initialRouteName="Home"
+            tabBar={(props) => <TabBar {...props} />}
+          >
+            <Tab.Screen name="Bookmark" component={BookmarkView} />
+            <Tab.Screen name="Columnist" component={ColumnistView} />
+            <Tab.Screen name="Home" component={HomeStack} />
+            <Tab.Screen name="Settings" component={SettingsView} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </BookmarkProvider>
+    </SettingsProvider>
   );
 };

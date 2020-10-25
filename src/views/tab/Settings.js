@@ -25,11 +25,12 @@ import {
   TimeIcon2,
 } from '../../components/icons';
 
-import { AuthContext, ThemeContext } from '../../context';
+import { AuthContext, SettingsContext, ThemeContext } from '../../context';
 
 const SettingsView = ({ navigation }) => {
   const { mode, setDarkMode, darkMode } = useContext(ThemeContext);
   const { user, logout } = useContext(AuthContext);
+  const { isJSEnabled, setIsJSEnabled } = useContext(SettingsContext);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
@@ -96,9 +97,18 @@ const SettingsView = ({ navigation }) => {
     },
     {
       id: 'block',
-      title: 'Block content and sources',
-      switch: false,
+      title: 'Block ads and flashes',
+      switch: true,
       icon: <Close width={24} color={mode.colors.icon} />,
+      switchComp: (
+        <Switch
+          style={{ marginLeft: 'auto', width: 36, height: 24 }}
+          onValueChange={setIsJSEnabled}
+          value={isJSEnabled}
+          trackColor={{ false: '#c4c4c4', true: mode.colors.primary }}
+          thumbColor={'#f4f3f4'}
+        />
+      ),
     },
     {
       id: 'help',
@@ -110,7 +120,7 @@ const SettingsView = ({ navigation }) => {
 
   useFocusEffect(
     useCallback(() => {
-      console.log(user);
+      // console.log(Number(new Date().getHours()) < 20);
       StatusBar.setBarStyle(darkMode ? 'light-content' : 'dark-content');
       // StatusBar.setTranslucent(false);
       Platform.OS === 'android' &&

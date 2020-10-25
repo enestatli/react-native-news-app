@@ -16,14 +16,20 @@ import { Bookmark, Bubble } from '../../components/icons';
 
 import WebView from 'react-native-webview';
 import Loading from '../../components/Loading';
-import { AuthContext, BookmarkContext, ThemeContext } from '../../context';
+import {
+  AuthContext,
+  BookmarkContext,
+  SettingsContext,
+  ThemeContext,
+} from '../../context';
 import { AddComment, BottomSheet, CommentList } from '../../components';
 
 const DetailView = ({ route, navigation }) => {
   const data = route.params.data;
 
   //---Context--/
-  const { mode, darkMode } = useContext(ThemeContext);
+  const { isJSEnabled } = useContext(SettingsContext);
+  const { mode } = useContext(ThemeContext);
   const { user } = useContext(AuthContext);
   const {
     setUrl,
@@ -74,20 +80,6 @@ const DetailView = ({ route, navigation }) => {
     })();
     //TODO depend on data.url so when refresh the page it can fetch comments
   }, []);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       if (data.url) {
-  //         const newUrl = md5(data.url);
-  //         const article_ = (await commentsRef.doc(newUrl).get()).data();
-  //         setArticle(article_);
-  //       }
-  //     } catch (err) {
-  //       console.log('error while listening article', err);
-  //     }
-  //   })();
-  // }, []);
 
   const addComment = async (url) => {
     const d = new Date().toString().split(' ');
@@ -206,7 +198,13 @@ const DetailView = ({ route, navigation }) => {
     `;
 
   return (
-    <View style={{ flex: 1 }}>
+    <View
+      style={{
+        flex: 1,
+        paddingVertical: 12,
+        backgroundColor: mode.colors.background,
+      }}
+    >
       <Modal
         animationType="slide"
         visible={addTodoVisible}
@@ -237,6 +235,8 @@ const DetailView = ({ route, navigation }) => {
         style={{
           width: '100%',
           flexDirection: 'row',
+          backgroundColor: mode.colors.background,
+          paddingBottom: 12,
         }}
       >
         <TouchableOpacity
@@ -245,10 +245,10 @@ const DetailView = ({ route, navigation }) => {
             width: '70%',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: mode.colors.card,
-            borderRadius: 6,
-            borderRightColor: 'green',
-            borderRightWidth: 1,
+            borderRadius: 3,
+            borderColor: mode.colors.icon,
+            borderWidth: 0.1,
+            marginLeft: 6,
           }}
           onPress={toggleAddToModal}
         >
@@ -268,9 +268,7 @@ const DetailView = ({ route, navigation }) => {
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            // width: '100%',
-            paddingHorizontal: 10,
-            // backgroundColor: 'blue',
+            // paddingHorizontal: 6,
           }}
           onPress={toggleBottomSheet}
         >
@@ -281,9 +279,7 @@ const DetailView = ({ route, navigation }) => {
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            // width: '100%',
-            // backgroundColor: 'red',
-            paddingHorizontal: 10,
+            // paddingHorizontal: 6,
           }}
           onPress={
             isBookmarked ? () => removeArt(data.url) : () => saveArt(data.url)
@@ -301,7 +297,7 @@ const DetailView = ({ route, navigation }) => {
         thirdPartyCookiesEnabled={true}
         sharedCookiesEnabled={true}
         mediaPlaybackRequiresUserAction={true}
-        javaScriptEnabled={false}
+        javaScriptEnabled={isJSEnabled}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         incognito={true}
