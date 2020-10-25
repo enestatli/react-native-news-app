@@ -1,7 +1,14 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
 import {
+  AppState,
   Keyboard,
   Modal,
   StyleSheet,
@@ -23,6 +30,7 @@ import {
   ThemeContext,
 } from '../../context';
 import { AddComment, BottomSheet, CommentList } from '../../components';
+import { useTimer } from '../../context/TimerContext';
 
 const DetailView = ({ route, navigation }) => {
   const data = route.params.data;
@@ -50,6 +58,10 @@ const DetailView = ({ route, navigation }) => {
   //----Bookmarks----//
   // const [isBookmarked, setIsBookmarked] = useState(false);
 
+  //Appstate
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
+
   const commentsRef = firestore().collection('testComments');
 
   //TODO add timestamp recentNews in homeView, add bookmark too!
@@ -58,6 +70,65 @@ const DetailView = ({ route, navigation }) => {
 
   //TODO virtualizedList error, probably you should give 100% to trendNews
   //TODO saveList and commentList lengths 0 then remove article
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     console.log('Listening even!!!');
+  //     const unsubscribe = navigation.addListener('focus', () => {
+  //       console.log('hello');
+  //     });
+  //     return unsubscribe;
+  //     // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   }, []),
+  // );
+
+  // useEffect(() => {
+  //   AppState.addEventListener('change', _handleAppStateChange);
+
+  //   return () => {
+  //     AppState.removeEventListener('change', _handleAppStateChange);
+  //   };
+  // }, []);
+
+  // const _handleAppStateChange = (nextAppState) => {
+  //   if (
+  //     appState.current.match(/inactive|background/) &&
+  //     nextAppState === 'active'
+  //   ) {
+  //     console.log('App has come to the foreground!');
+  //   }
+  //   appState.current = nextAppState;
+  //   setAppStateVisible(appState.current);
+  //   console.log('Appstate', appState.current);
+  // };
+
+  const { timer } = useTimer();
+
+  useEffect(() => {
+    timer.start();
+
+    AppState.addEventListener('change', handleAppStateChange);
+    return () => {
+      AppState.removeEventListener('change', handleAppStateChange);
+    };
+  }, []);
+
+  const handleAppStateChange = (state) => {
+    switch (state) {
+      case 'active':
+        timer.resume();
+        console.log(timer.totalTime);
+        break;
+      //inactive or background
+      default:
+        timer.pause();
+        break;
+    }
+  };
+
+  //TODO when detail blur upload the totalTime to firebase
+  //TODO when also page refresh upload
+  //TODO add share button each news!!
 
   useEffect(() => {
     setUrl(data.url);
