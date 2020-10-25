@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import analytics from '@react-native-firebase/analytics';
 
 import { BookmarkView, DetailView, HomeView, SettingsView } from '../views';
 import TabBar from '../components/TabBar';
@@ -33,10 +34,31 @@ export default function HomeStack() {
 }
 
 export const TabNavigator = () => {
+  const routeNameRef = React.useRef();
+  const navigationRef = React.useRef();
+
   return (
     <SettingsProvider>
       <BookmarkProvider>
-        <NavigationContainer>
+        <NavigationContainer
+          ref={navigationRef}
+          onReady={() =>
+            (routeNameRef.current = navigationRef.current.getCurrentRoute().name)
+          }
+          onStateChange={async (state) => {
+            const previousRouteName = routeNameRef.current;
+            const currentRouteName = navigationRef.current.getCurrentRoute()
+              .name;
+
+            if (previousRouteName !== currentRouteName) {
+              await analytics().logScreenView({
+                screen_name: currentRouteName,
+                screen_class: currentRouteName,
+              });
+            }
+            routeNameRef.current = currentRouteName;
+          }}
+        >
           <Tab.Navigator
             tabBarOptions={{ keyboardHidesTabBar: true }}
             initialRouteName="Home"
