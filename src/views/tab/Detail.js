@@ -163,12 +163,17 @@ const DetailView = ({ route, navigation }) => {
 
   const removeArt = async (url) => {
     try {
+      const ind = bookmarks.findIndex((bookmark) => bookmark.url === url);
+      if (ind > 0) {
+        bookmarks.splice(ind, 1);
+      } else {
+        bookmarks.shift();
+      }
       const newUrl = md5(url);
       if (newUrl) {
         const ref = commentsRef.doc(newUrl);
         const article = (await ref.get()).data();
-        console.log(bookmarks);
-        console.log(article);
+
         const savedUsers = article.savedBy;
         const savedIndex = savedUsers.indexOf(user.email);
 
@@ -177,14 +182,13 @@ const DetailView = ({ route, navigation }) => {
         } else {
           savedUsers.shift();
         }
-        // setBookmarks([...bookmarks]);
+
         setIsBookmarked(false);
         await ref.set({ ...article });
       }
     } catch (err) {
       console.log('error when clicked UNbookmark button', err);
     }
-    // setArticle(null);
   };
 
   const toggleAddToModal = () => {
