@@ -11,6 +11,7 @@ import Placeholder from './Placeholder';
 import CommentList from './CommentList';
 import BottomSheet from './BottomSheetModal';
 import AddComment from './AddComment';
+import TimeChart from './TimeChart';
 
 export {
   FormInput,
@@ -24,4 +25,5 @@ export {
   Placeholder,
   BottomSheet,
   AddComment,
+  TimeChart,
 };

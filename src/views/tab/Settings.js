@@ -26,6 +26,7 @@ import {
 } from '../../components/icons';
 
 import { AuthContext, SettingsContext, ThemeContext } from '../../context';
+import TimeChart from '../../components/TimeChart';
 
 const SettingsView = ({ navigation }) => {
   const { mode, setDarkMode, darkMode } = useContext(ThemeContext);
@@ -33,6 +34,12 @@ const SettingsView = ({ navigation }) => {
   const { isJSEnabled, setIsJSEnabled } = useContext(SettingsContext);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
+  const [timeStatus, setTimeStatus] = useState(false);
+
+  const showTimeChart = () => {
+    setTimeStatus(!timeStatus);
+  };
 
   const tabs = [
     {
@@ -146,11 +153,11 @@ const SettingsView = ({ navigation }) => {
       ) : (
         <TouchableOpacity
           style={{ marginLeft: 'auto' }}
-          // onPress={
-          //   item.id === 'language'
-          //     ? toggleBottomSheet
-          //     : () => console.log('clicked')
-          // }
+          onPress={
+            item.id === 'timeToRead'
+              ? showTimeChart
+              : () => console.log('clicked')
+          }
         >
           <RightIcon width={24} color={mode.colors.icon} />
         </TouchableOpacity>
@@ -229,6 +236,7 @@ const SettingsView = ({ navigation }) => {
           renderItem={renderItem}
         />
       </View>
+      <TimeChart bs={timeStatus} tb={showTimeChart} />
       {/* son */}
     </View>
   );

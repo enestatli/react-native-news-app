@@ -122,11 +122,13 @@ const DetailView = ({ route, navigation }) => {
       //inactive or background
       default:
         timer.pause();
+        console.log('app is closed!');
         break;
     }
   };
-
-  //TODO when detail blur upload the totalTime to firebase
+  //TODO resume when focus, stop when blur add to the state totalTime
+  //TODO upload to db when blur
+  //TODO if totalTime exists upload db with today date
   //TODO when also page refresh upload
   //TODO add share button each news!!
 
