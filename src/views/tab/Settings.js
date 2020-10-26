@@ -111,7 +111,7 @@ const SettingsView = ({ navigation }) => {
         <Switch
           style={{ marginLeft: 'auto', width: 36, height: 24 }}
           onValueChange={setIsJSEnabled}
-          value={isJSEnabled}
+          value={!isJSEnabled}
           trackColor={{ false: '#c4c4c4', true: mode.colors.primary }}
           thumbColor={'#f4f3f4'}
         />
@@ -236,7 +236,7 @@ const SettingsView = ({ navigation }) => {
           renderItem={renderItem}
         />
       </View>
-      <TimeChart bs={timeStatus} tb={showTimeChart} />
+      <TimeChart bs={timeStatus} tb={showTimeChart} theme={mode} />
       {/* son */}
     </View>
   );

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 export const SettingsContext = React.createContext({});
 
 export const SettingsProvider = ({ children }) => {
-  const [isJSEnabled, setIsJSEnabled] = useState(false);
+  const [isJSEnabled, setIsJSEnabled] = useState(true);
 
   const values = {
     isJSEnabled,

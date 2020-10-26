@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Timer from '../utils/Timer';
 
 export const TimerContext = React.createContext({
@@ -8,8 +8,12 @@ export const TimerContext = React.createContext({
 
 export const useTimer = () => React.useContext(TimerContext);
 
-export const TimerContextProvider = (props) => {
+export const TimerContextProvider = ({ children }) => {
   const [timer, setTimer] = useState(new Timer());
+
+  useEffect(() => {
+    console.log(timer.totalTime, 'TOTAL TIME');
+  }, []);
 
   const newTimer = () => {
     setTimer(new Timer());
@@ -22,7 +26,7 @@ export const TimerContextProvider = (props) => {
         timer,
       }}
     >
-      {props.children}
+      {children}
     </TimerContext.Provider>
   );
 };

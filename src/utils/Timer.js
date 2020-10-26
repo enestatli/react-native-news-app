@@ -35,6 +35,7 @@ export class Timer {
     this.active = true;
   };
 
+  // update total time and end timer
   finish = () => {
     if (this.ended) {
       return;
