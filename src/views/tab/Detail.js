@@ -47,6 +47,7 @@ const DetailView = ({ route, navigation }) => {
     setBookmarks,
     bookmarks,
   } = useContext(BookmarkContext);
+  const { timer } = useTimer();
 
   //---Button,Modal---//
   const [addTodoVisible, setAddTodoVisible] = useState(false);
@@ -59,10 +60,6 @@ const DetailView = ({ route, navigation }) => {
   //----Bookmarks----//
   // const [isBookmarked, setIsBookmarked] = useState(false);
 
-  //Appstate
-  const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
-
   const commentsRef = firestore().collection('testComments');
 
   //TODO add timestamp recentNews in homeView, add bookmark too!
@@ -71,39 +68,6 @@ const DetailView = ({ route, navigation }) => {
 
   //TODO virtualizedList error, probably you should give 100% to trendNews
   //TODO saveList and commentList lengths 0 then remove article
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     console.log('Listening even!!!');
-  //     const unsubscribe = navigation.addListener('focus', () => {
-  //       console.log('hello');
-  //     });
-  //     return unsubscribe;
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, []),
-  // );
-
-  // useEffect(() => {
-  //   AppState.addEventListener('change', _handleAppStateChange);
-
-  //   return () => {
-  //     AppState.removeEventListener('change', _handleAppStateChange);
-  //   };
-  // }, []);
-
-  // const _handleAppStateChange = (nextAppState) => {
-  //   if (
-  //     appState.current.match(/inactive|background/) &&
-  //     nextAppState === 'active'
-  //   ) {
-  //     console.log('App has come to the foreground!');
-  //   }
-  //   appState.current = nextAppState;
-  //   setAppStateVisible(appState.current);
-  //   console.log('Appstate', appState.current);
-  // };
-
-  const { timer } = useTimer();
 
   useEffect(() => {
     timer.resume();
@@ -400,28 +364,11 @@ const DetailView = ({ route, navigation }) => {
         sharedCookiesEnabled={true}
         mediaPlaybackRequiresUserAction={true}
         // javaScriptEnabled={isJSEnabled}
-
-        // onShouldStartLoadWithRequest={(request) => {
-        //   if (
-        //     request.url.startsWith('http://') ||
-        //     request.url.startsWith('https://')
-        //   ) {
-        //     return true;
-        //   }
-        // }}
-
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         incognito={true}
         startInLoadingState={true}
         renderLoading={() => <Loading />}
-        // onError={(syntheticEvent) => {
-        //   const { nativeEvent } = syntheticEvent;
-        //   nativeEvent.canGoBack = true;
-        //   console.warn('WebView error: ', nativeEvent);
-        // }}
-        // style={{ marginTop: 50 }}
-        // style={{ ...StyleSheet.absoluteFillObject }}
         // userAgent={
         //   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36'
         // }
@@ -430,8 +377,8 @@ const DetailView = ({ route, navigation }) => {
         }
         // injectedJavaScript={run}
         injectJavaScript={run}
-        // injectJavaScript={run}
         //TODO try to block ads, for turkish just set to false javascript
+        //TODO add modal warn user it blocks some other functionality of the website
       />
     </View>
   );
