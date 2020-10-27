@@ -15,6 +15,8 @@ export const TimerContextProvider = ({ children }) => {
     console.log(timer.totalTime, 'TOTAL TIME');
   }, []);
 
+  //TODO move to the index context
+
   const newTimer = () => {
     setTimer(new Timer());
   };

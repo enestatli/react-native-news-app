@@ -69,40 +69,40 @@ const DetailView = ({ route, navigation }) => {
   //TODO virtualizedList error, probably you should give 100% to trendNews
   //TODO saveList and commentList lengths 0 then remove article
 
-  useEffect(() => {
-    timer.resume();
+  // useEffect(() => {
+  //   timer.resume();
 
-    AppState.addEventListener('change', handleAppStateChange);
-    return () => {
-      AppState.removeEventListener('change', handleAppStateChange);
-    };
-  }, []);
+  //   AppState.addEventListener('change', handleAppStateChange);
+  //   return () => {
+  //     AppState.removeEventListener('change', handleAppStateChange);
+  //   };
+  // }, []);
 
-  const handleAppStateChange = (state) => {
-    switch (state) {
-      case 'active':
-        timer.resume();
-        console.log(timer.totalTime);
-        break;
-      //inactive or background
-      default:
-        timer.pause();
-        console.log('app is closed!');
-        break;
-    }
-  };
+  // const handleAppStateChange = (state) => {
+  //   switch (state) {
+  //     case 'active':
+  //       timer.resume();
+  //       console.log(timer.totalTime);
+  //       break;
+  //     //inactive or background
+  //     default:
+  //       timer.pause();
+  //       console.log('app is closed!');
+  //       break;
+  //   }
+  // };
 
-  const handleNavigationStateChange = () => {
-    console.log('BLURRR');
-    timer.pause();
-  };
+  // const handleNavigationStateChange = () => {
+  //   console.log('BLURRR');
+  //   timer.pause();
+  // };
 
-  useEffect(() => {
-    navigation.addListener('blur', handleNavigationStateChange);
-    return () => {
-      navigation.addListener('blur', handleNavigationStateChange);
-    };
-  }, []);
+  // useEffect(() => {
+  //   navigation.addListener('blur', handleNavigationStateChange);
+  //   return () => {
+  //     navigation.addListener('blur', handleNavigationStateChange);
+  //   };
+  // }, []);
 
   //TODO resume when focus, stop when blur add to the state totalTime
   //TODO upload to db when blur

@@ -28,7 +28,8 @@ import {
 import { AuthContext, SettingsContext, ThemeContext } from '../../context';
 import TimeChart from '../../components/TimeChart';
 
-const SettingsView = ({ navigation }) => {
+const SettingsView = ({ navigation, propName }) => {
+  // console.log(propName, 'Settings');
   const { mode, setDarkMode, darkMode } = useContext(ThemeContext);
   const { user, logout } = useContext(AuthContext);
   const { isJSEnabled, setIsJSEnabled } = useContext(SettingsContext);
