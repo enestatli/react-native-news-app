@@ -23,15 +23,48 @@ const TimeChart = ({ bs, tb, theme }) => {
     (async () => {
       const snap = (await timeRef.doc(user.uid).get()).data();
       if (snap) {
-        const data_ = [];
+        const data_ = [
+          { x: 'Monday', y: 0 },
+          { x: 'Tuesday', y: 0 },
+          { x: 'Wednesday', y: 0 },
+          { x: 'Thursday', y: 0 },
+          { x: 'Friday', y: 0 },
+          { x: 'Saturday', y: 0 },
+          { x: 'Sunday', y: 0 },
+        ];
         snap.timeSpent.map((i) => {
-          let dayOfTheWeek = 0;
+          let dayOfTheWeek;
           let total = 0;
-          dayOfTheWeek = i.dayId;
+          switch (i.dayId) {
+            case 1:
+              dayOfTheWeek = 'Monday';
+              break;
+            case 2:
+              dayOfTheWeek = 'Tuesday';
+              break;
+            case 3:
+              dayOfTheWeek = 'Wednesday';
+              break;
+            case 4:
+              dayOfTheWeek = 'Thursday';
+              break;
+            case 5:
+              dayOfTheWeek = 'Friday';
+              break;
+            case 6:
+              dayOfTheWeek = 'Saturday';
+              break;
+            default:
+              dayOfTheWeek = 'Sunday';
+              break;
+          }
           i.totalTime.map((m) => {
             total += m.t;
           });
-          data_.push({ x: dayOfTheWeek, y: total });
+          const ifq = data_.findIndex((d) => d.x === dayOfTheWeek);
+          console.log(ifq);
+          data_[ifq].y = total;
+          // data_.push({ x: dayOfTheWeek.toString(), y: total });
         });
         setData(data_);
       }
@@ -117,7 +150,7 @@ const TimeChart = ({ bs, tb, theme }) => {
             //     fill: ({ datum }) => (datum.x === 5 ? '#000000' : '#c43a31'),
             //   },
             // }}
-            data={sampleData2}
+            data={data}
             animate={{
               duration: 1555,
               easing: 'bounce',
