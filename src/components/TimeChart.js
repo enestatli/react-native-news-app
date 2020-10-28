@@ -17,6 +17,8 @@ const TimeChart = ({ bs, tb, theme }) => {
   const timeRef = firestore().collection('users');
   const { user } = React.useContext(AuthContext);
   const [data, setData] = React.useState([]);
+  // const totalTimeRef = React.useRef(0);
+  const [average, setAverage] = React.useState(0);
 
   React.useEffect(() => {
     //TODO try catch!!!
@@ -64,7 +66,6 @@ const TimeChart = ({ bs, tb, theme }) => {
           const ifq = data_.findIndex((d) => d.x === dayOfTheWeek);
           console.log(ifq);
           data_[ifq].y = total;
-          // data_.push({ x: dayOfTheWeek.toString(), y: total });
         });
         setData(data_);
       }
@@ -72,15 +73,12 @@ const TimeChart = ({ bs, tb, theme }) => {
     console.log(data, 'WORKSSSS');
   }, []);
 
-  const sampleData2 = [
-    { x: 'Monday', y: 2 },
-    { x: 'Tuesday', y: 1 },
-    { x: 'Wednesday', y: 2 },
-    { x: 'Thursday', y: 1 },
-    { x: 'Friday', y: 3 },
-    { x: 'Saturday', y: 4 },
-    { x: 'Sunday', y: 1 },
-  ];
+  React.useEffect(() => {
+    let a = 0;
+    data.map((t) => (a += t.y));
+    setAverage(a / 7);
+    console.log(average / 3600, 'hours', (average % 3600) / 60, 'minutes');
+  }, [average]);
 
   return (
     <BottomSheet visible={bs} closeBottomSheet={tb}>
@@ -98,7 +96,9 @@ const TimeChart = ({ bs, tb, theme }) => {
             Time you spent on reading news
           </Text>
           <Text style={{ fontSize: 18, color: theme.colors.icon }}>
-            Dailiy average 2 hours 58 minutes
+            {`Dailiy average ${Math.floor(average / 3600)} hours ${Math.floor(
+              (average % 3600) / 60,
+            )} minutes`}
           </Text>
         </View>
         <VictoryChart polar theme={VictoryTheme.material}>
