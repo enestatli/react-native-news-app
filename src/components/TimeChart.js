@@ -6,12 +6,39 @@ import {
   VictoryTheme,
   VictoryPolarAxis,
 } from 'victory-native';
+import firestore from '@react-native-firebase/firestore';
 
 import BottomSheet from './BottomSheetModal';
+import { AuthContext } from '../context';
 
 //TODO bigger flex to bottomshet
 
 const TimeChart = ({ bs, tb, theme }) => {
+  const timeRef = firestore().collection('users');
+  const { user } = React.useContext(AuthContext);
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    //TODO try catch!!!
+    (async () => {
+      const snap = (await timeRef.doc(user.uid).get()).data();
+      if (snap) {
+        const data_ = [];
+        snap.timeSpent.map((i) => {
+          let dayOfTheWeek = 0;
+          let total = 0;
+          dayOfTheWeek = i.dayId;
+          i.totalTime.map((m) => {
+            total += m.t;
+          });
+          data_.push({ x: dayOfTheWeek, y: total });
+        });
+        setData(data_);
+      }
+    })();
+    console.log(data, 'WORKSSSS');
+  }, []);
+
   const sampleData2 = [
     { x: 'Monday', y: 2 },
     { x: 'Tuesday', y: 1 },

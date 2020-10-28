@@ -48,14 +48,35 @@ export const TabNavigator = () => {
 
   React.useEffect(() => {
     timer.resume();
-    console.log(user.uid);
+
     (async () => {
       try {
         const userDoc = (await timeRef.doc(user.uid).get()).data();
         if (userDoc.timeSpent === undefined) {
-          userDoc.timeSpent = [{ timeId, dateObj, dayId, day, totalTime: [0] }];
-          await timeRef.doc(user.uid).set(userDoc);
+          // userDoc.timeSpent = [{ timeId, dateObj, dayId, day, totalTime: [0] }];
+          // userDoc.timeSpent = [{ timeId, dateObj, dayId, day, totalTime: 0 }];
+          userDoc.timeSpent = [
+            { dateObj, dayId, day, totalTime: [{ t: 0, sessionId: timeId }] },
+          ];
+        } else {
+          const ind = userDoc.timeSpent.findIndex((d) => d.dayId === dayId);
+          if (ind === -1) {
+            userDoc.timeSpent.push({
+              timeId,
+              dateObj,
+              dayId,
+              day,
+              totalTime: 0,
+            });
+          } else {
+            // userDoc.timeSpent = [{}]
+            console.log('ELSE');
+            //TODO check if timeSpent list length equals 7 then reubild
+            // userDoc.timeSpent = [{ timeId, dateObj, dayId, day, totalTime: 0 }];
+            // await timeRef.doc(user.uid).add(userDoc);
+          }
         }
+        await timeRef.doc(user.uid).set(userDoc);
       } catch (err) {
         console.log('error while creating timeSpent', err);
       }
@@ -73,7 +94,6 @@ export const TabNavigator = () => {
     switch (state) {
       case 'active':
         timer.resume();
-        console.log(timer.totalTime, 'tabstack');
         break;
       // inactive or background
       default:
@@ -82,14 +102,29 @@ export const TabNavigator = () => {
           try {
             const userDoc = (await timeRef.doc(user.uid).get()).data();
             const ind = userDoc.timeSpent.findIndex((d) => d.dayId === dayId);
-            // let total = userDoc.timeSpent[ind].totalTime;
-            if (userDoc.timeSpent[ind].timeId !== new Date().getTime()) {
-              userDoc.timeSpent[ind].totalTime.push(timer.totalTime);
-              // userDoc.timeSpent[ind].totalTime + timer.totalTime;
-              // timer.totalTime - userDoc.timeSpent[ind].totalTime;
-              await timeRef.doc(user.uid).set(userDoc);
+            const tIndex = userDoc.timeSpent[ind].totalTime.findIndex(
+              (f) => f.sessionId === timeId,
+            );
+            console.log(tIndex);
+            if (tIndex > -1) {
+              console.log(
+                userDoc.timeSpent[ind].totalTime[tIndex].t,
+                timer.totalTime,
+              );
+              userDoc.timeSpent[ind].totalTime[tIndex].t = timer.totalTime;
+            } else {
+              userDoc.timeSpent[ind].totalTime.push({
+                t: timer.totalTime,
+                sessionId: timeId,
+              });
             }
-            // userDoc.timeSpent[ind].totalTime = timer.totalTime;
+
+            // if (userDoc.timeSpent[ind].timeId !== new Date().getTime()) {
+            //   userDoc.timeSpent[ind].totalTime = timer.totalTime;
+            //   // userDoc.timeSpent[ind].totalTime.push(timer.totalTime);
+            //   await timeRef.doc(user.uid).set(userDoc);
+            // }
+            await timeRef.doc(user.uid).set(userDoc);
           } catch (err) {
             console.log('error while updating user timeSpent', err);
           }
