@@ -70,7 +70,6 @@ const TimeChart = ({ bs, tb, theme }) => {
         setData(data_);
       }
     })();
-    console.log(data, 'WORKSSSS');
   }, []);
 
   React.useEffect(() => {

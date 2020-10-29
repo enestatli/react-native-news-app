@@ -363,7 +363,14 @@ const DetailView = ({ route, navigation }) => {
         thirdPartyCookiesEnabled={true}
         sharedCookiesEnabled={true}
         mediaPlaybackRequiresUserAction={true}
-        // javaScriptEnabled={isJSEnabled}
+        javaScriptEnabled={isJSEnabled}
+        onShouldStartLoadWithRequest={(request) => {
+          // Only allow navigating within this website
+          console.log(request.title);
+          if (request.url.startsWith('http')) {
+            return false;
+          }
+        }}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         incognito={true}

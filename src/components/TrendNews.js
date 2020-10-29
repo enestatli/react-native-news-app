@@ -10,6 +10,8 @@ import {
 
 import { ThemeContext } from '../context';
 
+//TODO optimize trendNews flatlist maybe width height 100%
+
 const TrendNews = ({ navigation, trendNews }) => {
   const { mode } = useContext(ThemeContext);
 

@@ -62,11 +62,10 @@ export const TabNavigator = () => {
           const ind = userDoc.timeSpent.findIndex((d) => d.dayId === dayId);
           if (ind === -1) {
             userDoc.timeSpent.push({
-              timeId,
               dateObj,
               dayId,
               day,
-              totalTime: 0,
+              totalTime: [{ t: 0, sessionId: timeId }],
             });
           } else {
             // userDoc.timeSpent = [{}]
@@ -89,7 +88,8 @@ export const TabNavigator = () => {
   }, []);
 
   //TODO add collection (new Date()) obj as doc id and try to store each week of the month
-
+  //TODO add share button
+  //TODO add appcenter cfg!!
   const handleAppStateChange = (state) => {
     switch (state) {
       case 'active':
@@ -105,12 +105,9 @@ export const TabNavigator = () => {
             const tIndex = userDoc.timeSpent[ind].totalTime.findIndex(
               (f) => f.sessionId === timeId,
             );
-            console.log(tIndex);
+
+            console.log(tIndex, 'TINDEX');
             if (tIndex > -1) {
-              console.log(
-                userDoc.timeSpent[ind].totalTime[tIndex].t,
-                timer.totalTime,
-              );
               userDoc.timeSpent[ind].totalTime[tIndex].t = timer.totalTime;
             } else {
               userDoc.timeSpent[ind].totalTime.push({
@@ -118,12 +115,6 @@ export const TabNavigator = () => {
                 sessionId: timeId,
               });
             }
-
-            // if (userDoc.timeSpent[ind].timeId !== new Date().getTime()) {
-            //   userDoc.timeSpent[ind].totalTime = timer.totalTime;
-            //   // userDoc.timeSpent[ind].totalTime.push(timer.totalTime);
-            //   await timeRef.doc(user.uid).set(userDoc);
-            // }
             await timeRef.doc(user.uid).set(userDoc);
           } catch (err) {
             console.log('error while updating user timeSpent', err);
