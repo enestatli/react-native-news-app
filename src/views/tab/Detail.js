@@ -11,6 +11,7 @@ import {
   AppState,
   Keyboard,
   Modal,
+  Share,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -19,7 +20,7 @@ import {
 import firestore from '@react-native-firebase/firestore';
 import md5 from 'md5';
 
-import { Bookmark, Bubble } from '../../components/icons';
+import { Bookmark, Bubble, ShareIcon } from '../../components/icons';
 
 import { WebView } from 'react-native-webview';
 
@@ -66,48 +67,10 @@ const DetailView = ({ route, navigation }) => {
   //TODO add bookmark, make webview look likes your app with colors, borders etc.
   //TODO cleanup for each useEffects!!
 
-  //TODO virtualizedList error, probably you should give 100% to trendNews
   //TODO saveList and commentList lengths 0 then remove article
 
-  // useEffect(() => {
-  //   timer.resume();
+  //TODO if page is error render today I learned, a fact detail page!
 
-  //   AppState.addEventListener('change', handleAppStateChange);
-  //   return () => {
-  //     AppState.removeEventListener('change', handleAppStateChange);
-  //   };
-  // }, []);
-
-  // const handleAppStateChange = (state) => {
-  //   switch (state) {
-  //     case 'active':
-  //       timer.resume();
-  //       console.log(timer.totalTime);
-  //       break;
-  //     //inactive or background
-  //     default:
-  //       timer.pause();
-  //       console.log('app is closed!');
-  //       break;
-  //   }
-  // };
-
-  // const handleNavigationStateChange = () => {
-  //   console.log('BLURRR');
-  //   timer.pause();
-  // };
-
-  // useEffect(() => {
-  //   navigation.addListener('blur', handleNavigationStateChange);
-  //   return () => {
-  //     navigation.addListener('blur', handleNavigationStateChange);
-  //   };
-  // }, []);
-
-  //TODO resume when focus, stop when blur add to the state totalTime
-  //TODO upload to db when blur
-  //TODO if totalTime exists upload db with today date
-  //TODO when also page refresh upload
   //TODO add share button each news!!
   //TODO javascript ads blocker how to!!!
 
@@ -245,6 +208,17 @@ const DetailView = ({ route, navigation }) => {
 
   //TODO change all fontfamily size!!!
 
+  const onShare = async () => {
+    try {
+      await Share.share({
+        title: 'Cekmecem News',
+        message: data.title,
+      });
+    } catch (err) {
+      console.log('error while trying to share a news', err.message);
+    }
+  };
+
   const defaultFilters = [
     '*://*.doubleclick.net/*',
     '*://partner.googleadservices.com/*',
@@ -261,6 +235,12 @@ const DetailView = ({ route, navigation }) => {
   const run = `
       document.body.style.backgroundColor = "blue";
       true;
+    `;
+
+  const runFirst = `
+      document.body.style.backgroundColor = 'red';
+      setTimeout(function() { window.alert('hi') }, 2000);
+      true; // note: this is required, or you'll sometimes get silent failures
     `;
 
   return (
@@ -308,7 +288,7 @@ const DetailView = ({ route, navigation }) => {
         <TouchableOpacity
           style={{
             height: 48,
-            width: '70%',
+            width: '60%',
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: 3,
@@ -357,6 +337,17 @@ const DetailView = ({ route, navigation }) => {
             color={mode.colors.icon}
           />
         </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            // paddingHorizontal: 6,
+          }}
+          onPress={onShare}
+        >
+          <ShareIcon size={24} color={mode.colors.icon} />
+        </TouchableOpacity>
       </View>
       <WebView
         source={{ uri: data?.url }}
@@ -366,11 +357,16 @@ const DetailView = ({ route, navigation }) => {
         javaScriptEnabled={isJSEnabled}
         onShouldStartLoadWithRequest={(request) => {
           // Only allow navigating within this website
-          console.log(request.title);
           if (request.url.startsWith('http')) {
             return false;
           }
         }}
+        renderError={(err) =>
+          alert(
+            err,
+            'Website is not reacheable currently, maybe try to block ads and flashes on settings',
+          )
+        }
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         incognito={true}
@@ -382,8 +378,9 @@ const DetailView = ({ route, navigation }) => {
         userAgent={
           'Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 XL Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3714.0 Mobile Safari/537.36'
         }
-        // injectedJavaScript={run}
-        injectJavaScript={run}
+        injectedJavaScript={runFirst}
+        // injectedJavaScriptBeforeContentLoaded={runFirst}
+        // injectJavaScript={run}
         //TODO try to block ads, for turkish just set to false javascript
         //TODO add modal warn user it blocks some other functionality of the website
       />

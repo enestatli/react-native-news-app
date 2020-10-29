@@ -87,6 +87,8 @@ export const TabNavigator = () => {
     };
   }, []);
 
+  //TODO add talk/chat stack, list commented news
+
   //TODO add collection (new Date()) obj as doc id and try to store each week of the month
   //TODO add share button
   //TODO add appcenter cfg!!
