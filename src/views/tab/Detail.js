@@ -11,6 +11,7 @@ import {
   AppState,
   Keyboard,
   Modal,
+  Platform,
   Share,
   StyleSheet,
   Text,
@@ -210,9 +211,19 @@ const DetailView = ({ route, navigation }) => {
 
   const onShare = async () => {
     try {
+      let text = `${data.title} \n\n See more about the news...\n Download CekmecemNews App\n`;
+      if (Platform.OS === 'android') {
+        text = text.concat(
+          'https://play.google.com/store/apps/details?id=com.tdksozlukreactnative',
+        );
+      } else {
+        text = text.concat('https://itunes.apple.com');
+      }
       await Share.share({
         title: 'Cekmecem News',
-        message: data.title,
+        // message: data.title,
+        message: text,
+        url: 'app://cekmecemnews',
       });
     } catch (err) {
       console.log('error while trying to share a news', err.message);
