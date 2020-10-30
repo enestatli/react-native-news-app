@@ -7,7 +7,12 @@ import firestore from '@react-native-firebase/firestore';
 import { BookmarkView, DetailView, HomeView, SettingsView } from '../views';
 import TabBar from '../components/TabBar';
 import ColumnistView from '../views/tab/Columnist';
-import { AuthContext, BookmarkProvider, SettingsProvider } from '../context';
+import {
+  AuthContext,
+  BookmarkProvider,
+  NotificationContext,
+  SettingsProvider,
+} from '../context';
 import { useTimer } from '../context/TimerContext';
 import { AppState } from 'react-native';
 import { scheduleNotification } from '../utils/notification.android';
@@ -38,6 +43,7 @@ export default function HomeStack() {
 
 export const TabNavigator = () => {
   const { timer } = useTimer();
+  const { setIsAppBackground } = React.useContext(NotificationContext);
   const timeRef = firestore().collection('users');
   const dateObj = new Date();
   const day = dateObj.getDate();
@@ -99,17 +105,12 @@ export const TabNavigator = () => {
     switch (state) {
       case 'active':
         timer.resume();
+        setIsAppBackground(false);
         break;
       // inactive or background
       default:
         timer.pause();
-        scheduleNotification(
-          'test tit',
-          'test mess',
-          'channel-id',
-          'red',
-          'https://raw.githubusercontent.com/rebus007/HeaderView/master/img/ic_launcher-web.png',
-        );
+        setIsAppBackground(true);
         (async () => {
           try {
             const userDoc = (await timeRef.doc(user.uid).get()).data();
@@ -118,7 +119,6 @@ export const TabNavigator = () => {
               (f) => f.sessionId === timeId,
             );
 
-            console.log(tIndex, 'TINDEX');
             if (tIndex > -1) {
               userDoc.timeSpent[ind].totalTime[tIndex].t = timer.totalTime;
             } else {

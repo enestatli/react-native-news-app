@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ThemeProvider } from './context';
+import { NotificationProvider, ThemeProvider } from './context';
 import TimerContextProvider from './context/TimerContext';
 import Providers from './navigation';
 
@@ -13,7 +13,9 @@ const App = () => {
   return (
     <ThemeProvider>
       <TimerContextProvider>
-        <Providers />
+        <NotificationProvider>
+          <Providers />
+        </NotificationProvider>
       </TimerContextProvider>
     </ThemeProvider>
   );

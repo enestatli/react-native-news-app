@@ -25,7 +25,12 @@ import {
   TimeIcon2,
 } from '../../components/icons';
 
-import { AuthContext, SettingsContext, ThemeContext } from '../../context';
+import {
+  AuthContext,
+  NotificationContext,
+  SettingsContext,
+  ThemeContext,
+} from '../../context';
 import TimeChart from '../../components/TimeChart';
 
 const SettingsView = ({ navigation, propName }) => {
@@ -33,6 +38,10 @@ const SettingsView = ({ navigation, propName }) => {
   const { mode, setDarkMode, darkMode } = useContext(ThemeContext);
   const { user, logout } = useContext(AuthContext);
   const { isJSEnabled, setIsJSEnabled } = useContext(SettingsContext);
+  const { toggleNotifications, enableNotifications } = useContext(
+    NotificationContext,
+  );
+
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
@@ -69,8 +78,8 @@ const SettingsView = ({ navigation, propName }) => {
       switchComp: (
         <Switch
           style={{ marginLeft: 'auto', width: 36, height: 24 }}
-          onValueChange={toggleSwitch}
-          value={isEnabled}
+          onValueChange={() => toggleNotifications(enableNotifications)}
+          value={enableNotifications}
           trackColor={{ false: '#c4c4c4', true: mode.colors.primary }}
           thumbColor={'#f4f3f4'}
         />

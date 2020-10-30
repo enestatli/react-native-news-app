@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Timer from '../utils/Timer';
 
 export const TimerContext = React.createContext({
@@ -10,10 +10,6 @@ export const useTimer = () => React.useContext(TimerContext);
 
 export const TimerContextProvider = ({ children }) => {
   const [timer, setTimer] = useState(new Timer());
-
-  useEffect(() => {
-    console.log(timer.totalTime, 'TOTAL TIME');
-  }, []);
 
   //TODO move to the index context
 
