@@ -10,6 +10,7 @@ import ColumnistView from '../views/tab/Columnist';
 import { AuthContext, BookmarkProvider, SettingsProvider } from '../context';
 import { useTimer } from '../context/TimerContext';
 import { AppState } from 'react-native';
+import { scheduleNotification } from '../utils/notification.android';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -89,9 +90,11 @@ export const TabNavigator = () => {
 
   //TODO add talk/chat stack, list commented news
 
+  //TODO notification context, pass data to notification context and call schedule in tabstack
+
   //TODO add collection (new Date()) obj as doc id and try to store each week of the month
-  //TODO add share button
   //TODO add appcenter cfg!!
+
   const handleAppStateChange = (state) => {
     switch (state) {
       case 'active':
@@ -100,6 +103,13 @@ export const TabNavigator = () => {
       // inactive or background
       default:
         timer.pause();
+        scheduleNotification(
+          'test tit',
+          'test mess',
+          'channel-id',
+          'red',
+          'https://raw.githubusercontent.com/rebus007/HeaderView/master/img/ic_launcher-web.png',
+        );
         (async () => {
           try {
             const userDoc = (await timeRef.doc(user.uid).get()).data();

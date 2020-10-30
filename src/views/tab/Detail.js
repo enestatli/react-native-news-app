@@ -72,7 +72,6 @@ const DetailView = ({ route, navigation }) => {
 
   //TODO if page is error render today I learned, a fact detail page!
 
-  //TODO add share button each news!!
   //TODO javascript ads blocker how to!!!
 
   useEffect(() => {
