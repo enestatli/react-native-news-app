@@ -35,15 +35,12 @@ import TimeChart from '../../components/TimeChart';
 
 const SettingsView = ({ navigation, propName }) => {
   // console.log(propName, 'Settings');
-  const { mode, setDarkMode, darkMode } = useContext(ThemeContext);
+  const { mode, darkMode, toggleDarkMode } = useContext(ThemeContext);
   const { user, logout } = useContext(AuthContext);
   const { isJSEnabled, setIsJSEnabled } = useContext(SettingsContext);
   const { toggleNotifications, enableNotifications } = useContext(
     NotificationContext,
   );
-
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   const [timeStatus, setTimeStatus] = useState(false);
 
@@ -61,7 +58,7 @@ const SettingsView = ({ navigation, propName }) => {
         <Switch
           style={{ marginLeft: 'auto', width: 36, height: 24 }}
           value={darkMode}
-          onValueChange={setDarkMode}
+          onValueChange={() => toggleDarkMode(darkMode)}
           trackColor={{
             false: '#c4c4c4',
             true: mode.colors.primary,
