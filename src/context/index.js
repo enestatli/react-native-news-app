@@ -1,5 +1,7 @@
 import { AuthContext, AuthProvider } from './AuthContext';
 import { BookmarkContext, BookmarkProvider } from './BookmarkContext';
+import { LanguageContext, LanguageProvider } from './LanguageContext';
+
 import {
   NotificationContext,
   NotificationProvider,
@@ -18,4 +20,6 @@ export {
   SettingsProvider,
   NotificationContext,
   NotificationProvider,
+  LanguageContext,
+  LanguageProvider,
 };

@@ -16,7 +16,6 @@ import { ThemeContext } from '../context';
 const BottomSheet = ({
   visible,
   closeBottomSheet,
-  cover,
   lang,
   children,
   ...props
@@ -77,6 +76,7 @@ const BottomSheet = ({
           styles.overlay,
           {
             backgroundColor: visible && 'rgba(56,56,56,0.8)',
+            justifyContent: lang ? 'center' : 'flex-end',
           },
         ]}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -88,7 +88,13 @@ const BottomSheet = ({
             {
               top,
               backgroundColor: mode.colors.background,
+              flex: lang ? 0.3 : 0.5,
             },
+            // lang && {
+            //   flex: 0.3,
+            //   borderBottomEndRadius: 12,
+            //   borderBottomLeftRadius: 12,
+            // },
           ]}
           {..._panResponders.panHandlers}
         >
@@ -112,6 +118,8 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     borderTopRightRadius: 12,
     borderTopLeftRadius: 12,
+    borderBottomEndRadius: 12,
+    borderBottomLeftRadius: 12,
     flex: 0.5,
   },
 });

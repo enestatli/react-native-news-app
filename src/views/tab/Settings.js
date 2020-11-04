@@ -27,11 +27,14 @@ import {
 
 import {
   AuthContext,
+  LanguageContext,
   NotificationContext,
   SettingsContext,
   ThemeContext,
 } from '../../context';
 import TimeChart from '../../components/TimeChart';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import BottomSheet from '../../components/BottomSheetModal';
 
 const SettingsView = ({ navigation, propName }) => {
   // console.log(propName, 'Settings');
@@ -41,11 +44,27 @@ const SettingsView = ({ navigation, propName }) => {
   const { toggleNotifications, enableNotifications } = useContext(
     NotificationContext,
   );
+  const {
+    strings,
+    changeLanguage,
+    langModalVisible,
+    toggleLangModal,
+  } = useContext(LanguageContext);
 
   const [timeStatus, setTimeStatus] = useState(false);
 
   const showTimeChart = () => {
     setTimeStatus(!timeStatus);
+  };
+
+  const onLang = async (key) => {
+    try {
+      changeLanguage(key);
+      toggleLangModal(true);
+      await AsyncStorage.setItem('appLanguage', key);
+    } catch (err) {
+      console.log(`error when clicked change language(${key}) button`, err);
+    }
   };
 
   const tabs = [
@@ -163,6 +182,8 @@ const SettingsView = ({ navigation, propName }) => {
           onPress={
             item.id === 'timeToRead'
               ? showTimeChart
+              : item.id === 'language'
+              ? toggleLangModal
               : () => console.log('clicked')
           }
         >
@@ -186,7 +207,7 @@ const SettingsView = ({ navigation, propName }) => {
           <LeftIcon width={24} color={mode.colors.icon} />
         </TouchableOpacity>
         <Text style={{ color: mode.colors.foreground, fontSize: 24 }}>
-          Settings
+          {strings.settings}
         </Text>
       </View>
 
@@ -244,6 +265,41 @@ const SettingsView = ({ navigation, propName }) => {
         />
       </View>
       <TimeChart bs={timeStatus} tb={showTimeChart} theme={mode} />
+      {/* TODO move languagemodal to components */}
+      <BottomSheet
+        visible={langModalVisible}
+        closeBottomSheet={toggleLangModal}
+        lang={true}
+      >
+        <View
+          style={{
+            flex: 1,
+            padding: 30,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <TouchableOpacity
+            style={styles.languageButton}
+            onPress={() => onLang('en')}
+          >
+            <Text style={{ fontSize: 22 }}>English</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.languageButton}
+            onPress={() => onLang('zh')}
+          >
+            <Text style={{ fontSize: 22 }}>Chinese</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.languageButton}
+            onPress={() => onLang('tr')}
+          >
+            <Text style={{ fontSize: 22 }}>Turkish</Text>
+          </TouchableOpacity>
+        </View>
+      </BottomSheet>
       {/* son */}
     </View>
   );
@@ -297,12 +353,10 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   languageButton: {
-    // flex: 1,
-    marginTop: 5,
     justifyContent: 'center',
     alignItems: 'center',
     height: 48,
-    width: '100%',
+    width: Dimensions.get('screen').width / 4,
     backgroundColor: '#f4f3f4',
     borderWidth: 1,
     borderRadius: 6,

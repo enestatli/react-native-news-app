@@ -75,7 +75,7 @@ const LoginView = ({ navigation }) => {
           <TouchableOpacity
             style={{
               position: 'absolute',
-              bottom: 82,
+              bottom: 75,
               right: 12,
             }}
             onPress={() => setHide(!hide)}

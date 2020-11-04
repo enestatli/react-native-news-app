@@ -100,6 +100,7 @@ export const TabNavigator = () => {
 
   //TODO add collection (new Date()) obj as doc id and try to store each week of the month
   //TODO add appcenter cfg!!
+  //TODO try to move timer flow to context when app completed
 
   const handleAppStateChange = (state) => {
     switch (state) {
