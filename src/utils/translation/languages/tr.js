@@ -2,8 +2,12 @@ export default {
   // header
   settings: 'Ayarlar',
   bookmarks: 'Kaydedilenler',
+  recentNews: 'Son Dakika',
+  searchedNews: 'Arama Sonuçları',
   // buttons
   logout: 'Çıkış',
+  cancel: 'İptal',
+  send: 'Gönder',
   comments: 'Tüm yorumları gör',
   // placeholders
   writeComment: 'Bir yorum gir...',
@@ -16,6 +20,7 @@ export default {
   sports: 'Spor',
   technology: 'Teknoloji',
   // preferences
+  preferences: 'Tercihler',
   mode: 'Karanlık mod',
   notification: 'Bildirimler',
   loc: 'Yerel haberler',
@@ -37,4 +42,8 @@ export default {
     'Kasım',
     'Aralık',
   ],
+  //timeChart
+  timeTitle: '',
+  timeBody: '',
+  days: [],
 };

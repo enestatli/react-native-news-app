@@ -2,9 +2,13 @@ export default {
   // header
   settings: '设定值',
   bookmarks: '收藏夹',
+  recentNews: '最近的新闻',
+  searchedNews: '搜索结果',
   // buttons
   logout: '登出',
   comments: '查看所有评论',
+  cancel: '取消',
+  send: '发送',
   // placeholders
   writeComment: '写个评论',
   // category
@@ -16,6 +20,7 @@ export default {
   sports: '体育',
   technology: '技术',
   // preferences
+  preferences: '优先',
   mode: '夜间模式',
   notification: '通知事项',
   loc: '各地新闻',

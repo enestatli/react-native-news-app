@@ -8,7 +8,7 @@ import {
   getCategoryNews,
 } from '../../utils/api';
 
-import { ThemeContext } from '../../context';
+import { LanguageContext, ThemeContext } from '../../context';
 import { CategoryBar, Header, RecentNews, TrendNews } from '../../components';
 
 const tabs = [
@@ -48,6 +48,7 @@ const HomeView = ({ route, navigation }) => {
   const [trendNews, setTrendNews] = useState([]);
   const [query, setQuery] = useState('');
   const { mode, darkMode } = useContext(ThemeContext);
+  const { strings } = useContext(LanguageContext);
 
   useEffect(() => {
     if (query.length > 3) {
@@ -132,13 +133,22 @@ const HomeView = ({ route, navigation }) => {
           tabs={tabs}
           selected={selectedTab}
           onPress={(id) => setSelectedTab(id)}
+          str={strings}
         />
         {/* Trend News */}
         {selectedTab && (
-          <TrendNews trendNews={trendNews.articles} navigation={navigation} />
+          <TrendNews
+            trendNews={trendNews.articles}
+            navigation={navigation}
+            str={strings}
+          />
         )}
 
-        <RecentNews articles={testData?.articles} navigation={navigation} />
+        <RecentNews
+          articles={testData?.articles}
+          navigation={navigation}
+          str={strings}
+        />
 
         {/* Recent News */}
       </View>

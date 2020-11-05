@@ -9,22 +9,54 @@ import {
 
 import { ThemeContext } from '../context';
 
-const CategoryBar = ({ tabs, selected, onPress }) => {
+const CategoryBar = ({ tabs, selected, onPress, str }) => {
   const listRef = useRef();
+  //TODO pass mode from homeview to the components
   const { mode } = useContext(ThemeContext);
+
+  const tabs2 = [
+    {
+      id: 'general',
+      title: str.general,
+    },
+    {
+      id: 'business',
+      title: str.business,
+    },
+    {
+      id: 'health',
+      title: str.health,
+    },
+    {
+      id: 'science',
+      title: str.science,
+    },
+    {
+      id: 'entertainment',
+      title: str.entertainment,
+    },
+    {
+      id: 'sports',
+      title: str.sports,
+    },
+    {
+      id: 'technology',
+      title: str.technology,
+    },
+  ];
 
   useEffect(() => {
     listRef.current.scrollToIndex({
-      index: tabs.findIndex((el) => el.id === selected),
+      index: tabs2.findIndex((el) => el.id === selected),
     });
-  }, [selected, tabs]);
+  }, [selected, tabs2]);
 
   return (
     <View style={styles.categoryContainer}>
       <FlatList
         ref={listRef}
         style={styles.categoryFlatList}
-        data={tabs}
+        data={tabs2}
         keyExtractor={(item) => item.id}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
@@ -35,7 +67,7 @@ const CategoryBar = ({ tabs, selected, onPress }) => {
               onPress={() => {
                 onPress(item.id);
                 listRef.current.scrollToIndex({
-                  index: tabs.findIndex((el) => el === item),
+                  index: tabs2.findIndex((el) => el === item),
                 });
               }}
             >

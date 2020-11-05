@@ -49,8 +49,14 @@ const SettingsView = ({ navigation, propName }) => {
     changeLanguage,
     langModalVisible,
     toggleLangModal,
+    langCode,
   } = useContext(LanguageContext);
 
+  //TODO implement loc language all screens,
+  //TODO fetch news based on interfacelanguage
+  //TODO add commented news and news commented by user
+  //TODO add profil avatar icon
+  //TODO header back button!!
   const [timeStatus, setTimeStatus] = useState(false);
 
   const showTimeChart = () => {
@@ -70,7 +76,7 @@ const SettingsView = ({ navigation, propName }) => {
   const tabs = [
     {
       id: 'darkMode',
-      title: 'Dark Mode',
+      title: strings.mode,
       switch: true,
       icon: <DarkModeIcon width={24} color={mode.colors.icon} />,
       switchComp: (
@@ -88,7 +94,7 @@ const SettingsView = ({ navigation, propName }) => {
     },
     {
       id: 'notifications',
-      title: 'Notifications',
+      title: strings.notification,
       switch: true,
       icon: <NotificationIcon width={24} color={mode.colors.icon} />,
       switchComp: (
@@ -103,7 +109,7 @@ const SettingsView = ({ navigation, propName }) => {
     },
     {
       id: 'news',
-      title: 'News by location',
+      title: strings.loc,
       switch: true,
       icon: <LocationIcon width={24} color={mode.colors.icon} />,
       switchComp: (
@@ -118,19 +124,19 @@ const SettingsView = ({ navigation, propName }) => {
     },
     {
       id: 'timeToRead',
-      title: 'Time to read',
+      title: strings.timeSpent,
       switch: false,
       icon: <TimeIcon2 width={24} color={mode.colors.icon} />,
     },
     {
       id: 'language',
-      title: 'Language',
+      title: strings.lang,
       switch: false,
       icon: <Language width={24} color={mode.colors.icon} />,
     },
     {
       id: 'block',
-      title: 'Block ads and flashes',
+      title: strings.block,
       switch: true,
       icon: <Close width={24} color={mode.colors.icon} />,
       switchComp: (
@@ -145,7 +151,7 @@ const SettingsView = ({ navigation, propName }) => {
     },
     {
       id: 'help',
-      title: 'Help',
+      title: strings.help,
       switch: false,
       icon: <HelpIcon width={24} color={mode.colors.icon} />,
     },
@@ -193,6 +199,12 @@ const SettingsView = ({ navigation, propName }) => {
     </View>
   );
 
+  const disabler = (word) => {
+    if (strings.preferences.startsWith(word)) {
+      return true;
+    }
+  };
+
   return (
     <View
       style={{
@@ -203,7 +215,10 @@ const SettingsView = ({ navigation, propName }) => {
     >
       {/* Header */}
       <View style={styles.headerContainer}>
-        <TouchableOpacity style={styles.leftButton}>
+        <TouchableOpacity
+          style={styles.leftButton}
+          onPress={() => navigation.goBack()}
+        >
           <LeftIcon width={24} color={mode.colors.icon} />
         </TouchableOpacity>
         <Text style={{ color: mode.colors.foreground, fontSize: 24 }}>
@@ -245,7 +260,7 @@ const SettingsView = ({ navigation, propName }) => {
               }}
               onPress={() => logout()}
             >
-              <Text style={{ color: 'white' }}>Logout</Text>
+              <Text style={{ color: 'white' }}>{strings.logout}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -255,7 +270,7 @@ const SettingsView = ({ navigation, propName }) => {
         <Text
           style={{ fontSize: 16, fontWeight: 'bold', color: mode.colors.icon }}
         >
-          Prefrences
+          {strings.preferences}
         </Text>
         <FlatList
           data={tabs}
@@ -281,20 +296,26 @@ const SettingsView = ({ navigation, propName }) => {
           }}
         >
           <TouchableOpacity
-            style={styles.languageButton}
+            style={[
+              styles.languageButton,
+              { backgroundColor: disabler('Pre') ? '#b9b9b9 ' : '#f4f3f4' },
+            ]}
             onPress={() => onLang('en')}
+            disabled={disabler('Pre')}
           >
             <Text style={{ fontSize: 22 }}>English</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.languageButton}
             onPress={() => onLang('zh')}
+            disabled={strings.preferences.startsWith('优先')}
           >
             <Text style={{ fontSize: 22 }}>Chinese</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.languageButton}
             onPress={() => onLang('tr')}
+            disabled={strings.preferences.startsWith('Ter')}
           >
             <Text style={{ fontSize: 22 }}>Turkish</Text>
           </TouchableOpacity>

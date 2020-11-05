@@ -29,6 +29,7 @@ import Loading from '../../components/Loading';
 import {
   AuthContext,
   BookmarkContext,
+  LanguageContext,
   SettingsContext,
   ThemeContext,
 } from '../../context';
@@ -49,7 +50,7 @@ const DetailView = ({ route, navigation }) => {
     setBookmarks,
     bookmarks,
   } = useContext(BookmarkContext);
-  const { timer } = useTimer();
+  const { strings } = useContext(LanguageContext);
 
   //---Button,Modal---//
   const [addTodoVisible, setAddTodoVisible] = useState(false);
@@ -94,6 +95,7 @@ const DetailView = ({ route, navigation }) => {
       }
     })();
     //TODO depend on data.url so when refresh the page it can fetch comments
+    //TODO comment list must be descending
   }, []);
 
   const addComment = async (url) => {
@@ -274,6 +276,7 @@ const DetailView = ({ route, navigation }) => {
           comms={comms}
           commentText={commentText}
           setCommentText={setCommentText}
+          str={strings}
         />
       </Modal>
       <BottomSheet
@@ -285,6 +288,7 @@ const DetailView = ({ route, navigation }) => {
           commentText={commentText}
           setCommentText={setCommentText}
           addComment={addComment}
+          str={strings}
         />
       </BottomSheet>
       <View
@@ -315,7 +319,7 @@ const DetailView = ({ route, navigation }) => {
               color: mode.colors.icon,
             }}
           >
-            See all comments
+            {strings.comments}
             {comms.length > 0 ? ` (${comms.length})` : ''}
           </Text>
         </TouchableOpacity>

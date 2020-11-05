@@ -8,31 +8,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { ThemeContext } from '../context';
-
 //TODO optimize trendNews flatlist maybe width height 100%
 
-const TrendNews = ({ navigation, trendNews }) => {
-  const { mode } = useContext(ThemeContext);
-
+const TrendNews = ({ navigation, trendNews, str }) => {
   const dateFormat = (date) => {
-    var mthNames = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-
     const monthIndex = date.substring(5, 7).replace(/^0+/, '');
-    const monthName = mthNames[monthIndex - 1];
+    const monthName = str.months[monthIndex - 1];
     const day = date.substring(8, 10).replace(/^0+/, '');
     const year = date.substring(0, 4);
     const hour = date.substring(11, 16);
@@ -48,6 +29,7 @@ const TrendNews = ({ navigation, trendNews }) => {
         style={{ width: '100%', height: '100%' }}
         data={trendNews}
         keyExtractor={(item) => item.url.toString()}
+        initialNumToRender={1}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (

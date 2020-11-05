@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { LeftIcon, RightIcon } from '../../components/icons';
 
-import { BookmarkContext, ThemeContext } from '../../context';
+import { BookmarkContext, LanguageContext, ThemeContext } from '../../context';
 
 const SaveView = ({ navigation }) => {
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
@@ -23,6 +23,7 @@ const SaveView = ({ navigation }) => {
 
   const { mode, darkMode } = useContext(ThemeContext);
   const { bookmarks } = useContext(BookmarkContext);
+  const { strings } = useContext(LanguageContext);
 
   React.useEffect(() => {
     console.log(bookmarks.length);
@@ -124,7 +125,7 @@ const SaveView = ({ navigation }) => {
           <LeftIcon width={24} color={mode.colors.icon} />
         </TouchableOpacity>
         <Text style={{ color: mode.colors.foreground, fontSize: 24 }}>
-          Bookmarks
+          {strings.bookmarks}
         </Text>
       </View>
       {/* User Info */}

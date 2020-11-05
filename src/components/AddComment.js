@@ -17,6 +17,7 @@ const AddComment = ({
   setCommentText,
   addComment,
   data,
+  str,
 }) => {
   const inputRef = React.useRef(null);
   const { mode } = useContext(ThemeContext);
@@ -55,7 +56,7 @@ const AddComment = ({
       <View style={{ marginHorizontal: 20 }}>
         <TextInput
           ref={inputRef}
-          placeholder="Add to comments"
+          placeholder={str.writeComment}
           style={[styles.input, { backgroundColor: mode.colors.card }]}
           backgroundColor="whitesmoke"
           maxLength={140}
@@ -83,7 +84,7 @@ const AddComment = ({
               color: 'white',
             }}
           >
-            Send
+            {str.send}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -104,7 +105,7 @@ const AddComment = ({
               color: '#Aeaeae',
             }}
           >
-            Cancel
+            {str.cancel}
           </Text>
         </TouchableOpacity>
       </View>

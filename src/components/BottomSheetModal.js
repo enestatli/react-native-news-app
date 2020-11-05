@@ -89,12 +89,8 @@ const BottomSheet = ({
               top,
               backgroundColor: mode.colors.background,
               flex: lang ? 0.3 : 0.5,
+              paddingTop: lang ? 0 : 12,
             },
-            // lang && {
-            //   flex: 0.3,
-            //   borderBottomEndRadius: 12,
-            //   borderBottomLeftRadius: 12,
-            // },
           ]}
           {..._panResponders.panHandlers}
         >

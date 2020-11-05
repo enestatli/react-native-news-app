@@ -25,7 +25,6 @@ export const LanguageProvider = ({ children }) => {
           setLangCode('en');
         } else {
           const value = await AsyncStorage.getItem('appLanguage');
-          console.log(value, 'VALLL');
           if (langCode === null) {
             //TODO null ise veya set ettigi dile esitse, undefined degilse!!
             setLangCode(strings.getInterfaceLanguage().substring(0, 2));

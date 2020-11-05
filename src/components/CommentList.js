@@ -22,6 +22,7 @@ const CommentList = ({
   addComment,
   commentText,
   setCommentText,
+  str,
 }) => {
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
 
@@ -57,7 +58,7 @@ const CommentList = ({
       >
         <View style={{ position: 'relative', flex: 1 }}>
           <TextInput
-            placeholder="Add to comments"
+            placeholder={str.writeComment}
             style={[styles.input, { backgroundColor: mode.colors.card }]}
             backgroundColor="white"
             maxLength={140}
@@ -66,7 +67,6 @@ const CommentList = ({
             textAlignVertical="top"
             value={commentText}
             onChangeText={(text) => setCommentText(text)}
-            // onSubmitEditing={() => addComment(data.url, comment)}
           />
           <TouchableOpacity
             style={{
@@ -147,9 +147,9 @@ const CommentList = ({
                     {' '}
                     {item.submitTime}
                   </Text>
-                  <TouchableOpacity style={{ paddingLeft: 10 }}>
+                  {/* <TouchableOpacity style={{ paddingLeft: 10 }}>
                     <Text style={{ color: mode.colors.primary }}>Reply</Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
               </View>
             </View>

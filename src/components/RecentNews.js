@@ -12,7 +12,8 @@ import {
 import { ThemeContext } from '../context';
 import Placeholder from './Placeholder';
 
-const RecentNews = ({ articles, navigation }) => {
+const RecentNews = ({ articles, navigation, str }) => {
+  //TODO move mode, pass from home
   const { mode } = useContext(ThemeContext);
 
   const renderItem = ({ item }) => (
@@ -91,7 +92,7 @@ const RecentNews = ({ articles, navigation }) => {
       <Text
         style={{ fontSize: 22, paddingVertical: 10, color: mode.colors.icon }}
       >
-        Recent News
+        {str.recentNews}
       </Text>
       <FlatList
         style={{ width: '100%', height: '100%' }}

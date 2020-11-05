@@ -64,7 +64,7 @@ const TimeChart = ({ bs, tb, theme }) => {
             total += m.t;
           });
           const ifq = data_.findIndex((d) => d.x === dayOfTheWeek);
-          console.log(ifq);
+          // console.log(ifq);
           data_[ifq].y = total;
         });
         setData(data_);
@@ -75,9 +75,9 @@ const TimeChart = ({ bs, tb, theme }) => {
   React.useEffect(() => {
     let a = 0;
     data.map((t) => (a += t.y));
-    console.log('TOTAL:', a);
+    // console.log('TOTAL:', a);
     setAverage(a / 7);
-    console.log(average / 3600, 'hours', (average % 3600) / 60, 'minutes');
+    // console.log(average / 3600, 'hours', (average % 3600) / 60, 'minutes');
   }, [average]);
 
   return (

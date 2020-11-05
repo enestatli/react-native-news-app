@@ -2,9 +2,13 @@ export default {
   // header
   settings: 'Settings',
   bookmarks: 'Bookmarks',
+  recentNews: 'Recent News',
+  searchedNews: 'Search Results',
   // buttons
   logout: 'Logout',
   comments: 'See all comments',
+  cancel: 'Cancel',
+  send: 'Send',
   // placeholders
   writeComment: 'Write a comment...',
   // category
@@ -16,6 +20,7 @@ export default {
   sports: 'Sports',
   technology: 'Technology',
   // preferences
+  preferences: 'Preferences',
   mode: 'Dark mode',
   notification: 'Notifications',
   loc: 'News by location',
