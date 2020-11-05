@@ -49,10 +49,8 @@ const SettingsView = ({ navigation, propName }) => {
     changeLanguage,
     langModalVisible,
     toggleLangModal,
-    langCode,
   } = useContext(LanguageContext);
 
-  //TODO implement loc language all screens,
   //TODO fetch news based on interfacelanguage
   //TODO add commented news and news commented by user
   //TODO add profil avatar icon
@@ -306,16 +304,22 @@ const SettingsView = ({ navigation, propName }) => {
             <Text style={{ fontSize: 22 }}>English</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.languageButton}
+            style={[
+              styles.languageButton,
+              { backgroundColor: disabler('优先') ? '#b9b9b9 ' : '#f4f3f4' },
+            ]}
             onPress={() => onLang('zh')}
-            disabled={strings.preferences.startsWith('优先')}
+            disabled={disabler('优先')}
           >
             <Text style={{ fontSize: 22 }}>Chinese</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.languageButton}
+            style={[
+              styles.languageButton,
+              { backgroundColor: disabler('Ter') ? '#b9b9b9 ' : '#f4f3f4' },
+            ]}
             onPress={() => onLang('tr')}
-            disabled={strings.preferences.startsWith('Ter')}
+            disabled={disabler('Ter')}
           >
             <Text style={{ fontSize: 22 }}>Turkish</Text>
           </TouchableOpacity>
