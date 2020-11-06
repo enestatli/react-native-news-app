@@ -5,12 +5,11 @@ import {
   StatusBar,
   Dimensions,
   Animated,
-  FlatList,
   Text,
   View,
   StyleSheet,
 } from 'react-native';
-import { theme } from '../../utils/theme';
+import { theme } from '../utils/theme';
 
 const data = [
   {
@@ -134,7 +133,7 @@ const List = React.memo(
           onScroll={onScroll}
           decelerationRate="fast"
           snapToInterval={ITEM_HEIGHT}
-          // showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           renderToHardwareTextureAndroid
           contentContainerStyle={{
             paddingTop: showText ? 0 : height / 2 - ITEM_HEIGHT / 2,
@@ -159,11 +158,12 @@ const List = React.memo(
   ),
 );
 
-export default function App() {
+export default function NewsLang({ toggleModal }) {
   const [index, setIndex] = React.useState(0);
   const onConnectPress = React.useCallback(() => {
     console.log(index);
-    Alert.alert('Connect with:', data[index].name.toUpperCase());
+    toggleModal(false);
+    // Alert.alert('Connect with:', data[index].name.toUpperCase());
   }, [index]);
   const yellowRef = React.useRef();
   const darkRef = React.useRef();

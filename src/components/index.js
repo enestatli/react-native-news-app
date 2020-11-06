@@ -12,6 +12,7 @@ import CommentList from './CommentList';
 import BottomSheet from './BottomSheetModal';
 import AddComment from './AddComment';
 import TimeChart from './TimeChart';
+import NewsLang from './NewsLangModal';
 
 export {
   FormInput,
@@ -26,4 +27,5 @@ export {
   BottomSheet,
   AddComment,
   TimeChart,
+  NewsLang,
 };

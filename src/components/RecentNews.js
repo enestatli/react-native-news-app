@@ -3,6 +3,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  Modal,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,11 +11,17 @@ import {
 } from 'react-native';
 
 import { ThemeContext } from '../context';
+import NewsLang from './NewsLangModal';
 import Placeholder from './Placeholder';
 
 const RecentNews = ({ articles, navigation, str }) => {
   //TODO move mode, pass from home
   const { mode } = useContext(ThemeContext);
+  const [modalVisible, setModalVisible] = React.useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
 
   const renderItem = ({ item }) => (
     <View style={[styles.recentNews, { backgroundColor: mode.colors.card }]}>
@@ -92,6 +99,17 @@ const RecentNews = ({ articles, navigation, str }) => {
       <Text
         style={{ fontSize: 22, paddingVertical: 10, color: mode.colors.icon }}
       >
+        <TouchableOpacity style={{ flex: 1 }}>
+          <Text style={{ color: 'black' }}>click me</Text>
+        </TouchableOpacity>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          statusBarTranslucent={true}
+        >
+          <NewsLang toggleModal={toggleModal} />
+        </Modal>
         {str.recentNews}
       </Text>
       <FlatList
