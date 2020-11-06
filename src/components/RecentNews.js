@@ -14,7 +14,7 @@ import { ThemeContext } from '../context';
 import NewsLang from './NewsLangModal';
 import Placeholder from './Placeholder';
 
-const RecentNews = ({ articles, navigation, str }) => {
+const RecentNews = ({ articles, navigation, str, setCountryCode }) => {
   //TODO move mode, pass from home
   const { mode } = useContext(ThemeContext);
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -22,6 +22,8 @@ const RecentNews = ({ articles, navigation, str }) => {
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
+
+  //TODO googlenews rss fetchle you already use nativeWeb!!
 
   const renderItem = ({ item }) => (
     <View style={[styles.recentNews, { backgroundColor: mode.colors.card }]}>
@@ -96,22 +98,41 @@ const RecentNews = ({ articles, navigation, str }) => {
 
   return (
     <View style={styles.recentNewsContainer}>
-      <Text
-        style={{ fontSize: 22, paddingVertical: 10, color: mode.colors.icon }}
-      >
-        <TouchableOpacity style={{ flex: 1 }}>
-          <Text style={{ color: 'black' }}>click me</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Text
+          style={{ fontSize: 22, paddingVertical: 10, color: mode.colors.icon }}
+        >
+          {str.recentNews}
+        </Text>
+        <TouchableOpacity
+          style={{
+            marginLeft: 'auto',
+            borderWidth: 1,
+            width: 50,
+            height: 20,
+            borderRadius: 6,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderColor: mode.colors.icon,
+          }}
+          onPress={toggleModal}
+        >
+          <Text style={{ color: mode.colors.icon }}>TR</Text>
         </TouchableOpacity>
         <Modal
           animationType="slide"
           transparent={true}
           visible={modalVisible}
           statusBarTranslucent={true}
+          onRequestClose={toggleModal}
         >
-          <NewsLang toggleModal={toggleModal} />
+          <NewsLang
+            toggleModal={toggleModal}
+            mode={mode}
+            setCountryCode={setCountryCode}
+          />
         </Modal>
-        {str.recentNews}
-      </Text>
+      </View>
       <FlatList
         style={{ width: '100%', height: '100%' }}
         // maxToRenderPerBatch={10}

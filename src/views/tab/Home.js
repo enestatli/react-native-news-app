@@ -49,6 +49,7 @@ const HomeView = ({ route, navigation }) => {
   const [query, setQuery] = useState('');
   const { mode, darkMode } = useContext(ThemeContext);
   const { strings } = useContext(LanguageContext);
+  const [countryCode, setCountryCode] = useState('us');
 
   useEffect(() => {
     if (query.length > 3) {
@@ -60,7 +61,7 @@ const HomeView = ({ route, navigation }) => {
           console.log('error while fetching searchNews: ', error);
         });
     } else {
-      getTopHeadlines('tr')
+      getTopHeadlines(countryCode)
         .then((data) => {
           setTestData(data);
         })
@@ -68,11 +69,11 @@ const HomeView = ({ route, navigation }) => {
           console.log('error while fetching topHeadlines', error);
         });
     }
-  }, [query]);
+  }, [query, countryCode]);
 
   useEffect(() => {
     if (selectedTab === 'allNews') {
-      getTopHeadlines('us')
+      getTopHeadlines(countryCode)
         .then((data) => {
           setTrendNews(data);
         })
@@ -80,7 +81,7 @@ const HomeView = ({ route, navigation }) => {
           console.log('error while fetching topHeadlines: ', error);
         });
     } else {
-      getCategoryNews(selectedTab)
+      getCategoryNews(selectedTab, countryCode)
         .then((data) => {
           setTrendNews(data);
         })
@@ -88,7 +89,7 @@ const HomeView = ({ route, navigation }) => {
           console.log('error while fetching categoryNews: ', error);
         });
     }
-  }, [selectedTab]);
+  }, [selectedTab, countryCode]);
 
   useEffect(() => {
     setSelectedTab(tabs[0].id);
@@ -148,6 +149,7 @@ const HomeView = ({ route, navigation }) => {
           articles={testData?.articles}
           navigation={navigation}
           str={strings}
+          setCountryCode={setCountryCode}
         />
 
         {/* Recent News */}

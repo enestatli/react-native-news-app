@@ -13,23 +13,39 @@ import { theme } from '../utils/theme';
 
 const data = [
   {
-    icon: 'TR',
-    name: 'Turkish',
-  },
-  {
     icon: 'EN',
     name: 'English',
   },
   {
-    icon: 'ZH',
-    name: 'Chinese',
+    icon: 'TR',
+    name: 'Turkish',
+  },
+  {
+    icon: 'RU',
+    name: 'Russian',
   },
   {
     icon: 'KU',
     name: 'Kurdish',
   },
+  {
+    icon: 'JP',
+    name: 'Japanese',
+  },
+  {
+    icon: 'ES',
+    name: 'Spanish',
+  },
+  {
+    icon: 'AR',
+    name: 'Arabic',
+  },
+  {
+    icon: 'IT',
+    name: 'Italian',
+  },
 ];
-
+//TODO after done button give 1,1.5 seconds loading screen then fetch data
 const ICON_SIZE = 42;
 const ITEM_HEIGHT = ICON_SIZE * 2;
 const colors = {
@@ -56,7 +72,7 @@ const Item = React.memo(({ icon, color, name, showText }) => {
   );
 });
 
-const ConnectWithText = React.memo(() => {
+const ConnectWithText = React.memo(({ mode }) => {
   return (
     <View
       style={{
@@ -69,7 +85,7 @@ const ConnectWithText = React.memo(() => {
     >
       <Text
         style={{
-          color: colors.yellow,
+          color: mode.colors.icon,
           fontSize: 42,
           fontWeight: '700',
           lineHeight: 52,
@@ -81,7 +97,7 @@ const ConnectWithText = React.memo(() => {
   );
 });
 
-const ConnectButton = React.memo(({ onPress }) => {
+const ConnectButton = React.memo(({ onPress, mode }) => {
   return (
     <View
       style={{
@@ -94,7 +110,7 @@ const ConnectButton = React.memo(({ onPress }) => {
         style={{
           height: ITEM_HEIGHT * 2,
           width: 4,
-          backgroundColor: colors.yellow,
+          backgroundColor: mode.colors.primary,
         }}
       />
       <TouchableOpacity
@@ -104,7 +120,7 @@ const ConnectButton = React.memo(({ onPress }) => {
           paddingHorizontal: 12,
           borderRadius: 6,
           borderTopLeftRadius: 0,
-          backgroundColor: colors.yellow,
+          backgroundColor: mode.colors.primary,
           alignItems: 'center',
           justifyContent: 'center',
         }}
@@ -158,10 +174,11 @@ const List = React.memo(
   ),
 );
 
-export default function NewsLang({ toggleModal }) {
+export default function NewsLang({ toggleModal, mode, setCountryCode }) {
   const [index, setIndex] = React.useState(0);
   const onConnectPress = React.useCallback(() => {
     console.log(index);
+    setCountryCode(data[index].icon.toLowerCase());
     toggleModal(false);
     // Alert.alert('Connect with:', data[index].name.toUpperCase());
   }, [index]);
@@ -185,12 +202,14 @@ export default function NewsLang({ toggleModal }) {
   });
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: mode.colors.background }]}
+    >
       <StatusBar hidden />
-      <ConnectWithText />
+      <ConnectWithText mode={mode} />
       <List
         ref={yellowRef}
-        color={colors.yellow}
+        color={mode.colors.primary}
         style={StyleSheet.absoluteFillObject}
         onScroll={onScroll}
         onItemIndexChange={onItemIndexChange}
@@ -201,13 +220,13 @@ export default function NewsLang({ toggleModal }) {
         showText
         style={{
           position: 'absolute',
-          backgroundColor: colors.yellow,
+          backgroundColor: mode.colors.primary,
           width,
           height: ITEM_HEIGHT,
           top: height / 2 - ITEM_HEIGHT / 2,
         }}
       />
-      <ConnectButton onPress={onConnectPress} />
+      <ConnectButton mode={mode} onPress={onConnectPress} />
       <Item />
     </View>
   );

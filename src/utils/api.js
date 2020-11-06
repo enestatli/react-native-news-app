@@ -20,9 +20,9 @@ const getSearchNews = async (query) => {
   return data;
 };
 
-const getCategoryNews = async (category) => {
+const getCategoryNews = async (category, country) => {
   const response = await fetch(
-    `${BASE_URL}top-headlines?sortBy=${'publishedAt'}&category=${category}&country=${'us'}&apiKey=${APIKEY}`,
+    `${BASE_URL}top-headlines?sortBy=${'publishedAt'}&category=${category}&country=${country}&apiKey=${APIKEY}`,
   );
   const data = await response.json();
   return data;
