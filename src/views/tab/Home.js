@@ -53,6 +53,10 @@ const HomeView = ({ route, navigation }) => {
   const { strings } = useContext(LanguageContext);
   const [countryCode, setCountryCode] = useState('');
 
+  //TODO sometimes news come with same key, drop this
+  //TODO google news rss
+  //TODO search button
+
   useEffect(() => {
     (async () => {
       try {
@@ -60,13 +64,10 @@ const HomeView = ({ route, navigation }) => {
         if (value !== null) {
           setCountryCode(value);
         } else {
-          const f = data.find(
-            (i) =>
-              i.icon.toLowerCase() ===
-              strings.getInterfaceLanguage().substring(0, 2),
-          );
+          const code = strings.getInterfaceLanguage().substring(0, 2);
+          const f = data.find((i) => i.icon.toLowerCase() === code);
           if (f !== undefined) {
-            setCountryCode(strings.getInterfaceLanguage().substring(0, 2));
+            setCountryCode(code);
           } else {
             setCountryCode('us');
           }
@@ -98,7 +99,7 @@ const HomeView = ({ route, navigation }) => {
   }, [query, countryCode]);
 
   useEffect(() => {
-    if (selectedTab === 'allNews') {
+    if (selectedTab === 'general') {
       getTopHeadlines(countryCode)
         .then((data) => {
           setTrendNews(data);
