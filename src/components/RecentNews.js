@@ -14,7 +14,13 @@ import { ThemeContext } from '../context';
 import NewsLang from './NewsLangModal';
 import Placeholder from './Placeholder';
 
-const RecentNews = ({ articles, navigation, str, setCountryCode }) => {
+const RecentNews = ({
+  articles,
+  navigation,
+  str,
+  setCountryCode,
+  countryCode,
+}) => {
   //TODO move mode, pass from home
   const { mode } = useContext(ThemeContext);
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -117,7 +123,9 @@ const RecentNews = ({ articles, navigation, str, setCountryCode }) => {
           }}
           onPress={toggleModal}
         >
-          <Text style={{ color: mode.colors.icon }}>TR</Text>
+          <Text style={{ color: mode.colors.icon }}>
+            {countryCode.toUpperCase()}
+          </Text>
         </TouchableOpacity>
         <Modal
           animationType="slide"

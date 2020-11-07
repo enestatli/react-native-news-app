@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as React from 'react';
 import {
   TouchableOpacity,
@@ -11,40 +12,8 @@ import {
 } from 'react-native';
 import { theme } from '../utils/theme';
 
-const data = [
-  {
-    icon: 'EN',
-    name: 'English',
-  },
-  {
-    icon: 'TR',
-    name: 'Turkish',
-  },
-  {
-    icon: 'RU',
-    name: 'Russian',
-  },
-  {
-    icon: 'KU',
-    name: 'Kurdish',
-  },
-  {
-    icon: 'JP',
-    name: 'Japanese',
-  },
-  {
-    icon: 'ES',
-    name: 'Spanish',
-  },
-  {
-    icon: 'AR',
-    name: 'Arabic',
-  },
-  {
-    icon: 'IT',
-    name: 'Italian',
-  },
-];
+import data from '../utils/newsLangCode';
+
 //TODO after done button give 1,1.5 seconds loading screen then fetch data
 const ICON_SIZE = 42;
 const ITEM_HEIGHT = ICON_SIZE * 2;
@@ -176,9 +145,10 @@ const List = React.memo(
 
 export default function NewsLang({ toggleModal, mode, setCountryCode }) {
   const [index, setIndex] = React.useState(0);
-  const onConnectPress = React.useCallback(() => {
-    console.log(index);
-    setCountryCode(data[index].icon.toLowerCase());
+  const onConnectPress = React.useCallback(async () => {
+    const code = data[index].icon.toLowerCase();
+    setCountryCode(code);
+    await AsyncStorage.setItem('newsLanguage', code);
     toggleModal(false);
     // Alert.alert('Connect with:', data[index].name.toUpperCase());
   }, [index]);

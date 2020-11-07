@@ -17,6 +17,7 @@ export const LanguageProvider = ({ children }) => {
   React.useEffect(() => {
     (async () => {
       try {
+        //TODO fix getInterfacelanguage with substring(0,2)
         if (
           strings
             .getAvailableLanguages()

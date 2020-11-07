@@ -10,6 +10,8 @@ import {
 
 import { LanguageContext, ThemeContext } from '../../context';
 import { CategoryBar, Header, RecentNews, TrendNews } from '../../components';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import data from '../../utils/newsLangCode';
 
 const tabs = [
   {
@@ -49,7 +51,31 @@ const HomeView = ({ route, navigation }) => {
   const [query, setQuery] = useState('');
   const { mode, darkMode } = useContext(ThemeContext);
   const { strings } = useContext(LanguageContext);
-  const [countryCode, setCountryCode] = useState('us');
+  const [countryCode, setCountryCode] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const value = await AsyncStorage.getItem('newsLanguage');
+        if (value !== null) {
+          setCountryCode(value);
+        } else {
+          const f = data.find(
+            (i) =>
+              i.icon.toLowerCase() ===
+              strings.getInterfaceLanguage().substring(0, 2),
+          );
+          if (f !== undefined) {
+            setCountryCode(strings.getInterfaceLanguage().substring(0, 2));
+          } else {
+            setCountryCode('us');
+          }
+        }
+      } catch (err) {
+        console.log('error while setting countryCode', err);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     if (query.length > 3) {
@@ -112,6 +138,8 @@ const HomeView = ({ route, navigation }) => {
   //   }, [darkMode]),
   // );
 
+  //TODO langModal transition is bad
+
   return (
     <View
       style={{
@@ -150,6 +178,7 @@ const HomeView = ({ route, navigation }) => {
           navigation={navigation}
           str={strings}
           setCountryCode={setCountryCode}
+          countryCode={countryCode}
         />
 
         {/* Recent News */}

@@ -392,7 +392,7 @@ const DetailView = ({ route, navigation }) => {
         userAgent={
           'Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 XL Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3714.0 Mobile Safari/537.36'
         }
-        injectedJavaScript={runFirst}
+        injectedJavaScript={run}
         // injectedJavaScriptBeforeContentLoaded={runFirst}
         // injectJavaScript={run}
         //TODO try to block ads, for turkish just set to false javascript
