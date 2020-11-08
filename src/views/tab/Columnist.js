@@ -1,8 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+  FlatList,
+} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
-import { LeftIcon } from '../../components/icons';
+import { LeftIcon, RightIcon } from '../../components/icons';
 import { AuthContext, ThemeContext } from '../../context';
 
 const Columnist = ({ navigation }) => {
@@ -18,33 +25,57 @@ const Columnist = ({ navigation }) => {
     (async () => {
       try {
         //TODO fetch only commented news
+        //TODO order articles by date
         const snap = await commentsRef.get();
         // console.log(snap.docs[4].data().commentsBy);
         if (snap.docs) {
-          const cm = [];
+          const articlesWithComments = [];
           snap.docs.map((doc) => {
             const article = doc.data();
             if (article.commentsBy.length > 0) {
-              cm.push(article);
+              articlesWithComments.push(article);
             }
           });
-          console.log(cm[0].commentsBy[0].name);
-          // const commentsByUser = cm.find((f) => f.commentsBy === user.email);
+          setCommentedNews(articlesWithComments);
+          //TODO get comments by userId
           const commentsByUser = [];
-          cm.map((article) => {
+          articlesWithComments.map((article) => {
             article.commentsBy.map((comment) => {
               if (comment.name === user.email) {
                 commentsByUser.push(comment);
               }
             });
           });
-          console.log(commentsByUser);
         }
       } catch (err) {
         console.log('error while fetching commented news', err.message);
       }
     })();
   }, []);
+
+  //TODO change tab columnist icon to chat/message icon
+
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      style={styles.preferences}
+      onPress={() => navigation.navigate('Detail', { data: item })}
+    >
+      <Text
+        style={{
+          fontSize: 16,
+          color: mode.colors.icon,
+        }}
+      >
+        {item.title?.slice(0, 32) + (item.title?.length > 32 ? '...' : '')}
+      </Text>
+
+      <RightIcon
+        width={24}
+        color={mode.colors.icon}
+        style={{ marginLeft: 'auto' }}
+      />
+    </TouchableOpacity>
+  );
 
   return (
     <View
@@ -63,9 +94,17 @@ const Columnist = ({ navigation }) => {
           <LeftIcon width={24} color={mode.colors.icon} />
         </TouchableOpacity>
         <Text style={{ color: mode.colors.foreground, fontSize: 24 }}>
-          HELLO
-          {/* {strings.bookmarks} */}
+          {/* {strings.comments} */}
+          Konuşulanlar
         </Text>
+      </View>
+      <View style={{ flex: 1, marginHorizontal: 20, marginTop: 20 }}>
+        <FlatList
+          data={commentedNews}
+          keyExtractor={(item) => item.url.toString()}
+          showsVerticalScrollIndicator={false}
+          renderItem={renderItem}
+        />
       </View>
     </View>
   );

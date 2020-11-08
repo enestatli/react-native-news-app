@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
-import isEqual from 'lodash.isequal';
-import md5 from 'md5';
 
 import { AuthContext } from './AuthContext';
 
