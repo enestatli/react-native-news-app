@@ -203,6 +203,14 @@ const SettingsView = ({ navigation, propName }) => {
     }
   };
 
+  const buttonColorSetter = (k) => {
+    if (disabler(k)) {
+      return '#b9b9b9';
+    } else {
+      return '#f4f3f4';
+    }
+  };
+
   return (
     <View
       style={{
@@ -296,7 +304,7 @@ const SettingsView = ({ navigation, propName }) => {
           <TouchableOpacity
             style={[
               styles.languageButton,
-              { backgroundColor: disabler('Pre') ? '#b9b9b9 ' : '#f4f3f4' },
+              { backgroundColor: buttonColorSetter('Pre') },
             ]}
             onPress={() => onLang('en')}
             disabled={disabler('Pre')}
@@ -306,7 +314,7 @@ const SettingsView = ({ navigation, propName }) => {
           <TouchableOpacity
             style={[
               styles.languageButton,
-              { backgroundColor: disabler('优先') ? '#b9b9b9 ' : '#f4f3f4' },
+              { backgroundColor: buttonColorSetter('优先') },
             ]}
             onPress={() => onLang('zh')}
             disabled={disabler('优先')}
@@ -316,7 +324,7 @@ const SettingsView = ({ navigation, propName }) => {
           <TouchableOpacity
             style={[
               styles.languageButton,
-              { backgroundColor: disabler('Ter') ? '#b9b9b9 ' : '#f4f3f4' },
+              { backgroundColor: buttonColorSetter('Ter') },
             ]}
             onPress={() => onLang('tr')}
             disabled={disabler('Ter')}

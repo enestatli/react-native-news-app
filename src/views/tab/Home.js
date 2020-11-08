@@ -140,6 +140,7 @@ const HomeView = ({ route, navigation }) => {
   // );
 
   //TODO langModal transition is bad
+  //TODO recentNews marginTop check
 
   return (
     <View
