@@ -57,7 +57,6 @@ export const BookmarkProvider = ({ children }) => {
         console.log('error while fetching bookmark list', err);
       }
     })();
-    console.log(bookmarks.length, 'BOOKMARKS');
   }, []);
 
   const values = {

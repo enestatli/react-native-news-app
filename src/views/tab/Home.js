@@ -1,6 +1,5 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
 
 import {
   getTopHeadlines,

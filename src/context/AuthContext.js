@@ -36,6 +36,7 @@ export const AuthProvider = ({ children }) => {
         //also add if-else to check wheter user is already created or not
 
         const id = registeredUser.user.uid;
+        //TODO remove test.url from user collection
         const data = { id, email, photoUrl: 'test.jpg' };
         const usersRef = firestore().collection('users');
         await usersRef.doc(id).set(data);

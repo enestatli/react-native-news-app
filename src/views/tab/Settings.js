@@ -37,7 +37,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomSheet from '../../components/BottomSheetModal';
 
 const SettingsView = ({ navigation, propName }) => {
-  // console.log(propName, 'Settings');
   const { mode, darkMode, toggleDarkMode } = useContext(ThemeContext);
   const { user, logout } = useContext(AuthContext);
   const { isJSEnabled, setIsJSEnabled } = useContext(SettingsContext);
@@ -50,11 +49,8 @@ const SettingsView = ({ navigation, propName }) => {
     langModalVisible,
     toggleLangModal,
   } = useContext(LanguageContext);
-
-  //TODO fetch news based on interfacelanguage
   //TODO add commented news and news commented by user
-  //TODO add profil avatar icon
-  //TODO header back button!!
+
   const [timeStatus, setTimeStatus] = useState(false);
 
   const showTimeChart = () => {

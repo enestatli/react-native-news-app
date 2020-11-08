@@ -1,14 +1,6 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import React, { useContext, useEffect, useState } from 'react';
 
 import {
-  AppState,
   Keyboard,
   Modal,
   Platform,
@@ -34,7 +26,6 @@ import {
   ThemeContext,
 } from '../../context';
 import { AddComment, BottomSheet, CommentList } from '../../components';
-import { useTimer } from '../../context/TimerContext';
 
 const DetailView = ({ route, navigation }) => {
   const data = route.params.data;

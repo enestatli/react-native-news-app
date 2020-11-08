@@ -26,7 +26,7 @@ const SaveView = ({ navigation }) => {
   const { strings } = useContext(LanguageContext);
 
   React.useEffect(() => {
-    console.log(bookmarks.length);
+    // console.log(bookmarks.length);
   }, [bookmarks]);
 
   const select = (item) => {
@@ -121,7 +121,10 @@ const SaveView = ({ navigation }) => {
     >
       {/* Header */}
       <View style={styles.headerContainer}>
-        <TouchableOpacity style={styles.leftButton}>
+        <TouchableOpacity
+          style={styles.leftButton}
+          onPress={() => navigation.goBack()}
+        >
           <LeftIcon width={24} color={mode.colors.icon} />
         </TouchableOpacity>
         <Text style={{ color: mode.colors.foreground, fontSize: 24 }}>

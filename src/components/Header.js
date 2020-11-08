@@ -10,11 +10,12 @@ import {
 } from 'react-native';
 import { ThemeContext } from '../context';
 
-import { NewsIcon, SearchIcon } from './icons';
+import { Avatar, NewsIcon, SearchIcon } from './icons';
 
 const Header = ({ tabs, selected, onPress, setQuery, nav }) => {
   const flexValue = useRef(new Animated.Value(0.6)).current;
   const { mode } = useContext(ThemeContext);
+  //get mode as prorp from home screen
 
   const onToggleSearchFocus = (isFocused) => {
     Animated.timing(flexValue, {
@@ -71,7 +72,7 @@ const Header = ({ tabs, selected, onPress, setQuery, nav }) => {
           style={{ marginLeft: 'auto' }}
           onPress={() => nav.navigate('ProfileView')}
         >
-          <Image
+          {/* <Image
             source={{
               uri:
                 'https://images.unsplash.com/photo-1593642702909-dec73df255d7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
@@ -82,7 +83,8 @@ const Header = ({ tabs, selected, onPress, setQuery, nav }) => {
               height: 24,
               borderRadius: 99999,
             }}
-          />
+          /> */}
+          <Avatar size={24} color={mode.colors.primary} />
         </TouchableOpacity>
       </View>
     </View>

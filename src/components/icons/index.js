@@ -26,3 +26,4 @@ export { default as Eye } from './Eye';
 export { default as EyeOff } from './EyeOff';
 
 export { default as ShareIcon } from './ShareIcon';
+export { default as Avatar } from './Avatar';
