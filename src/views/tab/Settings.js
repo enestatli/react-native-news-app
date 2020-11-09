@@ -199,7 +199,10 @@ const SettingsView = ({ navigation, propName }) => {
     }
   };
 
+  //TODO combine this 2 funct
+
   const buttonColorSetter = (k) => {
+    //TODO switch case
     if (disabler(k)) {
       return '#b9b9b9';
     } else {
