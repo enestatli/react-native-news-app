@@ -49,7 +49,6 @@ const SettingsView = ({ navigation, propName }) => {
     langModalVisible,
     toggleLangModal,
   } = useContext(LanguageContext);
-  //TODO add commented news and news commented by user
 
   const [timeStatus, setTimeStatus] = useState(false);
 

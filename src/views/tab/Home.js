@@ -121,7 +121,6 @@ const HomeView = ({ route, navigation }) => {
     setSelectedTab(tabs[0].id);
     StatusBar.setBarStyle(darkMode ? 'light-content' : 'dark-content');
     StatusBar.setTranslucent(false);
-    // TODO make this true and give paddingVertical to fix transition btw detail->home
     Platform.OS === 'android' &&
       StatusBar.setBackgroundColor(mode.colors.background);
     // eslint-disable-next-line react-hooks/exhaustive-deps

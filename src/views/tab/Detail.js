@@ -236,12 +236,14 @@ const DetailView = ({ route, navigation }) => {
   ];
 
   const run = `
-      document.body.style.backgroundColor = "blue";
+      document.body.style.backgroundColor = "${mode.colors.background}";
+      document.body.style.color = ${mode.colors.icon};
+      document.html.style.fontSize = "8";
+
       true;
     `;
 
   const runFirst = `
-      document.body.style.backgroundColor = 'red';
       setTimeout(function() { window.alert('hi') }, 2000);
       true; // note: this is required, or you'll sometimes get silent failures
     `;
@@ -355,6 +357,7 @@ const DetailView = ({ route, navigation }) => {
         </TouchableOpacity>
       </View>
       <WebView
+        style={{ backgroundColor: mode.colors.background }}
         source={{ uri: data?.url }}
         thirdPartyCookiesEnabled={true}
         sharedCookiesEnabled={true}
