@@ -193,21 +193,11 @@ const SettingsView = ({ navigation, propName }) => {
     </View>
   );
 
-  const disabler = (word) => {
-    if (strings.preferences.startsWith(word)) {
-      return true;
+  const buttonSetter = (k) => {
+    if (strings.preferences.startsWith(k)) {
+      return [true, '#b9b9b9'];
     }
-  };
-
-  //TODO combine this 2 funct
-
-  const buttonColorSetter = (k) => {
-    //TODO switch case
-    if (disabler(k)) {
-      return '#b9b9b9';
-    } else {
-      return '#f4f3f4';
-    }
+    return [false, '#f4f3f4'];
   };
 
   return (
@@ -303,30 +293,30 @@ const SettingsView = ({ navigation, propName }) => {
           <TouchableOpacity
             style={[
               styles.languageButton,
-              { backgroundColor: buttonColorSetter('Pre') },
+              { backgroundColor: buttonSetter('Pre')[1] },
             ]}
             onPress={() => onLang('en')}
-            disabled={disabler('Pre')}
+            disabled={buttonSetter('Pre')[0]}
           >
             <Text style={{ fontSize: 22 }}>English</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
               styles.languageButton,
-              { backgroundColor: buttonColorSetter('优先') },
+              { backgroundColor: buttonSetter('优先')[1] },
             ]}
             onPress={() => onLang('zh')}
-            disabled={disabler('优先')}
+            disabled={buttonSetter('优先')[0]}
           >
             <Text style={{ fontSize: 22 }}>Chinese</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
               styles.languageButton,
-              { backgroundColor: buttonColorSetter('Ter') },
+              { backgroundColor: buttonSetter('Ter')[1] },
             ]}
             onPress={() => onLang('tr')}
-            disabled={disabler('Ter')}
+            disabled={buttonSetter('Ter')[0]}
           >
             <Text style={{ fontSize: 22 }}>Turkish</Text>
           </TouchableOpacity>
