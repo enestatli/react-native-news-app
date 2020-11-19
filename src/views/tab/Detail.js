@@ -60,18 +60,40 @@ const DetailView = ({ route, navigation }) => {
   //TODO add bookmark, make webview look likes your app with colors, borders etc.
   //TODO cleanup for each useEffects!!
 
+  //TODO addEvenetListener, because you lost comments in the new selected news
+
   //TODO saveList and commentList lengths 0 then remove article
 
   //TODO if page is error render today I learned, a fact detail page!
 
-  //TODO javascript ads blocker how to!!!
+  //TODO javascript ads blocker!!!
 
   useEffect(() => {
     setUrl(data.url);
   }, []);
 
+  // useEffect(() => {
+  //   console.log('comments test');
+  //   (async () => {
+  //     try {
+  //       if (data.url) {
+  //         const newUrl = md5(data.url);
+  //         const article = (await commentsRef.doc(newUrl).get()).data();
+  //         if (article !== undefined) {
+  //           const commentsList = article.commentsBy;
+  //           setComms(commentsList);
+  //         }
+  //       }
+  //     } catch (err) {
+  //       console.log('error while getting comments', err);
+  //     }
+  //   })();
+  //   //TODO depend on data.url so when refresh the page it can fetch comments
+  //   //TODO comment list must be descending
+  // }, []);
+
   useEffect(() => {
-    (async () => {
+    const unsubscribe = navigation.addListener('focus', async () => {
       try {
         if (data.url) {
           const newUrl = md5(data.url);
@@ -84,10 +106,10 @@ const DetailView = ({ route, navigation }) => {
       } catch (err) {
         console.log('error while getting comments', err);
       }
-    })();
-    //TODO depend on data.url so when refresh the page it can fetch comments
-    //TODO comment list must be descending
-  }, []);
+    });
+
+    // return unsubscribe;
+  }, [navigation]);
 
   const addComment = async (url) => {
     const d = new Date().toString().split(' ');
@@ -198,8 +220,6 @@ const DetailView = ({ route, navigation }) => {
   const toggleBottomSheet = () => {
     setBottomSheetVisible(!bottomSheetVisible);
   };
-
-  //TODO change all fontfamily size!!!
 
   const onShare = async () => {
     try {
