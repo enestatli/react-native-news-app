@@ -33,7 +33,7 @@ const DetailView = ({ route, navigation }) => {
   //---Context--/
   const { isJSEnabled } = useContext(SettingsContext);
   const { mode } = useContext(ThemeContext);
-  const { user } = useContext(AuthContext);
+  const { user, isAuth, setIsAuth } = useContext(AuthContext);
   const {
     setUrl,
     isBookmarked,
@@ -52,7 +52,6 @@ const DetailView = ({ route, navigation }) => {
   const [commentText, setCommentText] = useState('');
 
   //----Bookmarks----//
-  // const [isBookmarked, setIsBookmarked] = useState(false);
 
   const commentsRef = firestore().collection('testComments');
 
@@ -60,11 +59,7 @@ const DetailView = ({ route, navigation }) => {
   //TODO add bookmark, make webview look likes your app with colors, borders etc.
   //TODO cleanup for each useEffects!!
 
-  //TODO addEvenetListener, because you lost comments in the new selected news
-
   //TODO saveList and commentList lengths 0 then remove article
-
-  //TODO if page is error render today I learned, a fact detail page!
 
   //TODO javascript ads blocker!!!
 
@@ -93,44 +88,54 @@ const DetailView = ({ route, navigation }) => {
   }, [navigation, data.url]);
 
   const addComment = async (url) => {
-    const d = new Date().toString().split(' ');
-    const submitTime =
-      d[2] +
-      ' ' +
-      d[1] +
-      ' ' +
-      d[3] +
-      ' ' +
-      d[4].split(':').splice(0, 2).join(':');
-    const timestamp = new Date().getTime();
-
-    const commentData = {
-      id: timestamp,
-      userId: user.id,
-      name: user.email,
-      imgUrl: 'avatarUrl',
-      commentText,
-      submitTime,
-    };
-
-    setComms([commentData, ...comms]);
-
     try {
-      if (url) {
-        const newUrl = md5(url);
-        const checkedRef = commentsRef.doc(newUrl);
-        const article = (await checkedRef.get()).data();
-        if (article !== undefined) {
-          article.commentsBy.push(commentData);
-          await checkedRef.set(article);
-        } else {
-          data.commentsBy = [commentData];
-          data.savedBy = [];
-          await checkedRef.set(data);
+      if (user !== null) {
+        console.log('USERID');
+        const d = new Date().toString().split(' ');
+        const submitTime =
+          d[2] +
+          ' ' +
+          d[1] +
+          ' ' +
+          d[3] +
+          ' ' +
+          d[4].split(':').splice(0, 2).join(':');
+        const timestamp = new Date().getTime();
+
+        const commentData = {
+          id: timestamp,
+          userId: user.id,
+          name: user.email,
+          imgUrl: 'avatarUrl',
+          commentText,
+          submitTime,
+        };
+
+        setComms([commentData, ...comms]);
+        if (url) {
+          const newUrl = md5(url);
+          const checkedRef = commentsRef.doc(newUrl);
+          const article = (await checkedRef.get()).data();
+          if (article !== undefined) {
+            article.commentsBy.push(commentData);
+            await checkedRef.set(article);
+          } else {
+            data.commentsBy = [commentData];
+            data.savedBy = [];
+            await checkedRef.set(data);
+          }
         }
+      } else {
+        // setTimeout(() => {
+        //   console.log(isAuth, '...isAuthing');
+        //   setIsAuth(true);
+        //   navigation.navigate('Signup');
+        // }, 1000);
+        setIsAuth(true);
+        navigation.navigate('Login');
       }
     } catch (err) {
-      console.log('error while adding comment to article', err);
+      console.log('error while adding comment to article', err.message);
     }
 
     setCommentText('');

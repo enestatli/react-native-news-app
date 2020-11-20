@@ -11,7 +11,7 @@ import { TabNavigator } from './TabStack';
 export const Routes = () => {
   const [loading, setLoading] = useState(true);
 
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, isAuth, setIsAuth } = useContext(AuthContext);
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStatechanged);
@@ -41,5 +41,9 @@ export const Routes = () => {
   if (loading) {
     return <Loading />;
   }
-  return user ? <TabNavigator /> : <AuthStack />;
+
+  // return user ? <TabNavigator /> : <AuthStack />;
+  return !isAuth ? <TabNavigator /> : <AuthStack />;
+
+  // return <TabNavigator />;
 };

@@ -71,7 +71,7 @@ const SignupView = ({ navigation }) => {
       </View>
       <View style={styles.footer}>
         <Text>Already have an account ? </Text>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text style={{ color: theme.colors.primary }}>Login now</Text>
         </TouchableOpacity>
       </View>

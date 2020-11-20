@@ -7,6 +7,7 @@ export const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
+  const [isAuth, setIsAuth] = useState(false);
 
   const login = async (email, password) => {
     try {
@@ -37,7 +38,7 @@ export const AuthProvider = ({ children }) => {
 
         const id = registeredUser.user.uid;
         //TODO remove test.url from user collection
-        const data = { id, email, photoUrl: 'test.jpg' };
+        const data = { id, email };
         const usersRef = firestore().collection('users');
         await usersRef.doc(id).set(data);
       } catch (err) {
@@ -75,6 +76,8 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
+    isAuth,
+    setIsAuth,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
