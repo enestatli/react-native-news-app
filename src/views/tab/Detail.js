@@ -72,26 +72,6 @@ const DetailView = ({ route, navigation }) => {
     setUrl(data.url);
   }, []);
 
-  // useEffect(() => {
-  //   console.log('comments test');
-  //   (async () => {
-  //     try {
-  //       if (data.url) {
-  //         const newUrl = md5(data.url);
-  //         const article = (await commentsRef.doc(newUrl).get()).data();
-  //         if (article !== undefined) {
-  //           const commentsList = article.commentsBy;
-  //           setComms(commentsList);
-  //         }
-  //       }
-  //     } catch (err) {
-  //       console.log('error while getting comments', err);
-  //     }
-  //   })();
-  //   //TODO depend on data.url so when refresh the page it can fetch comments
-  //   //TODO comment list must be descending
-  // }, []);
-
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
       try {
@@ -106,10 +86,11 @@ const DetailView = ({ route, navigation }) => {
       } catch (err) {
         console.log('error while getting comments', err);
       }
+      console.log('focus!!');
     });
 
-    // return unsubscribe;
-  }, [navigation]);
+    return unsubscribe;
+  }, [navigation, data.url]);
 
   const addComment = async (url) => {
     const d = new Date().toString().split(' ');
