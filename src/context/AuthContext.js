@@ -30,12 +30,14 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (email, password) => {
     try {
-      const registeredUser = await auth().createUserWithEmailAndPassword(
-        email,
-        password,
-      );
-      setError('');
-      try {
+      if (isAuth) {
+        const registeredUser = await auth().createUserWithEmailAndPassword(
+          email,
+          password,
+        );
+        setError('');
+        setIsAuth(false);
+
         //TODO move this method to another file, you need auth user to logout correctly
         //also add if-else to check wheter user is already created or not
 
@@ -44,8 +46,6 @@ export const AuthProvider = ({ children }) => {
         const data = { id, email };
         const usersRef = firestore().collection('users');
         await usersRef.doc(id).set(data);
-      } catch (err) {
-        console.log('error while pushing auth data to collection', err);
       }
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
@@ -64,8 +64,11 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await auth().signOut();
-      setError('');
+      if (!isAuth) {
+        await auth().signOut();
+        setError('');
+        setIsAuth(true);
+      }
     } catch (err) {
       console.log('error while logging out', err);
     }

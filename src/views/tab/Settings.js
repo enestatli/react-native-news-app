@@ -230,33 +230,37 @@ const SettingsView = ({ navigation, propName }) => {
             }}
             style={{ width: 64, height: 64, borderRadius: 9999 }}
           />
-          <View style={styles.userInfoTextContainer}>
-            <Text style={{ color: mode.colors.icon, marginTop: 6 }}>
-              Enes Tatli
-            </Text>
-            <Text style={{ color: mode.colors.icon, marginTop: 6 }}>
-              {user.email}
-            </Text>
-          </View>
-          <View
-            style={{
-              marginLeft: 'auto',
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                backgroundColor: mode.colors.primary,
-                width: 60,
-                height: 30,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 6,
-              }}
-              onPress={() => logout()}
-            >
-              <Text style={{ color: 'white' }}>{strings.logout}</Text>
-            </TouchableOpacity>
-          </View>
+          {user !== null && (
+            <>
+              <View style={styles.userInfoTextContainer}>
+                <Text style={{ color: mode.colors.icon, marginTop: 6 }}>
+                  Enes Tatli
+                </Text>
+                <Text style={{ color: mode.colors.icon, marginTop: 6 }}>
+                  {user.email}
+                </Text>
+              </View>
+              <View
+                style={{
+                  marginLeft: 'auto',
+                }}
+              >
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: mode.colors.primary,
+                    width: 60,
+                    height: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 6,
+                  }}
+                  onPress={() => logout()}
+                >
+                  <Text style={{ color: 'white' }}>{strings.logout}</Text>
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
         </View>
       </View>
       {/* Preferences */}
