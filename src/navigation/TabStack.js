@@ -4,7 +4,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import firestore from '@react-native-firebase/firestore';
 
-import { BookmarkView, DetailView, HomeView, SettingsView } from '../views';
+import {
+  BookmarkView,
+  DetailView,
+  HomeView,
+  LoginView,
+  SettingsView,
+  SignupView,
+} from '../views';
 import TabBar from '../components/TabBar';
 import ColumnistView from '../views/tab/Columnist';
 import {
@@ -16,6 +23,7 @@ import {
 import { useTimer } from '../context/TimerContext';
 import { AppState } from 'react-native';
 import { scheduleNotification } from '../utils/notification.android';
+import AuthStack from './AuthStack';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -51,7 +59,53 @@ export const TabNavigator = () => {
   const timeId = dateObj.getTime();
   //TODO add getTime to the timeSpent, and check if it is same with current getTime
 
-  const { user } = React.useContext(AuthContext);
+  const { user, isAuth } = React.useContext(AuthContext);
+
+  // const HomeStack = () => {
+  //   return (
+  //     <Stack.Navigator>
+  //       {!isAuth ? (
+  //         <>
+  //           <Stack.Screen
+  //             name="Home"
+  //             component={HomeView}
+  //             options={() => {
+  //               return { headerShown: false };
+  //             }}
+  //           />
+  //           <Stack.Screen
+  //             name="Detail"
+  //             component={DetailView}
+  //             options={() => {
+  //               return { headerShown: false };
+  //             }}
+  //           />
+  //         </>
+  //       ) : (
+  //         <>
+  //           <Stack.Screen
+  //             name="Login"
+  //             component={LoginView}
+  //             options={() => {
+  //               return {
+  //                 headerShown: false,
+  //               };
+  //             }}
+  //           />
+  //           <Stack.Screen
+  //             name="Signup"
+  //             component={SignupView}
+  //             options={() => {
+  //               return {
+  //                 headerShown: false,
+  //               };
+  //             }}
+  //           />
+  //         </>
+  //       )}
+  //     </Stack.Navigator>
+  //   );
+  // };
 
   React.useEffect(() => {
     timer.resume();
@@ -141,22 +195,27 @@ export const TabNavigator = () => {
   return (
     <SettingsProvider>
       <BookmarkProvider>
-        <NavigationContainer>
-          <Tab.Navigator
-            tabBarOptions={{ keyboardHidesTabBar: true }}
-            initialRouteName="Home"
-            tabBar={(props) => <TabBar {...props} />}
-          >
-            <Tab.Screen name="Bookmark" component={BookmarkView} />
-            <Tab.Screen name="Columnist" component={ColumnistView} />
-            <Tab.Screen name="Home" component={HomeStack} />
-            <Tab.Screen
-              name="Settings"
-              component={SettingsView}
-              // children={() => <SettingsView propName={timer.totalTime} />}
-            />
-          </Tab.Navigator>
-        </NavigationContainer>
+        {!isAuth ? (
+          <NavigationContainer>
+            <Tab.Navigator
+              tabBarOptions={{ keyboardHidesTabBar: true }}
+              initialRouteName="Home"
+              tabBar={(props) => <TabBar {...props} />}
+            >
+              <Tab.Screen name="Bookmark" component={BookmarkView} />
+              <Tab.Screen name="Columnist" component={ColumnistView} />
+              <Tab.Screen name="Home" component={HomeStack} />
+              <Tab.Screen
+                name="Settings"
+                component={SettingsView}
+                // children={() => <SettingsView propName={timer.totalTime} />}
+              />
+            </Tab.Navigator>
+          </NavigationContainer>
+        ) : (
+          <AuthStack />
+        )}
+        <NavigationContainer />
       </BookmarkProvider>
     </SettingsProvider>
   );

@@ -14,6 +14,7 @@ export const Routes = () => {
   const { user, setUser, isAuth, setIsAuth } = useContext(AuthContext);
 
   useEffect(() => {
+    console.log('HELLO I AM COME FROM COMMENT');
     const subscriber = auth().onAuthStateChanged(onAuthStatechanged);
     return () => {
       subscriber;
@@ -43,7 +44,7 @@ export const Routes = () => {
   }
 
   // return user ? <TabNavigator /> : <AuthStack />;
-  return !isAuth ? <TabNavigator /> : <AuthStack />;
+  // return !isAuth ? <TabNavigator /> : <AuthStack />;
 
-  // return <TabNavigator />;
+  return <TabNavigator />;
 };

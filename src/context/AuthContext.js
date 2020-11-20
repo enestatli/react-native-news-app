@@ -11,8 +11,11 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      await auth().signInWithEmailAndPassword(email, password);
-      setError('');
+      if (isAuth) {
+        await auth().signInWithEmailAndPassword(email, password);
+        setError('');
+        setIsAuth(false);
+      }
     } catch (err) {
       if (err.code === 'auth/invalid-email') {
         setError('That email address is invalid!');

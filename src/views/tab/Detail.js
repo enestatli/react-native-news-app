@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import {
+  Alert,
   Keyboard,
   Modal,
   Platform,
@@ -87,6 +88,21 @@ const DetailView = ({ route, navigation }) => {
     return unsubscribe;
   }, [navigation, data.url]);
 
+  const authButton = () =>
+    Alert.alert(
+      'No Auth Detected',
+      'You have to login to save the news',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Login', onPress: () => setIsAuth(true) },
+      ],
+      { cancelable: false },
+    );
+
   const addComment = async (url) => {
     try {
       if (user !== null) {
@@ -132,7 +148,7 @@ const DetailView = ({ route, navigation }) => {
         //   navigation.navigate('Signup');
         // }, 1000);
         setIsAuth(true);
-        navigation.navigate('Login');
+        // navigation.navigate('Login');
       }
     } catch (err) {
       console.log('error while adding comment to article', err.message);
@@ -144,25 +160,31 @@ const DetailView = ({ route, navigation }) => {
 
   const saveArt = async (url) => {
     try {
-      const submitedDate = firestore.FieldValue.serverTimestamp();
-      const newUrl = md5(url);
-      if (newUrl) {
-        const ref = commentsRef.doc(newUrl);
-        const article = (await ref.get()).data();
-        if (article !== undefined) {
-          if (!article.savedBy.includes(user.email)) {
-            article.savedBy.push(user.email);
+      if (user !== null) {
+        const submitedDate = firestore.FieldValue.serverTimestamp();
+        const newUrl = md5(url);
+        if (newUrl) {
+          const ref = commentsRef.doc(newUrl);
+          const article = (await ref.get()).data();
+          if (article !== undefined) {
+            if (!article.savedBy.includes(user.email)) {
+              article.savedBy.push(user.email);
+              setIsBookmarked(true);
+              setBookmarks([article, ...bookmarks]);
+            }
+            await ref.set({ ...article });
+          } else {
+            data.savedBy = [user.email];
+            data.commentsBy = [];
+            await ref.set(data);
+            setBookmarks([data, ...bookmarks]);
             setIsBookmarked(true);
-            setBookmarks([article, ...bookmarks]);
           }
-          await ref.set({ ...article });
-        } else {
-          data.savedBy = [user.email];
-          data.commentsBy = [];
-          await ref.set(data);
-          setBookmarks([data, ...bookmarks]);
-          setIsBookmarked(true);
         }
+      } else {
+        //TODO you have to log in to save the news alert, simple modal etc.
+        authButton();
+        // setIsAuth(true);
       }
     } catch (err) {
       console.log('error when clicked bookmark button', err);
