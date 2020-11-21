@@ -105,7 +105,7 @@ const DetailView = ({ route, navigation }) => {
 
   const addComment = async (url) => {
     try {
-      if (user !== null) {
+      if (user) {
         console.log('USERID');
         const d = new Date().toString().split(' ');
         const submitTime =
@@ -154,7 +154,7 @@ const DetailView = ({ route, navigation }) => {
 
   const saveArt = async (url) => {
     try {
-      if (user !== null) {
+      if (user) {
         const submitedDate = firestore.FieldValue.serverTimestamp();
         const newUrl = md5(url);
         if (newUrl) {

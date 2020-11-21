@@ -11,18 +11,15 @@ import firestore from '@react-native-firebase/firestore';
 import BottomSheet from './BottomSheetModal';
 import { AuthContext } from '../context';
 
-//TODO bigger flex to bottomshet
-
 const TimeChart = ({ bs, tb, theme }) => {
   const timeRef = firestore().collection('users');
   const { user } = React.useContext(AuthContext);
   const [data, setData] = React.useState([]);
-  // const totalTimeRef = React.useRef(0);
   const [average, setAverage] = React.useState(0);
 
   React.useEffect(() => {
     try {
-      if (user !== null) {
+      if (user) {
         (async () => {
           const snap = (await timeRef.doc(user.uid).get()).data();
           if (snap) {

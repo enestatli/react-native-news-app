@@ -45,10 +45,10 @@ const SettingsView = ({ navigation }) => {
     NotificationContext,
   );
   const {
-    strings,
-    changeLanguage,
     langModalVisible,
     toggleLangModal,
+    changeLanguage,
+    strings,
   } = useContext(LanguageContext);
 
   const [timeStatus, setTimeStatus] = useState(false);
@@ -195,7 +195,7 @@ const SettingsView = ({ navigation }) => {
           style={{ marginLeft: 'auto' }}
           onPress={
             item.id === 'timeToRead'
-              ? user !== null
+              ? user
                 ? showTimeChart
                 : authButton
               : item.id === 'language'
@@ -247,7 +247,7 @@ const SettingsView = ({ navigation }) => {
             }}
             style={{ width: 64, height: 64, borderRadius: 9999 }}
           />
-          {user !== null && (
+          {user && (
             <>
               <View style={styles.userInfoTextContainer}>
                 <Text style={{ color: mode.colors.icon, marginTop: 6 }}>

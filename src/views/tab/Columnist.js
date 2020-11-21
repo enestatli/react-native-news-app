@@ -48,7 +48,7 @@ const Columnist = ({ navigation }) => {
         });
         setCommentedNews(articlesWithComments);
         //TODO get comments by userId
-        if (user !== null) {
+        if (user) {
           const commentsByUser = [];
           articlesWithComments.map((article) => {
             article.commentsBy.map((comment) => {

@@ -22,7 +22,6 @@ import {
 } from '../context';
 import { useTimer } from '../context/TimerContext';
 import { AppState } from 'react-native';
-import { scheduleNotification } from '../utils/notification.android';
 import AuthStack from './AuthStack';
 
 const Stack = createStackNavigator();
@@ -66,7 +65,7 @@ export const TabNavigator = () => {
 
     (async () => {
       try {
-        if (user !== null) {
+        if (user) {
           const userDoc = (await timeRef.doc(user.uid).get()).data();
           if (userDoc.timeSpent === undefined) {
             // userDoc.timeSpent = [{ timeId, dateObj, dayId, day, totalTime: [0] }];
@@ -124,21 +123,23 @@ export const TabNavigator = () => {
         setIsAppBackground(true);
         (async () => {
           try {
-            const userDoc = (await timeRef.doc(user.uid).get()).data();
-            const ind = userDoc.timeSpent.findIndex((d) => d.dayId === dayId);
-            const tIndex = userDoc.timeSpent[ind].totalTime.findIndex(
-              (f) => f.sessionId === timeId,
-            );
+            if (user) {
+              const userDoc = (await timeRef.doc(user.uid).get()).data();
+              const ind = userDoc.timeSpent.findIndex((d) => d.dayId === dayId);
+              const tIndex = userDoc.timeSpent[ind].totalTime.findIndex(
+                (f) => f.sessionId === timeId,
+              );
 
-            if (tIndex > -1) {
-              userDoc.timeSpent[ind].totalTime[tIndex].t = timer.totalTime;
-            } else {
-              userDoc.timeSpent[ind].totalTime.push({
-                t: timer.totalTime,
-                sessionId: timeId,
-              });
+              if (tIndex > -1) {
+                userDoc.timeSpent[ind].totalTime[tIndex].t = timer.totalTime;
+              } else {
+                userDoc.timeSpent[ind].totalTime.push({
+                  t: timer.totalTime,
+                  sessionId: timeId,
+                });
+              }
+              await timeRef.doc(user.uid).set(userDoc);
             }
-            await timeRef.doc(user.uid).set(userDoc);
           } catch (err) {
             console.log('error while updating user timeSpent', err);
           }

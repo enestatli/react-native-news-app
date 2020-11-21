@@ -1,7 +1,11 @@
 import React, { createContext, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { changeLanguage, strings } from '../utils/translation/translate';
+import {
+  changeLanguage,
+  firstLanguage,
+  strings,
+} from '../utils/translation/translate';
 
 const LanguageDefaultContext = {
   langModalVisible: false,
@@ -12,32 +16,9 @@ export const LanguageContext = createContext(LanguageDefaultContext);
 
 export const LanguageProvider = ({ children }) => {
   const [langModalVisible, setLangModalVisible] = useState(false);
-  const [langCode, setLangCode] = useState('');
 
   React.useEffect(() => {
-    (async () => {
-      try {
-        //TODO fix getInterfacelanguage with substring(0,2)
-        if (
-          strings
-            .getAvailableLanguages()
-            .includes(strings.getInterfaceLanguage())
-        ) {
-          setLangCode('en');
-        } else {
-          const value = await AsyncStorage.getItem('appLanguage');
-          if (langCode === null) {
-            //TODO null ise veya set ettigi dile esitse, undefined degilse!!
-            setLangCode(strings.getInterfaceLanguage().substring(0, 2));
-          } else {
-            strings.setLanguage(value);
-            // setLangCode(value);
-          }
-        }
-      } catch (err) {
-        console.log('error while setting default/fallback language', err);
-      }
-    })();
+    firstLanguage();
   }, []);
 
   const values = {
@@ -47,7 +28,6 @@ export const LanguageProvider = ({ children }) => {
     },
     strings,
     changeLanguage,
-    langCode,
   };
 
   return (
