@@ -16,6 +16,8 @@ export { default as Language } from './Language';
 export { default as HelpIcon } from './HelpIcon';
 
 export { default as HomeIcon } from './HomeIcon';
+export { default as ChatBubble } from './ChatBubble';
+
 export { default as SettingsIcon } from './SettingsIcon';
 export { default as Bookmark } from './Bookmark';
 export { default as RightIcon } from './RightIcon';

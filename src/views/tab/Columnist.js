@@ -71,8 +71,12 @@ const Columnist = ({ navigation }) => {
   };
 
   const onRefresh = async () => {
-    setIsRefreshing(true);
-    await getCommentedNews();
+    try {
+      setIsRefreshing(true);
+      await getCommentedNews();
+    } catch (err) {
+      console.log('error while refreshing comments', err.message);
+    }
   };
 
   //TODO change tab columnist icon to chat/message icon

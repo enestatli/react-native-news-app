@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 
-import { Bookmark, HomeIcon, SettingsIcon, Pencil } from './icons';
+import { Bookmark, HomeIcon, SettingsIcon, ChatBubble } from './icons';
 
 const TabBar = ({ state, descriptors, navigation }) => {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
@@ -41,14 +41,17 @@ const TabBar = ({ state, descriptors, navigation }) => {
             key={label}
             onPress={onPress}
           >
-            {label === 'Columnist' && <Pencil size={24} color="#777" />}
+            {label === 'Columnist' && (
+              <ChatBubble size={24} color="#777" focused={isFocused} />
+            )}
             {label === 'Home' && <HomeIcon width={24} color="#777" />}
             {label === 'Bookmark' && <Bookmark size={24} color="#777" />}
             {label === 'Settings' && <SettingsIcon width={24} color="#777" />}
             <View
               style={[
                 styles.focused,
-                isFocused && { backgroundColor: 'black' },
+                isFocused &&
+                  label !== 'Columnist' && { backgroundColor: 'black' },
               ]}
             />
           </TouchableOpacity>
