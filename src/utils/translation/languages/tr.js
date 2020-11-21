@@ -46,4 +46,17 @@ export default {
   timeTitle: '',
   timeBody: '',
   days: [],
+  //auth-login
+  forgotPassword: 'Parolanı mı unuttun ? ',
+  resetPassword: 'Hemen parolanı sıfırla.',
+  createAccount: 'Hesabın yok mu ? ',
+  signUpNow: 'Hemen kayıt ol!',
+  password: 'Şifre',
+  email: 'E-posta',
+  signup: 'Kayıt Ol',
+  //auth-sing up
+  name: 'İsim',
+  haveAccount: 'Zaten bir hesabın var mı ?',
+  loginNow: 'Hemen giriş yap',
+  login: 'Giriş',
 };

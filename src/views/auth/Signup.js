@@ -7,11 +7,10 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import { color } from 'react-native-reanimated';
 
 import { FormButton, FormInput } from '../../components';
-import { Close, Eye, EyeOff, NewsIcon } from '../../components/icons';
-import { AuthContext } from '../../context';
+import { NewsIcon } from '../../components/icons';
+import { AuthContext, LanguageContext } from '../../context';
 import { theme } from '../../utils/theme';
 
 const SignupView = ({ navigation }) => {
@@ -19,6 +18,7 @@ const SignupView = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
   const { register, error } = useContext(AuthContext);
+  const { strings } = useContext(LanguageContext);
 
   return (
     <KeyboardAvoidingView
@@ -44,12 +44,12 @@ const SignupView = ({ navigation }) => {
       <View style={styles.card}>
         <FormInput
           // value={name}
-          placeholderText="Name"
+          placeholderText={strings.name}
           lines={1}
         />
         <FormInput
           value={email}
-          placeholderText="Email"
+          placeholderText={strings.email}
           lines={1}
           onChangeText={(userEmail) => setEmail(userEmail)}
           autoCapitalize="none"
@@ -58,21 +58,23 @@ const SignupView = ({ navigation }) => {
         />
         <FormInput
           value={password}
-          placeholderText="Password"
+          placeholderText={strings.password}
           lines={1}
           onChangeText={(userPassword) => setPassword(userPassword)}
           secureTextEntry={true}
         />
         <FormButton
-          buttonTitle="Signup"
+          buttonTitle={strings.signup}
           onPress={async () => await register(email, password)}
           extraStyle={{ backgroundColor: theme.colors.primary }}
         />
       </View>
       <View style={styles.footer}>
-        <Text>Already have an account ? </Text>
+        <Text>{strings.haveAccount}</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={{ color: theme.colors.primary }}>Login now</Text>
+          <Text style={{ color: theme.colors.primary }}>
+            {strings.loginNow}
+          </Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>

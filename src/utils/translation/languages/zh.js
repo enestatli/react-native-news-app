@@ -42,4 +42,17 @@ export default {
     '十一月',
     '十二月',
   ],
+  //auth-login
+  forgotPassword: '忘记密码了吗？',
+  resetPassword: '立即重设密码',
+  createAccount: '还没有账号？',
+  signUpNow: '立即注册',
+  password: '密码',
+  email: '电子邮件',
+  signup: '注册',
+  //auth-sing up
+  name: '名称',
+  haveAccount: '已经有帐号了？',
+  loginNow: '现在登录',
+  login: '登录',
 };

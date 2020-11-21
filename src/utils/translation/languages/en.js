@@ -42,4 +42,17 @@ export default {
     'Nov',
     'Dec',
   ],
+  //auth-login
+  forgotPassword: 'Forgot your password ? ',
+  resetPassword: 'Reset your password.',
+  createAccount: "Don't have an account ? ",
+  signUpNow: 'Sing up now!',
+  password: 'Password',
+  email: 'Email',
+  signup: 'Sign Up',
+  //auth-sing up
+  name: 'İsim',
+  haveAccount: 'Zaten bir hesabın var mı ?',
+  loginNow: 'Hemen giriş yap',
+  login: 'Login',
 };

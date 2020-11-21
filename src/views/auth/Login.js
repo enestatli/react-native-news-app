@@ -12,7 +12,7 @@ import {
 import { FormButton, FormInput } from '../../components';
 import { Close, Eye, EyeOff, NewsIcon } from '../../components/icons';
 
-import { AuthContext } from '../../context';
+import { AuthContext, LanguageContext } from '../../context';
 import { theme } from '../../utils/theme';
 
 const LoginView = ({ navigation }) => {
@@ -21,6 +21,7 @@ const LoginView = ({ navigation }) => {
   const [hide, setHide] = useState(true);
 
   const { login, error } = useContext(AuthContext);
+  const { strings } = useContext(LanguageContext);
 
   useFocusEffect(
     useCallback(() => {
@@ -58,7 +59,7 @@ const LoginView = ({ navigation }) => {
         <View style={styles.card}>
           <FormInput
             value={email}
-            placeholderText="Email"
+            placeholderText={strings.email}
             lines={1}
             onChangeText={(userEmail) => setEmail(userEmail)}
             autoCapitalize="none"
@@ -67,7 +68,7 @@ const LoginView = ({ navigation }) => {
           />
           <FormInput
             value={password}
-            placeholderText="Password"
+            placeholderText={strings.password}
             lines={1}
             onChangeText={(password) => setPassword(password)}
             secureTextEntry={hide}
@@ -88,7 +89,7 @@ const LoginView = ({ navigation }) => {
             )}
           </TouchableOpacity>
           <FormButton
-            buttonTitle="Login"
+            buttonTitle={strings.login}
             onPress={() => login(email, password)}
             extraStyle={{ backgroundColor: theme.colors.primary }}
           />
@@ -97,17 +98,19 @@ const LoginView = ({ navigation }) => {
 
       <View style={styles.footer}>
         <View style={styles.footerRow}>
-          <Text>Forgot your password ? </Text>
+          <Text>{strings.forgotPassword}</Text>
           <TouchableOpacity>
             <Text style={{ color: theme.colors.primary }}>
-              Reset your password.
+              {strings.resetPassword}
             </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.footerRow}>
-          <Text>Don't have an account ? </Text>
+          <Text>{strings.createAccount}</Text>
           <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-            <Text style={{ color: theme.colors.primary }}>Sign up now!</Text>
+            <Text style={{ color: theme.colors.primary }}>
+              {strings.signUpNow}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
