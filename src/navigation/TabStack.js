@@ -61,52 +61,6 @@ export const TabNavigator = () => {
 
   const { user, isAuth } = React.useContext(AuthContext);
 
-  // const HomeStack = () => {
-  //   return (
-  //     <Stack.Navigator>
-  //       {!isAuth ? (
-  //         <>
-  //           <Stack.Screen
-  //             name="Home"
-  //             component={HomeView}
-  //             options={() => {
-  //               return { headerShown: false };
-  //             }}
-  //           />
-  //           <Stack.Screen
-  //             name="Detail"
-  //             component={DetailView}
-  //             options={() => {
-  //               return { headerShown: false };
-  //             }}
-  //           />
-  //         </>
-  //       ) : (
-  //         <>
-  //           <Stack.Screen
-  //             name="Login"
-  //             component={LoginView}
-  //             options={() => {
-  //               return {
-  //                 headerShown: false,
-  //               };
-  //             }}
-  //           />
-  //           <Stack.Screen
-  //             name="Signup"
-  //             component={SignupView}
-  //             options={() => {
-  //               return {
-  //                 headerShown: false,
-  //               };
-  //             }}
-  //           />
-  //         </>
-  //       )}
-  //     </Stack.Navigator>
-  //   );
-  // };
-
   React.useEffect(() => {
     timer.resume();
 

@@ -9,6 +9,8 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState('');
   const [isAuth, setIsAuth] = useState(false);
 
+  //TODO hold auth asyncstorage
+
   const login = async (email, password) => {
     try {
       if (isAuth) {

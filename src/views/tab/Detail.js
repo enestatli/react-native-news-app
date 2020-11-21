@@ -100,7 +100,7 @@ const DetailView = ({ route, navigation }) => {
         },
         { text: 'Login', onPress: () => setIsAuth(true) },
       ],
-      { cancelable: false },
+      { cancelable: true },
     );
 
   const addComment = async (url) => {
@@ -142,13 +142,7 @@ const DetailView = ({ route, navigation }) => {
           }
         }
       } else {
-        // setTimeout(() => {
-        //   console.log(isAuth, '...isAuthing');
-        //   setIsAuth(true);
-        //   navigation.navigate('Signup');
-        // }, 1000);
-        setIsAuth(true);
-        // navigation.navigate('Login');
+        authButton();
       }
     } catch (err) {
       console.log('error while adding comment to article', err.message);
@@ -182,12 +176,10 @@ const DetailView = ({ route, navigation }) => {
           }
         }
       } else {
-        //TODO you have to log in to save the news alert, simple modal etc.
         authButton();
-        // setIsAuth(true);
       }
     } catch (err) {
-      console.log('error when clicked bookmark button', err);
+      console.log('error when clicked bookmark button', err.message);
     }
   };
 
@@ -250,30 +242,12 @@ const DetailView = ({ route, navigation }) => {
     }
   };
 
-  const defaultFilters = [
-    '*://*.doubleclick.net/*',
-    '*://partner.googleadservices.com/*',
-    '*://*.googlesyndication.com/*',
-    '*://*.google-analytics.com/*',
-    '*://creative.ak.fbcdn.net/*',
-    '*://*.adbrite.com/*',
-    '*://*.exponential.com/*',
-    '*://*.quantserve.com/*',
-    '*://*.scorecardresearch.com/*',
-    '*://*.zedo.com/*',
-  ];
-
   const run = `
       document.body.style.backgroundColor = "${mode.colors.background}";
       document.body.style.color = ${mode.colors.icon};
       document.html.style.fontSize = "8";
 
       true;
-    `;
-
-  const runFirst = `
-      setTimeout(function() { window.alert('hi') }, 2000);
-      true; // note: this is required, or you'll sometimes get silent failures
     `;
 
   return (

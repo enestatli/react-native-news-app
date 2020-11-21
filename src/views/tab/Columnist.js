@@ -22,27 +22,35 @@ const Columnist = ({ navigation }) => {
   const [showMore, setShowMore] = useState(false);
   const [commentedByUser, setCommentedByUser] = useState([]);
   const [mentioned, setMentioned] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   //TODO add removeBookmarks button to check if commentsBy and
   //SavedBy empty delete article completely
 
   React.useEffect(() => {
-    (async () => {
-      try {
-        //TODO fetch only commented news
-        //TODO order articles by date
-        const snap = await commentsRef.get();
-        // console.log(snap.docs[4].data().commentsBy);
-        if (snap.docs) {
-          const articlesWithComments = [];
-          snap.docs.map((doc) => {
-            const article = doc.data();
-            if (article.commentsBy.length > 0) {
-              articlesWithComments.push(article);
-            }
-          });
-          setCommentedNews(articlesWithComments);
-          //TODO get comments by userId
+    getCommentedNews();
+    // const test = async () => {
+    //   await getCommentedNews();
+    // };
+    // return () => {
+    //   test;
+    // };
+  }, []);
+
+  const getCommentedNews = async () => {
+    try {
+      const snap = await commentsRef.get();
+      if (snap.docs) {
+        const articlesWithComments = [];
+        snap.docs.map((doc) => {
+          const article = doc.data();
+          if (article.commentsBy.length > 0) {
+            articlesWithComments.push(article);
+          }
+        });
+        setCommentedNews(articlesWithComments);
+        //TODO get comments by userId
+        if (user !== null) {
           const commentsByUser = [];
           articlesWithComments.map((article) => {
             article.commentsBy.map((comment) => {
@@ -55,11 +63,17 @@ const Columnist = ({ navigation }) => {
           });
           setCommentedByUser(commentsByUser);
         }
-      } catch (err) {
-        console.log('error while fetching commented news', err.message);
       }
-    })();
-  }, []);
+      setIsRefreshing(false);
+    } catch (err) {
+      console.log('error while fetching commented news', err.message);
+    }
+  };
+
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    await getCommentedNews();
+  };
 
   //TODO change tab columnist icon to chat/message icon
 
@@ -71,7 +85,7 @@ const Columnist = ({ navigation }) => {
     >
       <Text
         style={{
-          fontSize: 12,
+          fontSize: 14,
           color: mode.colors.icon,
         }}
       >
@@ -186,6 +200,8 @@ const Columnist = ({ navigation }) => {
             keyExtractor={(item) => item.url.toString()}
             showsVerticalScrollIndicator={false}
             renderItem={renderItem}
+            onRefresh={onRefresh}
+            refreshing={isRefreshing}
           />
         )}
       </View>

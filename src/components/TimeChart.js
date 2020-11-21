@@ -21,55 +21,60 @@ const TimeChart = ({ bs, tb, theme }) => {
   const [average, setAverage] = React.useState(0);
 
   React.useEffect(() => {
-    //TODO try catch!!!
-    (async () => {
-      const snap = (await timeRef.doc(user.uid).get()).data();
-      if (snap) {
-        const data_ = [
-          { x: 'Monday', y: 0 },
-          { x: 'Tuesday', y: 0 },
-          { x: 'Wednesday', y: 0 },
-          { x: 'Thursday', y: 0 },
-          { x: 'Friday', y: 0 },
-          { x: 'Saturday', y: 0 },
-          { x: 'Sunday', y: 0 },
-        ];
-        snap.timeSpent.map((i) => {
-          let dayOfTheWeek;
-          let total = 0;
-          switch (i.dayId) {
-            case 1:
-              dayOfTheWeek = 'Monday';
-              break;
-            case 2:
-              dayOfTheWeek = 'Tuesday';
-              break;
-            case 3:
-              dayOfTheWeek = 'Wednesday';
-              break;
-            case 4:
-              dayOfTheWeek = 'Thursday';
-              break;
-            case 5:
-              dayOfTheWeek = 'Friday';
-              break;
-            case 6:
-              dayOfTheWeek = 'Saturday';
-              break;
-            default:
-              dayOfTheWeek = 'Sunday';
-              break;
+    try {
+      if (user !== null) {
+        (async () => {
+          const snap = (await timeRef.doc(user.uid).get()).data();
+          if (snap) {
+            const data_ = [
+              { x: 'Monday', y: 0 },
+              { x: 'Tuesday', y: 0 },
+              { x: 'Wednesday', y: 0 },
+              { x: 'Thursday', y: 0 },
+              { x: 'Friday', y: 0 },
+              { x: 'Saturday', y: 0 },
+              { x: 'Sunday', y: 0 },
+            ];
+            snap.timeSpent.map((i) => {
+              let dayOfTheWeek;
+              let total = 0;
+              switch (i.dayId) {
+                case 1:
+                  dayOfTheWeek = 'Monday';
+                  break;
+                case 2:
+                  dayOfTheWeek = 'Tuesday';
+                  break;
+                case 3:
+                  dayOfTheWeek = 'Wednesday';
+                  break;
+                case 4:
+                  dayOfTheWeek = 'Thursday';
+                  break;
+                case 5:
+                  dayOfTheWeek = 'Friday';
+                  break;
+                case 6:
+                  dayOfTheWeek = 'Saturday';
+                  break;
+                default:
+                  dayOfTheWeek = 'Sunday';
+                  break;
+              }
+              i.totalTime.map((m) => {
+                total += m.t;
+              });
+              const ifq = data_.findIndex((d) => d.x === dayOfTheWeek);
+              // console.log(ifq);
+              data_[ifq].y = total;
+            });
+            setData(data_);
           }
-          i.totalTime.map((m) => {
-            total += m.t;
-          });
-          const ifq = data_.findIndex((d) => d.x === dayOfTheWeek);
-          // console.log(ifq);
-          data_[ifq].y = total;
-        });
-        setData(data_);
+        })();
       }
-    })();
+    } catch (err) {
+      console.log('error while fetching timespent', err.message);
+    }
   }, []);
 
   React.useEffect(() => {

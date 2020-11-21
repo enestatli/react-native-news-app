@@ -1,7 +1,8 @@
-import React, { useContext, useCallback, useState, useEffect } from 'react';
+import React, { useContext, useCallback, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
 import {
+  Alert,
   Dimensions,
   FlatList,
   Image,
@@ -36,9 +37,9 @@ import TimeChart from '../../components/TimeChart';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomSheet from '../../components/BottomSheetModal';
 
-const SettingsView = ({ navigation, propName }) => {
+const SettingsView = ({ navigation }) => {
   const { mode, darkMode, toggleDarkMode } = useContext(ThemeContext);
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, setIsAuth } = useContext(AuthContext);
   const { isJSEnabled, setIsJSEnabled } = useContext(SettingsContext);
   const { toggleNotifications, enableNotifications } = useContext(
     NotificationContext,
@@ -161,6 +162,20 @@ const SettingsView = ({ navigation, propName }) => {
     }, [darkMode]),
   );
 
+  const authButton = () =>
+    Alert.alert(
+      'Authentication required',
+      'You have to login to see your time spent',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        { text: 'Login', onPress: () => setIsAuth(true) },
+      ],
+      { cancelable: true },
+    );
+
   const renderItem = ({ item }) => (
     <View style={styles.preferences}>
       <View style={styles.border}>{item.icon}</View>
@@ -180,7 +195,9 @@ const SettingsView = ({ navigation, propName }) => {
           style={{ marginLeft: 'auto' }}
           onPress={
             item.id === 'timeToRead'
-              ? showTimeChart
+              ? user !== null
+                ? showTimeChart
+                : authButton
               : item.id === 'language'
               ? toggleLangModal
               : () => console.log('clicked')
@@ -237,7 +254,7 @@ const SettingsView = ({ navigation, propName }) => {
                   Enes Tatli
                 </Text>
                 <Text style={{ color: mode.colors.icon, marginTop: 6 }}>
-                  {user.email}
+                  {user?.email}
                 </Text>
               </View>
               <View
