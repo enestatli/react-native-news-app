@@ -5,7 +5,6 @@ import { AuthContext } from '../context';
 
 import { Loading } from '../components';
 
-import AuthStack from './AuthStack';
 import { TabNavigator } from './TabStack';
 
 export const Routes = () => {
@@ -14,7 +13,6 @@ export const Routes = () => {
   const { user, setUser, isAuth, setIsAuth } = useContext(AuthContext);
 
   useEffect(() => {
-    console.log('HELLO I AM COME FROM COMMENT');
     const subscriber = auth().onAuthStateChanged(onAuthStatechanged);
     return () => {
       subscriber;
@@ -22,15 +20,6 @@ export const Routes = () => {
   }, []);
 
   const onAuthStatechanged = async (user) => {
-    // try {
-    //   const userRef = firestore().collection('users');
-    //   const snap = await userRef.doc(user?.uid).get();
-    //   if (user !== undefined) {
-    //     setUser(snap.data());
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    // }
     setUser(user);
     if (loading) {
       setTimeout(() => {

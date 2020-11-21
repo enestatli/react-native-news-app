@@ -19,7 +19,6 @@ export const NotificationProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log('enableNotifications RE-RENDERED:', enableNotifications);
     (async () => {
       try {
         const val = await AsyncStorage.getItem('notification');

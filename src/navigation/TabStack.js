@@ -66,31 +66,33 @@ export const TabNavigator = () => {
 
     (async () => {
       try {
-        const userDoc = (await timeRef.doc(user.uid).get()).data();
-        if (userDoc.timeSpent === undefined) {
-          // userDoc.timeSpent = [{ timeId, dateObj, dayId, day, totalTime: [0] }];
-          // userDoc.timeSpent = [{ timeId, dateObj, dayId, day, totalTime: 0 }];
-          userDoc.timeSpent = [
-            { dateObj, dayId, day, totalTime: [{ t: 0, sessionId: timeId }] },
-          ];
-        } else {
-          const ind = userDoc.timeSpent.findIndex((d) => d.dayId === dayId);
-          if (ind === -1) {
-            userDoc.timeSpent.push({
-              dateObj,
-              dayId,
-              day,
-              totalTime: [{ t: 0, sessionId: timeId }],
-            });
-          } else {
-            // userDoc.timeSpent = [{}]
-            console.log('ELSE');
-            //TODO check if timeSpent list length equals 7 then reubild
+        if (user !== null) {
+          const userDoc = (await timeRef.doc(user.uid).get()).data();
+          if (userDoc.timeSpent === undefined) {
+            // userDoc.timeSpent = [{ timeId, dateObj, dayId, day, totalTime: [0] }];
             // userDoc.timeSpent = [{ timeId, dateObj, dayId, day, totalTime: 0 }];
-            // await timeRef.doc(user.uid).add(userDoc);
+            userDoc.timeSpent = [
+              { dateObj, dayId, day, totalTime: [{ t: 0, sessionId: timeId }] },
+            ];
+          } else {
+            const ind = userDoc.timeSpent.findIndex((d) => d.dayId === dayId);
+            if (ind === -1) {
+              userDoc.timeSpent.push({
+                dateObj,
+                dayId,
+                day,
+                totalTime: [{ t: 0, sessionId: timeId }],
+              });
+            } else {
+              // userDoc.timeSpent = [{}]
+              console.log('ELSE');
+              //TODO check if timeSpent list length equals 7 then reubild
+              // userDoc.timeSpent = [{ timeId, dateObj, dayId, day, totalTime: 0 }];
+              // await timeRef.doc(user.uid).add(userDoc);
+            }
           }
+          await timeRef.doc(user.uid).set(userDoc);
         }
-        await timeRef.doc(user.uid).set(userDoc);
       } catch (err) {
         console.log('error while creating timeSpent', err);
       }

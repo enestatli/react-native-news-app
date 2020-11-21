@@ -28,13 +28,11 @@ const Columnist = ({ navigation }) => {
   //SavedBy empty delete article completely
 
   React.useEffect(() => {
-    getCommentedNews();
-    // const test = async () => {
-    //   await getCommentedNews();
-    // };
-    // return () => {
-    //   test;
-    // };
+    const unsubscribe = navigation.addListener('focus', async () => {
+      await getCommentedNews();
+    });
+
+    return unsubscribe;
   }, []);
 
   const getCommentedNews = async () => {
@@ -78,8 +76,6 @@ const Columnist = ({ navigation }) => {
       console.log('error while refreshing comments', err.message);
     }
   };
-
-  //TODO change tab columnist icon to chat/message icon
 
   const renderItem = ({ item }) => (
     <TouchableOpacity

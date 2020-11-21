@@ -11,5 +11,9 @@ let strings = new LocalizedStrings({
 export { strings };
 
 export const changeLanguage = (languageKey) => {
-  strings.setLanguage(languageKey);
+  try {
+    strings.setLanguage(languageKey);
+  } catch (err) {
+    console.log('errror while setting language', err.message);
+  }
 };
