@@ -241,7 +241,7 @@ const SettingsView = ({ navigation }) => {
       {/* User Info */}
       <View style={{ padding: 20 }}>
         <View style={styles.userInfo}>
-          <Avatar size={64} color={mode.colors.icon} />
+          <Avatar size={64} color={mode.colors.primary} />
           {!user && (
             <TouchableOpacity
               style={{
@@ -254,8 +254,9 @@ const SettingsView = ({ navigation }) => {
                 borderWidth: 1,
                 marginHorizontal: 24,
               }}
+              onPress={authButton}
             >
-              <Text>{strings.login}</Text>
+              <Text style={{ color: mode.colors.icon }}>{strings.login}</Text>
             </TouchableOpacity>
           )}
           {user && (

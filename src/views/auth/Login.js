@@ -20,7 +20,7 @@ const LoginView = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [hide, setHide] = useState(true);
 
-  const { login, error } = useContext(AuthContext);
+  const { login, error, setIsAuth } = useContext(AuthContext);
   const { strings } = useContext(LanguageContext);
 
   useFocusEffect(
@@ -43,9 +43,9 @@ const LoginView = ({ navigation }) => {
       }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      {/* <TouchableOpacity style={styles.close}>
+      <TouchableOpacity style={styles.close} onPress={() => setIsAuth(false)}>
         <Close width={24} color="black" />
-      </TouchableOpacity> */}
+      </TouchableOpacity>
       <View
         style={{
           alignItems: 'center',
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   close: {
     position: 'absolute',
-    top: 16,
+    top: 32,
     left: 16,
     zIndex: 1,
   },

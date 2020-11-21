@@ -1,6 +1,7 @@
 import React, { createContext, useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const AuthContext = createContext({});
 
@@ -11,11 +12,32 @@ export const AuthProvider = ({ children }) => {
 
   //TODO hold auth asyncstorage
 
+  React.useEffect(() => {
+    console.log('IsAuth: ', isAuth);
+    (async () => {
+      try {
+        const value = await AsyncStorage.getItem('auth');
+        console.log('Value: ', value);
+        console.log('Type of Value: ', typeof JSON.parse(value));
+
+        if (value) {
+          setIsAuth(JSON.parse(value));
+        }
+      } catch (err) {
+        console.log(
+          'error while getting isAuth value from storage',
+          err.message,
+        );
+      }
+    })();
+  }, []);
+
   const login = async (email, password) => {
     try {
       if (isAuth) {
         await auth().signInWithEmailAndPassword(email, password);
         setError('');
+        await AsyncStorage.setItem('auth', JSON.stringify(false));
         setIsAuth(false);
       }
     } catch (err) {
@@ -39,6 +61,7 @@ export const AuthProvider = ({ children }) => {
         );
         setError('');
         setIsAuth(false);
+        await AsyncStorage.setItem('auth', JSON.stringify(false));
 
         //TODO move this method to another file, you need auth user to logout correctly
         //also add if-else to check wheter user is already created or not
@@ -70,6 +93,7 @@ export const AuthProvider = ({ children }) => {
         await auth().signOut();
         setError('');
         setIsAuth(true);
+        await AsyncStorage.setItem('auth', JSON.stringify(true));
       }
     } catch (err) {
       console.log('error while logging out', err);
