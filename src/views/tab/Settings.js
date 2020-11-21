@@ -15,6 +15,7 @@ import {
   View,
 } from 'react-native';
 import {
+  Avatar,
   Close,
   DarkModeIcon,
   HelpIcon,
@@ -240,13 +241,23 @@ const SettingsView = ({ navigation }) => {
       {/* User Info */}
       <View style={{ padding: 20 }}>
         <View style={styles.userInfo}>
-          <Image
-            source={{
-              uri:
-                'https://images.unsplash.com/photo-1593642702909-dec73df255d7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
-            }}
-            style={{ width: 64, height: 64, borderRadius: 9999 }}
-          />
+          <Avatar size={64} color={mode.colors.icon} />
+          {!user && (
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 32,
+                borderRadius: 6,
+                borderColor: mode.colors.icon,
+                borderWidth: 1,
+                marginHorizontal: 24,
+              }}
+            >
+              <Text>{strings.login}</Text>
+            </TouchableOpacity>
+          )}
           {user && (
             <>
               <View style={styles.userInfoTextContainer}>

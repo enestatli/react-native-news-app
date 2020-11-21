@@ -152,7 +152,7 @@ export const TabNavigator = () => {
   return (
     <SettingsProvider>
       <BookmarkProvider>
-        {isAuth ? (
+        {!isAuth ? (
           <NavigationContainer>
             <Tab.Navigator
               tabBarOptions={{ keyboardHidesTabBar: true }}

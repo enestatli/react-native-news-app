@@ -56,7 +56,7 @@ export default {
   signup: 'Kayıt Ol',
   //auth-sing up
   name: 'İsim',
-  haveAccount: 'Zaten bir hesabın var mı ?',
-  loginNow: 'Hemen giriş yap',
+  haveAccount: 'Zaten bir hesabın var mı ? ',
+  loginNow: 'Hemen giriş yap!',
   login: 'Giriş',
 };

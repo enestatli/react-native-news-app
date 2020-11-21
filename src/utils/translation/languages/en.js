@@ -52,7 +52,7 @@ export default {
   signup: 'Sign Up',
   //auth-sing up
   name: 'İsim',
-  haveAccount: 'Zaten bir hesabın var mı ?',
-  loginNow: 'Hemen giriş yap',
+  haveAccount: 'Already have an account ? ',
+  loginNow: 'Login now!',
   login: 'Login',
 };
