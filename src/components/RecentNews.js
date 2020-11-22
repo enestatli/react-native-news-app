@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   Dimensions,
   FlatList,
@@ -10,7 +10,6 @@ import {
   View,
 } from 'react-native';
 
-import { ThemeContext } from '../context';
 import NewsLang from './NewsLangModal';
 import Placeholder from './Placeholder';
 
@@ -20,19 +19,16 @@ const RecentNews = ({
   str,
   setCountryCode,
   countryCode,
+  theme,
 }) => {
-  //TODO move mode, pass from home
-  const { mode } = useContext(ThemeContext);
   const [modalVisible, setModalVisible] = React.useState(false);
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
 
-  //TODO googlenews rss fetchle you already use nativeWeb!!
-
   const renderItem = ({ item }) => (
-    <View style={[styles.recentNews, { backgroundColor: mode.colors.card }]}>
+    <View style={[styles.recentNews, { backgroundColor: theme.colors.card }]}>
       <TouchableOpacity
         style={styles.recentNewsButton}
         onPress={() => navigation.navigate('Detail', { data: item })}
@@ -69,7 +65,7 @@ const RecentNews = ({
               <Text
                 style={{
                   fontSize: 13,
-                  color: mode.colors.icon,
+                  color: theme.colors.icon,
                   fontWeight: 'bold',
                 }}
               >
@@ -86,7 +82,7 @@ const RecentNews = ({
               <Text
                 style={{
                   fontSize: 18,
-                  color: mode.colors.icon,
+                  color: theme.colors.icon,
                   fontWeight: '100',
                 }}
               >
@@ -106,7 +102,11 @@ const RecentNews = ({
     <View style={styles.recentNewsContainer}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Text
-          style={{ fontSize: 22, paddingVertical: 10, color: mode.colors.icon }}
+          style={{
+            fontSize: 22,
+            paddingVertical: 10,
+            color: theme.colors.icon,
+          }}
         >
           {str.recentNews}
         </Text>
@@ -119,11 +119,11 @@ const RecentNews = ({
             borderRadius: 6,
             justifyContent: 'center',
             alignItems: 'center',
-            borderColor: mode.colors.icon,
+            borderColor: theme.colors.icon,
           }}
           onPress={toggleModal}
         >
-          <Text style={{ color: mode.colors.icon }}>
+          <Text style={{ color: theme.colors.icon }}>
             {countryCode.toUpperCase()}
           </Text>
         </TouchableOpacity>
@@ -136,7 +136,7 @@ const RecentNews = ({
         >
           <NewsLang
             toggleModal={toggleModal}
-            mode={mode}
+            mode={theme}
             setCountryCode={setCountryCode}
           />
         </Modal>

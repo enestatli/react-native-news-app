@@ -34,7 +34,7 @@ const DetailView = ({ route, navigation }) => {
   //---Context--/
   const { isJSEnabled } = useContext(SettingsContext);
   const { mode } = useContext(ThemeContext);
-  const { user, isAuth, setIsAuth } = useContext(AuthContext);
+  const { user, setIsAuth } = useContext(AuthContext);
   const {
     setUrl,
     isBookmarked,
@@ -323,7 +323,6 @@ const DetailView = ({ route, navigation }) => {
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            // paddingHorizontal: 6,
           }}
           onPress={toggleBottomSheet}
         >
@@ -334,7 +333,6 @@ const DetailView = ({ route, navigation }) => {
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            // paddingHorizontal: 6,
           }}
           onPress={
             isBookmarked ? () => removeArt(data.url) : () => saveArt(data.url)
@@ -351,7 +349,6 @@ const DetailView = ({ route, navigation }) => {
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            // paddingHorizontal: 6,
           }}
           onPress={onShare}
         >
@@ -382,15 +379,10 @@ const DetailView = ({ route, navigation }) => {
         incognito={true}
         startInLoadingState={true}
         renderLoading={() => <Loading />}
-        // userAgent={
-        //   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36'
-        // }
         userAgent={
           'Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 XL Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3714.0 Mobile Safari/537.36'
         }
         injectedJavaScript={run}
-        // injectedJavaScriptBeforeContentLoaded={runFirst}
-        // injectJavaScript={run}
         //TODO try to block ads, for turkish just set to false javascript
         //TODO add modal warn user it blocks some other functionality of the website
       />

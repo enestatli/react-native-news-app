@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useRef } from 'react';
 import {
   Animated,
   StyleSheet,
@@ -13,8 +13,6 @@ import { windowWidth } from '../utils/dimensions';
 
 const Header = ({ setQuery, theme }) => {
   const widthValue = useRef(new Animated.Value(windowWidth / 3)).current;
-
-  //get mode as prorp from home screen
 
   const onToggleSearchFocus = (isFocused) => {
     Animated.timing(widthValue, {

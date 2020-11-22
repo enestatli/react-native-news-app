@@ -140,16 +140,16 @@ const HomeView = ({ route, navigation }) => {
   //TODO langModal transition is bad
   //TODO recentNews marginTop check
 
+  //TODO use dimension width height!!
+
   return (
     <View
       style={{
         backgroundColor: mode.colors.background,
         flex: 1,
-        // marginTop: StatusBar.currentHeight - 15,
       }}
     >
-      {/* TODO statusbar */}
-      {/* <StatusBar translucent={true} /> */}
+      {/* remove flex 1 */}
       <View style={{ paddingHorizontal: 20, flex: 1 }}>
         {/* Header */}
         <Header
@@ -164,6 +164,7 @@ const HomeView = ({ route, navigation }) => {
           selected={selectedTab}
           onPress={(id) => setSelectedTab(id)}
           str={strings}
+          theme={mode}
         />
         {/* Trend News */}
         {selectedTab && (
@@ -174,15 +175,16 @@ const HomeView = ({ route, navigation }) => {
           />
         )}
 
+        {/* Recent News */}
+
         <RecentNews
           articles={testData?.articles}
           navigation={navigation}
           str={strings}
           setCountryCode={setCountryCode}
           countryCode={countryCode}
+          theme={mode}
         />
-
-        {/* Recent News */}
       </View>
     </View>
   );

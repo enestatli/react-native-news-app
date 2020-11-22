@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   FlatList,
   Image,
@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { ThemeContext } from '../context';
 
-import { Bubble, Close } from './icons';
+import { Avatar, Bubble, Close } from './icons';
 
 const CommentList = ({
   closeModal,
@@ -76,9 +76,10 @@ const CommentList = ({
             }}
             onPress={toggleBottomSheet}
           >
-            <Image
-              source={{ uri: data.urlToImage }}
-              style={{ width: 36, height: 36, borderRadius: 9999 }}
+            <Avatar
+              size={32}
+              color={mode.colors.primary}
+              fill={true && mode.colors.primary}
             />
           </TouchableOpacity>
         </View>

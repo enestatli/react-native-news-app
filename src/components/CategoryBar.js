@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -7,12 +7,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { ThemeContext } from '../context';
-
-const CategoryBar = ({ tabs, selected, onPress, str }) => {
+const CategoryBar = ({ theme, selected, onPress, str }) => {
   const listRef = useRef();
-  //TODO pass mode from homeview to the components
-  const { mode } = useContext(ThemeContext);
 
   const tabs2 = [
     {
@@ -71,7 +67,9 @@ const CategoryBar = ({ tabs, selected, onPress, str }) => {
                 });
               }}
             >
-              <Text style={[styles.categoryTitle, { color: mode.colors.icon }]}>
+              <Text
+                style={[styles.categoryTitle, { color: theme.colors.icon }]}
+              >
                 {item.title}
               </Text>
             </TouchableOpacity>
@@ -79,7 +77,7 @@ const CategoryBar = ({ tabs, selected, onPress, str }) => {
               <View
                 style={[
                   styles.borderBottom,
-                  { backgroundColor: mode.colors.primary },
+                  { backgroundColor: theme.colors.primary },
                 ]}
               />
             )}
