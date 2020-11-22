@@ -10,16 +10,12 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState('');
   const [isAuth, setIsAuth] = useState(false);
 
-  //TODO hold auth asyncstorage
+  //TODO fix timetoread!!!
 
   React.useEffect(() => {
-    console.log('IsAuth: ', isAuth);
     (async () => {
       try {
         const value = await AsyncStorage.getItem('auth');
-        console.log('Value: ', value);
-        console.log('Type of Value: ', typeof JSON.parse(value));
-
         if (value) {
           setIsAuth(JSON.parse(value));
         }

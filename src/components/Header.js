@@ -2,6 +2,8 @@ import React, { useContext, useRef } from 'react';
 import {
   Animated,
   Image,
+  KeyboardAvoidingView,
+  Platform,
   StyleSheet,
   Text,
   TextInput,
@@ -13,78 +15,80 @@ import { ThemeContext } from '../context';
 import { Avatar, NewsIcon, SearchIcon } from './icons';
 
 const Header = ({ tabs, selected, onPress, setQuery, nav }) => {
-  const flexValue = useRef(new Animated.Value(0.6)).current;
+  // const flexValue = useRef(new Animated.Value(1)).current;
   const { mode } = useContext(ThemeContext);
+  const widthValue = useRef(new Animated.Value(100)).current;
+
   //get mode as prorp from home screen
 
   const onToggleSearchFocus = (isFocused) => {
-    Animated.timing(flexValue, {
-      toValue: isFocused ? 1 : 0.9,
+    Animated.timing(widthValue, {
+      toValue: isFocused ? 180 : 150,
       duration: 150,
       useNativeDriver: false,
     }).start();
   };
 
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
-      {/* LOGO AND LOGO NAME */}
-
-      <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <NewsIcon width={24} color={mode.colors.icon} />
-        <Text
-          style={{
-            marginLeft: 10,
-            fontWeight: 'bold',
-            fontSize: 24,
-            color: mode.colors.icon,
-          }}
-        >
-          News
-        </Text>
-      </TouchableOpacity>
-      {/* SEACH AND AVATAR */}
+    <View
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginTop: 20,
+      }}
+    >
+      {/* left */}
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          marginLeft: 'auto',
-          // marginHorizontal: 10,
         }}
       >
-        <Animated.View style={[styles.anim, { flex: flexValue }]}>
+        <NewsIcon width={24} color={mode.colors.icon} />
+        <TouchableOpacity
+          style={{ justifyContent: 'center', alignItems: 'center' }}
+        >
+          <Text>C K M C M</Text>
+        </TouchableOpacity>
+      </View>
+      {/* right */}
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+        }}
+      >
+        <Animated.View
+          style={{
+            alignItems: 'center',
+            flexDirection: 'row',
+            width: widthValue,
+          }}
+        >
           <TextInput
-            style={[styles.input, { backgroundColor: mode.colors.icon }]}
-            placeholder="Search news"
+            style={{
+              borderColor: mode.colors.icon,
+              borderWidth: 0.5,
+              width: '100%',
+              height: 32,
+              borderRadius: 6,
+              paddingLeft: 12,
+              paddingVertical: 0,
+              marginRight: 6,
+            }}
             onFocus={() => onToggleSearchFocus(true)}
             onBlur={() => onToggleSearchFocus(false)}
-            // value={query}
-            onChangeText={(query) => setQuery(query)}
+            placeholder="Search news"
           />
-
-          <TouchableOpacity
-            style={{ marginLeft: 'auto', position: 'absolute', right: 0 }}
-          >
-            <SearchIcon style={{ marginRight: 15 }} />
+          <TouchableOpacity style={{ position: 'absolute', right: 12 }}>
+            <SearchIcon />
           </TouchableOpacity>
         </Animated.View>
-
-        <TouchableOpacity
-          style={{ marginLeft: 'auto' }}
-          onPress={() => nav.navigate('ProfileView')}
-        >
-          {/* <Image
-            source={{
-              uri:
-                'https://images.unsplash.com/photo-1593642702909-dec73df255d7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
-            }}
-            // resizeMode="contain"
-            style={{
-              width: 24,
-              height: 24,
-              borderRadius: 99999,
-            }}
-          /> */}
-          <Avatar size={24} color={mode.colors.primary} />
+        <TouchableOpacity style={{ marginLeft: 'auto' }}>
+          <Avatar size={30} color={mode.colors.primary} />
         </TouchableOpacity>
       </View>
     </View>
@@ -95,12 +99,10 @@ export default Header;
 
 const styles = StyleSheet.create({
   input: {
-    width: '40%',
+    width: '50%',
     height: 36,
     paddingLeft: 12,
     borderRadius: 6,
-    position: 'absolute',
-    right: 6,
   },
   anim: {
     flexDirection: 'row',
