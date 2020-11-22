@@ -156,6 +156,7 @@ const HomeView = ({ route, navigation }) => {
           avatar={'../../assets/images/ic_launcher.png'}
           setQuery={setQuery}
           nav={navigation}
+          theme={mode}
         />
         {/* Category */}
         <CategoryBar
