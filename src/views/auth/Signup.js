@@ -12,7 +12,7 @@ const SignupView = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [hide, setHide] = useState(true);
 
-  const { register, error } = useContext(AuthContext);
+  const { register, error, setError } = useContext(AuthContext);
   const { strings } = useContext(LanguageContext);
 
   return (
@@ -52,7 +52,11 @@ const SignupView = ({ navigation }) => {
           )}
         </TouchableOpacity>
       </View>
-
+      {error.length > 0 && (
+        <Text style={{ fontSize: 12, color: theme.colors.danger }}>
+          {error}
+        </Text>
+      )}
       <FormButton
         buttonTitle={strings.signup}
         onPress={async () => await register(email, password)}
@@ -60,7 +64,14 @@ const SignupView = ({ navigation }) => {
       />
       <View style={styles.footer}>
         <Text style={{ color: theme.colors.icon }}>{strings.haveAccount}</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Login');
+            if (error) {
+              setError('');
+            }
+          }}
+        >
           <Text style={{ color: theme.colors.icon }}>{strings.loginNow}</Text>
         </TouchableOpacity>
       </View>

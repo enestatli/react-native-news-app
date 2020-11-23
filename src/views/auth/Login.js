@@ -30,13 +30,6 @@ const LoginView = ({ navigation }) => {
     }, []),
   );
 
-  // React.useEffect(() => {
-  //   if (error.startsWith('the password')) {
-  //     setError('');
-  //     console.log('TRUE');
-  //   }
-  // }, [error]);
-
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.close} onPress={() => setIsAuth(false)}>
@@ -70,7 +63,6 @@ const LoginView = ({ navigation }) => {
         />
 
         {/* //TODO empty string cause error fix */}
-        {/* //TODO login button password fix margin */}
         <TouchableOpacity style={styles.eye} onPress={() => setHide(!hide)}>
           {hide ? (
             <Eye size={24} color={theme.colors.icon} />
@@ -79,9 +71,11 @@ const LoginView = ({ navigation }) => {
           )}
         </TouchableOpacity>
       </View>
-      <Text style={{ fontSize: 12, color: theme.colors.danger }}>
-        {(email.length > 0 || !password.length > 0) && error && error}
-      </Text>
+      {error.length > 0 && (
+        <Text style={{ fontSize: 12, color: theme.colors.danger }}>
+          {error}
+        </Text>
+      )}
       <FormButton
         buttonTitle={strings.login}
         onPress={() => login(email, password)}
