@@ -1,37 +1,42 @@
-import React, { useContext } from 'react';
-import { StyleSheet, TextInput } from 'react-native';
-import { AuthContext } from '../context';
+import React from 'react';
+import { KeyboardAvoidingView, StyleSheet, TextInput } from 'react-native';
 
 import { windowHeight, windowWidth } from '../utils/dimensions';
 
 const FormInput = ({ labelValue, placeholderText, lines, ...props }) => {
-  const { setError } = useContext(AuthContext);
   return (
-    <TextInput
-      style={[styles.input, props.extraStyles]}
-      value={labelValue}
-      numberOfLines={lines}
-      placeholder={placeholderText}
-      placeholderTextColor="#666"
-      // onFocus={() => setError('')}
-      {...props}
-    />
+    <KeyboardAvoidingView behavior="height" style={styles.inputFrame}>
+      <TextInput
+        style={[styles.input, props.extraStyles]}
+        value={labelValue}
+        numberOfLines={lines}
+        placeholder={placeholderText}
+        placeholderTextColor="#666"
+        {...props}
+      />
+    </KeyboardAvoidingView>
   );
 };
 
 export default FormInput;
 
 const styles = StyleSheet.create({
+  inputFrame: {
+    width: windowWidth / 1.5,
+    height: windowHeight / 15,
+    marginBottom: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   input: {
     padding: 10,
     marginTop: 5,
     marginBottom: 10,
-    width: windowWidth / 1.5,
-    height: windowHeight / 15,
+    width: '100%',
+    height: '100%',
     fontSize: 16,
     borderRadius: 6,
     borderWidth: 0.5,
-    // fontWeight: 'bold',
     borderColor: '#b1b1b1',
   },
 });

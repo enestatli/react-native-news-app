@@ -88,6 +88,7 @@ const DetailView = ({ route, navigation }) => {
     return unsubscribe;
   }, [navigation, data.url]);
 
+  //TODO change lang
   const authButton = () =>
     Alert.alert(
       'No Auth Detected',
@@ -95,7 +96,6 @@ const DetailView = ({ route, navigation }) => {
       [
         {
           text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
         { text: 'Login', onPress: () => setIsAuth(true) },
@@ -106,7 +106,6 @@ const DetailView = ({ route, navigation }) => {
   const addComment = async (url) => {
     try {
       if (user) {
-        console.log('USERID');
         const d = new Date().toString().split(' ');
         const submitTime =
           d[2] +
@@ -218,7 +217,10 @@ const DetailView = ({ route, navigation }) => {
   };
 
   const toggleBottomSheet = () => {
-    setBottomSheetVisible(!bottomSheetVisible);
+    if (user) {
+      setBottomSheetVisible(!bottomSheetVisible);
+    }
+    authButton();
   };
 
   const onShare = async () => {
@@ -241,6 +243,8 @@ const DetailView = ({ route, navigation }) => {
       console.log('error while trying to share a news', err.message);
     }
   };
+
+  //TODO fix run!!
 
   const run = `
       document.body.style.backgroundColor = "${mode.colors.background}";

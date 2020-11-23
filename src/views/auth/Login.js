@@ -1,7 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useContext, useState } from 'react';
 import {
-  KeyboardAvoidingView,
   Platform,
   StatusBar,
   StyleSheet,
@@ -13,6 +12,7 @@ import { FormButton, FormInput } from '../../components';
 import { Close, Eye, EyeOff, NewsIcon } from '../../components/icons';
 
 import { AuthContext, LanguageContext } from '../../context';
+import { windowHeight, windowWidth } from '../../utils/dimensions';
 import { theme } from '../../utils/theme';
 
 const LoginView = ({ navigation }) => {
@@ -26,128 +26,109 @@ const LoginView = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       StatusBar.setBarStyle('dark-content');
-      // StatusBar.setTranslucent(false);
       Platform.OS === 'android' && StatusBar.setBackgroundColor('white');
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );
 
   return (
-    <KeyboardAvoidingView
-      style={{
-        flex: 1,
-        backgroundColor: 'white',
-        // paddingTop: StatusBar.currentHeight - 30,
-        paddingTop: 12,
-        paddingHorizontal: 16,
-      }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
+    <View style={styles.container}>
       <TouchableOpacity style={styles.close} onPress={() => setIsAuth(false)}>
         <Close width={24} color="black" />
       </TouchableOpacity>
-      <View
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginTop: 75,
-        }}
-      >
-        <NewsIcon width={100} color="black" />
+      <View style={styles.logoFrame}>
+        <NewsIcon width={72} color={theme.colors.icon} />
+        <Text style={[styles.logo, { color: theme.colors.foreground }]}>
+          CKMCM
+        </Text>
       </View>
-      <View style={styles.cardContainer}>
-        <View style={styles.card}>
-          <FormInput
-            value={email}
-            placeholderText={strings.email}
-            lines={1}
-            onChangeText={(userEmail) => setEmail(userEmail)}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            autoCorrect={false}
-          />
-          <FormInput
-            value={password}
-            placeholderText={strings.password}
-            lines={1}
-            onChangeText={(password) => setPassword(password)}
-            secureTextEntry={hide}
-          />
-          <TouchableOpacity
-            style={{
-              position: 'absolute',
-              bottom: 75,
-              right: 12,
-            }}
-            onPress={() => setHide(!hide)}
-          >
-            {hide ? (
-              <Eye size={24} color={'black'} />
-            ) : (
-              // TODO EyeOff does not shown
-              <Close size={24} color={'black'} />
-            )}
-          </TouchableOpacity>
-          <FormButton
-            buttonTitle={strings.login}
-            onPress={() => login(email, password)}
-            extraStyle={{ backgroundColor: theme.colors.primary }}
-          />
-        </View>
-      </View>
+      <FormInput
+        value={email}
+        placeholderText={strings.email}
+        lines={1}
+        onChangeText={(userEmail) => setEmail(userEmail)}
+        autoCapitalize="none"
+        keyboardType="email-address"
+        autoCorrect={false}
+      />
 
-      <View style={styles.footer}>
-        <View style={styles.footerRow}>
-          <Text>{strings.forgotPassword}</Text>
-          <TouchableOpacity>
-            <Text style={{ color: theme.colors.primary }}>
-              {strings.resetPassword}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.footerRow}>
-          <Text>{strings.createAccount}</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-            <Text style={{ color: theme.colors.primary }}>
-              {strings.signUpNow}
-            </Text>
-          </TouchableOpacity>
-        </View>
+      <View>
+        <FormInput
+          value={password}
+          placeholderText={strings.password}
+          lines={1}
+          onChangeText={(password) => setPassword(password)}
+          secureTextEntry={hide}
+          onPress={() => setHide(!hide)}
+          show={hide}
+        />
+
+        {/* //TODO empty string cause error fix */}
+        {/* //TODO login button password fix margin */}
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            bottom: windowHeight / 30,
+            right: 12,
+          }}
+          onPress={() => setHide(!hide)}
+        >
+          {hide ? (
+            <Eye size={24} color={theme.colors.icon} />
+          ) : (
+            <EyeOff size={24} color={theme.colors.icon} />
+          )}
+        </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+      <Text>{error && error}</Text>
+      <FormButton
+        buttonTitle={strings.login}
+        onPress={() => login(email, password)}
+        extraStyle={{ backgroundColor: theme.colors.primary }}
+      />
+      <View style={styles.footer}>
+        <TouchableOpacity>
+          <Text style={{ color: theme.colors.icon }}>
+            {strings.forgotPassword}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+          <Text style={{ color: theme.colors.icon }}>{strings.signUpNow}</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
 export default LoginView;
 
 const styles = StyleSheet.create({
-  cardContainer: {
+  container: {
     flex: 1,
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  card: {
-    justifyContent: 'center',
+  logoFrame: {
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  OR: {
-    marginVertical: 12,
-    fontSize: 16,
+  logo: {
     fontWeight: 'bold',
-    color: '#4A4A4A',
-  },
-  footer: {
-    // justifyContent: 'flex-end',
-    paddingVertical: 24,
-  },
-  footerRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    fontSize: 24,
+    color: 'black',
+    marginBottom: 24,
+    letterSpacing: 10.5,
   },
   close: {
     position: 'absolute',
     top: 32,
     left: 16,
     zIndex: 1,
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: windowWidth / 1.5,
   },
 });

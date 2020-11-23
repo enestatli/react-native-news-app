@@ -27,7 +27,7 @@ export const Routes = () => {
       }, 555);
     }
   };
-
+  //TODO isAuth ? loading!!
   if (loading) {
     return <Loading />;
   }

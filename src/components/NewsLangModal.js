@@ -47,8 +47,7 @@ const ConnectWithText = React.memo(({ mode }) => {
       style={{
         position: 'absolute',
         top: height / 2 - ITEM_HEIGHT * 2,
-        // width: width * 0.7,
-        width: width * 1,
+        width: width,
         paddingHorizontal: 14,
       }}
     >

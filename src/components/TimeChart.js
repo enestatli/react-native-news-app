@@ -10,6 +10,7 @@ import firestore from '@react-native-firebase/firestore';
 
 import BottomSheet from './BottomSheetModal';
 import { AuthContext } from '../context';
+import { windowHeight } from '../utils/dimensions';
 
 const TimeChart = ({ bs, tb, theme }) => {
   const timeRef = firestore().collection('users');
@@ -104,7 +105,11 @@ const TimeChart = ({ bs, tb, theme }) => {
           </Text>
         </View>
         {/* //TODO make it responsive height,width */}
-        <VictoryChart polar theme={VictoryTheme.material} height={300}>
+        <VictoryChart
+          polar
+          theme={VictoryTheme.material}
+          height={windowHeight / 2.4}
+        >
           {[
             'Monday',
             'Tuesday',

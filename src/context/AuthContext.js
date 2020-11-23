@@ -88,8 +88,8 @@ export const AuthProvider = ({ children }) => {
       if (!isAuth) {
         await auth().signOut();
         setError('');
-        setIsAuth(true);
-        await AsyncStorage.setItem('auth', JSON.stringify(true));
+        setIsAuth(false);
+        await AsyncStorage.setItem('auth', JSON.stringify(false));
       }
     } catch (err) {
       console.log('error while logging out', err);
