@@ -20,7 +20,7 @@ const LoginView = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [hide, setHide] = useState(true);
 
-  const { login, error, setIsAuth } = useContext(AuthContext);
+  const { login, error, setError, setIsAuth } = useContext(AuthContext);
   const { strings } = useContext(LanguageContext);
 
   useFocusEffect(
@@ -29,6 +29,13 @@ const LoginView = ({ navigation }) => {
       Platform.OS === 'android' && StatusBar.setBackgroundColor('white');
     }, []),
   );
+
+  // React.useEffect(() => {
+  //   if (error.startsWith('the password')) {
+  //     setError('');
+  //     console.log('TRUE');
+  //   }
+  // }, [error]);
 
   return (
     <View style={styles.container}>
@@ -64,14 +71,7 @@ const LoginView = ({ navigation }) => {
 
         {/* //TODO empty string cause error fix */}
         {/* //TODO login button password fix margin */}
-        <TouchableOpacity
-          style={{
-            position: 'absolute',
-            bottom: windowHeight / 30,
-            right: 12,
-          }}
-          onPress={() => setHide(!hide)}
-        >
+        <TouchableOpacity style={styles.eye} onPress={() => setHide(!hide)}>
           {hide ? (
             <Eye size={24} color={theme.colors.icon} />
           ) : (
@@ -79,7 +79,9 @@ const LoginView = ({ navigation }) => {
           )}
         </TouchableOpacity>
       </View>
-      <Text>{error && error}</Text>
+      <Text style={{ fontSize: 12, color: theme.colors.danger }}>
+        {(email.length > 0 || !password.length > 0) && error && error}
+      </Text>
       <FormButton
         buttonTitle={strings.login}
         onPress={() => login(email, password)}
@@ -91,7 +93,14 @@ const LoginView = ({ navigation }) => {
             {strings.forgotPassword}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Signup');
+            if (error) {
+              setError('');
+            }
+          }}
+        >
           <Text style={{ color: theme.colors.icon }}>{strings.signUpNow}</Text>
         </TouchableOpacity>
       </View>
@@ -130,5 +139,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: windowWidth / 1.5,
+  },
+  eye: {
+    position: 'absolute',
+    bottom: windowHeight / 30,
+    right: 12,
   },
 });

@@ -44,14 +44,7 @@ const SignupView = ({ navigation }) => {
           onPress={() => setHide(!hide)}
           show={hide}
         />
-        <TouchableOpacity
-          style={{
-            position: 'absolute',
-            bottom: windowHeight / 30,
-            right: 12,
-          }}
-          onPress={() => setHide(!hide)}
-        >
+        <TouchableOpacity style={styles.eye} onPress={() => setHide(!hide)}>
           {hide ? (
             <Eye size={24} color={theme.colors.icon} />
           ) : (
@@ -106,5 +99,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: windowWidth / 1.5,
+  },
+  eye: {
+    position: 'absolute',
+    bottom: windowHeight / 30,
+    right: 12,
   },
 });
