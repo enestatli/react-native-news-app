@@ -1,11 +1,19 @@
 import React from 'react';
-import { KeyboardAvoidingView, StyleSheet, TextInput } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  TextInput,
+} from 'react-native';
 
 import { windowHeight, windowWidth } from '../utils/dimensions';
 
 const FormInput = ({ labelValue, placeholderText, lines, ...props }) => {
   return (
-    <KeyboardAvoidingView behavior="height" style={styles.inputFrame}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.inputFrame}
+    >
       <TextInput
         style={[styles.input, props.extraStyles]}
         value={labelValue}

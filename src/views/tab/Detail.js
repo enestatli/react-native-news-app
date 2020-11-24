@@ -219,8 +219,9 @@ const DetailView = ({ route, navigation }) => {
   const toggleBottomSheet = () => {
     if (user) {
       setBottomSheetVisible(!bottomSheetVisible);
+    } else {
+      authButton();
     }
-    authButton();
   };
 
   const onShare = async () => {

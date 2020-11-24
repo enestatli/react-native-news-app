@@ -1,7 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useContext, useState } from 'react';
 import {
-  Platform,
   StatusBar,
   StyleSheet,
   Text,
@@ -33,7 +32,7 @@ const LoginView = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.close} onPress={() => setIsAuth(false)}>
-        <Close width={24} color="black" />
+        <Close color="black" />
       </TouchableOpacity>
       <View style={styles.logoFrame}>
         <NewsIcon width={72} color={theme.colors.icon} />
@@ -65,9 +64,9 @@ const LoginView = ({ navigation }) => {
         {/* //TODO empty string cause error fix */}
         <TouchableOpacity style={styles.eye} onPress={() => setHide(!hide)}>
           {hide ? (
-            <Eye size={24} color={theme.colors.icon} />
-          ) : (
             <EyeOff size={24} color={theme.colors.icon} />
+          ) : (
+            <Eye size={24} color={theme.colors.icon} />
           )}
         </TouchableOpacity>
       </View>

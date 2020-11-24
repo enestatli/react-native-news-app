@@ -1,5 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 
 import { FormButton, FormInput } from '../../components';
 import { Eye, EyeOff, NewsIcon } from '../../components/icons';
@@ -16,7 +23,10 @@ const SignupView = ({ navigation }) => {
   const { strings } = useContext(LanguageContext);
 
   return (
-    <View style={styles.container}>
+    <View
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
       <View style={styles.logoFrame}>
         <NewsIcon width={72} color={theme.colors.icon} />
         <Text style={[styles.logo, { color: theme.colors.foreground }]}>

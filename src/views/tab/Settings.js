@@ -132,7 +132,7 @@ const SettingsView = ({ navigation }) => {
       id: 'block',
       title: strings.block,
       switch: true,
-      icon: <Close width={24} color={mode.colors.icon} />,
+      icon: <Close color={mode.colors.icon} />,
       switchComp: (
         <Switch
           style={{ marginLeft: 'auto', width: 36, height: 24 }}
