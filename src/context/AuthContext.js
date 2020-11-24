@@ -31,18 +31,22 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       if (isAuth) {
-        await auth().signInWithEmailAndPassword(email, password);
-        setError('');
-        await AsyncStorage.setItem('auth', JSON.stringify(false));
-        setIsAuth(false);
+        if (email && password) {
+          await auth().signInWithEmailAndPassword(email, password);
+          setError('');
+          await AsyncStorage.setItem('auth', JSON.stringify(false));
+          setIsAuth(false);
+        } else {
+          setError('Email or passowrd cannot be empty');
+        }
       }
     } catch (err) {
       if (err.code === 'auth/invalid-email') {
-        setError('That email address is invalid!');
+        setError('The email address is badly formatted.');
       }
       if (err.code === 'auth/wrong-password') {
         setError(
-          'The password is invalid or the user does not have a password',
+          'The password is invalid or the user does not have a password.',
         );
       }
     }
@@ -51,35 +55,27 @@ export const AuthProvider = ({ children }) => {
   const register = async (email, password) => {
     try {
       if (isAuth) {
-        const registeredUser = await auth().createUserWithEmailAndPassword(
-          email,
-          password,
-        );
-        setError('');
-        setIsAuth(false);
-        await AsyncStorage.setItem('auth', JSON.stringify(false));
-
-        //TODO move this method to another file, you need auth user to logout correctly
-        //also add if-else to check wheter user is already created or not
-
-        const id = registeredUser.user.uid;
-        //TODO remove test.url from user collection
-        const data = { id, email };
-        const usersRef = firestore().collection('users');
-        await usersRef.doc(id).set(data);
+        if (email && password) {
+          await auth().createUserWithEmailAndPassword(email, password);
+          setError('');
+          setIsAuth(false);
+          await AsyncStorage.setItem('auth', JSON.stringify(false));
+        } else {
+          setError('Email or passowrd or name cannot be empty');
+        }
       }
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
-        console.log('That email address is already in use!');
-        setError('That email address is already in use!');
+        setError('The email address is already in use by another account.');
       }
 
       if (err.code === 'auth/invalid-email') {
-        console.log('That email address is invalid!');
-        setError('That email address is invalid!');
+        setError('The email address is badly formatted.');
       }
 
-      console.log('something else error in register', err);
+      if (err.code === 'auth/weak-password') {
+        setError('The password is not strong enough');
+      }
     }
   };
 

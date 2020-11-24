@@ -4,14 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import firestore from '@react-native-firebase/firestore';
 
-import {
-  BookmarkView,
-  DetailView,
-  HomeView,
-  LoginView,
-  SettingsView,
-  SignupView,
-} from '../views';
+import { BookmarkView, DetailView, HomeView, SettingsView } from '../views';
 import TabBar from '../components/TabBar';
 import ColumnistView from '../views/tab/Columnist';
 import {
@@ -19,8 +12,8 @@ import {
   BookmarkProvider,
   NotificationContext,
   SettingsProvider,
+  useTimer,
 } from '../context';
-import { useTimer } from '../context/TimerContext';
 import { AppState } from 'react-native';
 import AuthStack from './AuthStack';
 

@@ -75,11 +75,13 @@ const LoginView = ({ navigation }) => {
           {error}
         </Text>
       )}
+
       <FormButton
         buttonTitle={strings.login}
         onPress={() => login(email, password)}
         extraStyle={{ backgroundColor: theme.colors.primary }}
       />
+
       <View style={styles.footer}>
         <TouchableOpacity>
           <Text style={{ color: theme.colors.icon }}>

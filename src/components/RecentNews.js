@@ -27,6 +27,8 @@ const RecentNews = ({
     setModalVisible(!modalVisible);
   };
 
+  //TODO flatlist placeholder doesn't work!
+
   const renderItem = ({ item }) => (
     <View style={[styles.recentNews, { backgroundColor: theme.colors.card }]}>
       <TouchableOpacity
@@ -35,7 +37,7 @@ const RecentNews = ({
       >
         <Placeholder
           autoRun
-          visible={item ? true : false}
+          visible={item.url.length > 0 ? true : false}
           width={106}
           height={151}
         >
@@ -58,7 +60,7 @@ const RecentNews = ({
           <View style={styles.recentNewsBody}>
             <Placeholder
               autoRun
-              visible={item ? true : false}
+              visible={item.url.length > 0 ? true : false}
               width={150}
               height={12}
             >
@@ -75,7 +77,7 @@ const RecentNews = ({
             <Placeholder
               shimmerStyle={{ marginTop: 10 }}
               autoRun
-              visible={item ? true : false}
+              visible={item.url.length > 0 ? true : false}
               width={225}
               height={80}
             >
@@ -111,16 +113,7 @@ const RecentNews = ({
           {str.recentNews}
         </Text>
         <TouchableOpacity
-          style={{
-            marginLeft: 'auto',
-            borderWidth: 1,
-            width: 50,
-            height: 20,
-            borderRadius: 6,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderColor: theme.colors.icon,
-          }}
+          style={[styles.langButton, { borderColor: theme.colors.icon }]}
           onPress={toggleModal}
         >
           <Text style={{ color: theme.colors.icon }}>
@@ -143,12 +136,16 @@ const RecentNews = ({
       </View>
       <FlatList
         style={{ width: '100%', height: '100%' }}
-        // maxToRenderPerBatch={10}
-        initialNumToRender={1}
+        initialNumToRender={7}
         data={articles}
         keyExtractor={(item) => item.url}
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}
+        // getItemLayout={(data, index) => {
+        //   console.log('get item layout ' + index);
+        //   return { length: 140, offset: 140 * index, index };
+        // }}
+        ItemSeparatorComponent={() => <View style={{ marginBottom: 12 }} />}
       />
     </View>
   );
@@ -163,7 +160,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   recentNews: {
-    marginTop: 12,
+    // marginTop: 12,
     borderRadius: 6,
     width: '100%',
     backgroundColor: '#F3F3F3',
@@ -175,5 +172,14 @@ const styles = StyleSheet.create({
   },
   recentNewsBody: {
     width: Dimensions.get('window').width - (151 + 20),
+  },
+  langButton: {
+    marginLeft: 'auto',
+    borderWidth: 1,
+    width: 50,
+    height: 20,
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

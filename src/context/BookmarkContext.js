@@ -38,12 +38,11 @@ export const BookmarkProvider = ({ children }) => {
     })();
   }, [url]);
 
-  //TODO orderBy desc bookmarks!!!
   useEffect(() => {
     (async () => {
       try {
         if (user) {
-          const snap = await commentsRef.get();
+          const snap = await commentsRef.orderBy('publishedAt', 'desc').get();
           const saveList = [];
           snap.docs.forEach((doc) => {
             const article = doc.data();

@@ -4,8 +4,9 @@ import {
   LanguageProvider,
   NotificationProvider,
   ThemeProvider,
+  TimerContextProvider,
 } from './context';
-import TimerContextProvider from './context/TimerContext';
+
 import Providers from './navigation';
 
 const App = () => {

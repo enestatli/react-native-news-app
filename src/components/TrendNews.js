@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   FlatList,
   Image,
@@ -7,6 +7,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
+import Placeholder from './Placeholder';
 
 //TODO optimize trendNews flatlist maybe width height 100%
 
@@ -29,9 +30,18 @@ const TrendNews = ({ navigation, trendNews, str }) => {
         style={{ width: '100%', height: '100%' }}
         data={trendNews}
         keyExtractor={(item) => item.url.toString()}
-        initialNumToRender={1}
+        initialNumToRender={7}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
+        ItemSeparatorComponent={() => <View style={{ marginRight: 12 }} />}
+        // ListEmptyComponent={() => <Placeholder />}
+        // getItemLayout={(trendNews, index) => {
+        //   return {
+        //     length: 183,
+        //     offset: 183 * index,
+        //     index,
+        //   };
+        // }}
         renderItem={({ item }) => (
           <View style={styles.trendNews}>
             <TouchableOpacity
@@ -71,13 +81,11 @@ export default TrendNews;
 
 const styles = StyleSheet.create({
   trendNewsContainer: {
-    //TODO flex:1, and also drop marginTop, recentNews margin too!!
     height: 183,
-    marginTop: 32,
+    marginTop: 24,
     width: '100%',
   },
   trendNews: {
-    paddingRight: 12,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -118,29 +118,11 @@ const HomeView = ({ route, navigation }) => {
   }, [selectedTab, countryCode]);
 
   useEffect(() => {
-    setSelectedTab(tabs[0].id);
     StatusBar.setBarStyle(darkMode ? 'light-content' : 'dark-content');
     StatusBar.setTranslucent(false);
     Platform.OS === 'android' &&
       StatusBar.setBackgroundColor(mode.colors.background);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     setSelectedTab(tabs[0].id);
-  //     StatusBar.setBarStyle(darkMode ? 'light-content' : 'dark-content');
-  //     // StatusBar.setTranslucent(false);
-  //     Platform.OS === 'android' &&
-  //       StatusBar.setBackgroundColor(mode.colors.background);
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, [darkMode]),
-  // );
-
-  //TODO langModal transition is bad
-  //TODO recentNews marginTop check
-
-  //TODO use dimension width height!!
 
   return (
     <View

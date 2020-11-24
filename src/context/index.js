@@ -8,6 +8,7 @@ import {
 } from './NotificationContext';
 import { SettingsContext, SettingsProvider } from './SettingsContext';
 import { ThemeContext, ThemeProvider } from './ThemeContext';
+import TimerContextProvider, { TimerContext, useTimer } from './TimerContext';
 
 export {
   AuthContext,
@@ -22,4 +23,7 @@ export {
   NotificationProvider,
   LanguageContext,
   LanguageProvider,
+  TimerContext,
+  useTimer,
+  TimerContextProvider,
 };

@@ -11,8 +11,6 @@ export const useTimer = () => React.useContext(TimerContext);
 export const TimerContextProvider = ({ children }) => {
   const [timer, setTimer] = useState(new Timer());
 
-  //TODO move to the index context
-
   const newTimer = () => {
     setTimer(new Timer());
   };

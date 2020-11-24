@@ -56,9 +56,9 @@ const SignupView = ({ navigation }) => {
         />
         <TouchableOpacity style={styles.eye} onPress={() => setHide(!hide)}>
           {hide ? (
-            <Eye size={24} color={theme.colors.icon} />
-          ) : (
             <EyeOff size={24} color={theme.colors.icon} />
+          ) : (
+            <Eye size={24} color={theme.colors.icon} />
           )}
         </TouchableOpacity>
       </View>

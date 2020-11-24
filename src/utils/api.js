@@ -1,5 +1,6 @@
 const BASE_URL = 'https://newsapi.org/v2/';
-const APIKEY = 'dd5c6e37b34c4a588a2b663f3f0196cc';
+// const APIKEY = 'dd5c6e37b34c4a588a2b663f3f0196cc';
+const APIKEY = 'bbe44b27f2ea4464a198c929c1adc49e';
 
 // const somurulesiURL =
 //   'https://newsapi.org/v2/top-headlines?sortBy=publishedAt&category=health&country=us&apiKey=dd5c6e37b34c4a588a2b663f3f0196cc';

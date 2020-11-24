@@ -104,7 +104,6 @@ const TimeChart = ({ bs, tb, theme }) => {
             )} minutes`}
           </Text>
         </View>
-        {/* //TODO make it responsive height,width */}
         <VictoryChart
           polar
           theme={VictoryTheme.material}
