@@ -13,13 +13,28 @@ export const Routes = () => {
   const { user, setUser, isAuth, setIsAuth } = useContext(AuthContext);
 
   useEffect(() => {
+    //TODO needed cleanup to be fixed!
     const subscriber = auth().onAuthStateChanged(onAuthStatechanged);
     return () => {
       subscriber;
     };
   }, []);
 
+  // useEffect(() => {
+  //   if(!user.displayName){
+  //     auth().currentUser.updateProfile({
+  //       displayName:name
+  //     })
+  //   }
+  // },[])
+
   const onAuthStatechanged = async (user) => {
+    // if(!user.displayName){
+    //   auth().currentUser.updateProfile({
+    //     displayName:name
+    //   })
+    // }
+
     setUser(user);
     if (loading) {
       setTimeout(() => {

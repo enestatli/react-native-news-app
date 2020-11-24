@@ -1,7 +1,8 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
 
 export const AuthContext = createContext({});
 
@@ -10,9 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState('');
   const [isAuth, setIsAuth] = useState(false);
 
-  //TODO fix timetoread!!!
-
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       try {
         const value = await AsyncStorage.getItem('auth');
@@ -20,9 +19,8 @@ export const AuthProvider = ({ children }) => {
           setIsAuth(JSON.parse(value));
         }
       } catch (err) {
-        console.log(
-          'error while getting isAuth value from storage',
-          err.message,
+        Alert.alert(
+          'Error while getting authentication value from storage, please restart the app.',
         );
       }
     })();
@@ -52,11 +50,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (email, password) => {
+  const register = async (email, password, name) => {
     try {
       if (isAuth) {
         if (email && password) {
-          await auth().createUserWithEmailAndPassword(email, password);
+          await auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then((user) => {
+              if (!user.user.displayName) {
+                user.user.updateProfile({
+                  displayName: name,
+                });
+              }
+            });
           setError('');
           setIsAuth(false);
           await AsyncStorage.setItem('auth', JSON.stringify(false));
@@ -88,10 +94,10 @@ export const AuthProvider = ({ children }) => {
         await AsyncStorage.setItem('auth', JSON.stringify(false));
       }
     } catch (err) {
-      console.log('error while logging out', err);
+      Alert.alert('There is an error while logout, please refresh the app');
     }
   };
-
+  //TODO console.log should be removed for performance issues!!!
   const values = {
     user,
     setUser,

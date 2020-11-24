@@ -17,6 +17,7 @@ import { theme } from '../../utils/theme';
 const SignupView = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [hide, setHide] = useState(true);
 
   const { register, error, setError } = useContext(AuthContext);
@@ -33,7 +34,13 @@ const SignupView = ({ navigation }) => {
           CKMCM
         </Text>
       </View>
-      <FormInput placeholderText={strings.name} lines={1} />
+      <FormInput
+        value={name}
+        placeholderText={strings.name}
+        lines={1}
+        onChangeText={(name) => setName(name)}
+        autoCorrect={false}
+      />
       <FormInput
         value={email}
         placeholderText={strings.email}
@@ -69,7 +76,7 @@ const SignupView = ({ navigation }) => {
       )}
       <FormButton
         buttonTitle={strings.signup}
-        onPress={async () => await register(email, password)}
+        onPress={() => register(email, password, name)}
         extraStyle={{ backgroundColor: theme.colors.primary }}
       />
       <View style={styles.footer}>
