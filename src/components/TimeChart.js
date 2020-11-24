@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import {
   VictoryBar,
@@ -18,7 +18,7 @@ const TimeChart = ({ bs, tb, theme }) => {
   const [data, setData] = React.useState([]);
   const [average, setAverage] = React.useState(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     try {
       if (user) {
         (async () => {
@@ -63,7 +63,7 @@ const TimeChart = ({ bs, tb, theme }) => {
                 total += m.t;
               });
               const ifq = data_.findIndex((d) => d.x === dayOfTheWeek);
-              // console.log(ifq);
+
               data_[ifq].y = total;
             });
             setData(data_);
@@ -75,13 +75,13 @@ const TimeChart = ({ bs, tb, theme }) => {
     }
   }, []);
 
-  React.useEffect(() => {
-    let a = 0;
-    data.map((t) => (a += t.y));
-    // console.log('TOTAL:', a);
-    setAverage(a / 7);
-    // console.log(average / 3600, 'hours', (average % 3600) / 60, 'minutes');
-  }, [average]);
+  useEffect(() => {
+    if (data) {
+      let a = 0;
+      data.map((t) => (a += t.y));
+      setAverage(a / 7);
+    }
+  }, [data]);
 
   return (
     <BottomSheet visible={bs} closeBottomSheet={tb}>
@@ -160,9 +160,9 @@ const TimeChart = ({ bs, tb, theme }) => {
             // }}
             data={data}
             animate={{
-              duration: 1555,
+              duration: 55,
               easing: 'bounce',
-              onLoad: { duration: 1555 },
+              onLoad: { duration: 755 },
             }}
           />
         </VictoryChart>

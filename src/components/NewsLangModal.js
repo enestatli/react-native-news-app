@@ -14,7 +14,6 @@ import { theme } from '../utils/theme';
 
 import data from '../utils/newsLangCode';
 
-//TODO after done button give 1,1.5 seconds loading screen then fetch data
 const ICON_SIZE = 42;
 const ITEM_HEIGHT = ICON_SIZE * 2;
 const colors = {
@@ -148,8 +147,9 @@ export default function NewsLang({ toggleModal, mode, setCountryCode }) {
     const code = data[index].icon.toLowerCase();
     setCountryCode(code);
     await AsyncStorage.setItem('newsLanguage', code);
-    toggleModal(false);
-    // Alert.alert('Connect with:', data[index].name.toUpperCase());
+    setTimeout(() => {
+      toggleModal(false);
+    }, 250);
   }, [index]);
   const yellowRef = React.useRef();
   const darkRef = React.useRef();
@@ -195,6 +195,7 @@ export default function NewsLang({ toggleModal, mode, setCountryCode }) {
           top: height / 2 - ITEM_HEIGHT / 2,
         }}
       />
+
       <ConnectButton mode={mode} onPress={onConnectPress} />
       <Item />
     </View>

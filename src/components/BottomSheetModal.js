@@ -7,11 +7,10 @@ import {
   PanResponder,
   Platform,
   StyleSheet,
-  View,
 } from 'react-native';
 import { ThemeContext } from '../context';
 
-//TODO set overlay color and keyboardView
+//TODO remove modal from bottomsheet make your own
 
 const BottomSheet = ({
   visible,
@@ -33,7 +32,7 @@ const BottomSheet = ({
 
   const _closeAnim = Animated.timing(panY, {
     toValue: Dimensions.get('screen').height,
-    duration: 500,
+    duration: 300,
     useNativeDriver: false,
   });
 
@@ -67,7 +66,6 @@ const BottomSheet = ({
       animationType="fade"
       visible={visible}
       transparent={true}
-      // presentationStyle="overFullScreen"
       onRequestClose={closeBottomSheet}
       statusBarTranslucent={true}
     >
@@ -80,7 +78,6 @@ const BottomSheet = ({
           },
         ]}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        // keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 10}
       >
         <Animated.View
           style={[

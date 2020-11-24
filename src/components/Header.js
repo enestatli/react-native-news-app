@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import {
   Animated,
   StyleSheet,
@@ -10,9 +10,11 @@ import {
 
 import { Avatar, NewsIcon, SearchIcon } from './icons';
 import { windowWidth } from '../utils/dimensions';
+import { AuthContext } from '../context';
 
 const Header = ({ setQuery, theme }) => {
   const widthValue = useRef(new Animated.Value(windowWidth / 3)).current;
+  const { isAuth } = useContext(AuthContext);
 
   const onToggleSearchFocus = (isFocused) => {
     Animated.timing(widthValue, {
@@ -90,14 +92,12 @@ const Header = ({ setQuery, theme }) => {
             <SearchIcon />
           </TouchableOpacity>
         </Animated.View>
-        <TouchableOpacity>
-          {/* TODO if user auth fill avatar */}
-          <Avatar
-            size={30}
-            color={theme.colors.primary}
-            authColor={true ? theme.colors.primary : ''}
-          />
-        </TouchableOpacity>
+
+        <Avatar
+          size={30}
+          color={theme.colors.primary}
+          authColor={isAuth ? '' : theme.colors.primary}
+        />
       </View>
     </View>
   );
