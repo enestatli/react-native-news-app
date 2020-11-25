@@ -25,42 +25,16 @@ const Header = ({ setQuery, theme }) => {
   };
 
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginTop: 20,
-      }}
-    >
+    <View style={styles.container}>
       {/* left */}
-      <TouchableOpacity
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+      <TouchableOpacity style={styles.left}>
         <NewsIcon width={24} color={theme.colors.icon} />
-        <Text
-          style={{
-            marginLeft: 6,
-            fontWeight: 'bold',
-            letterSpacing: 1.2,
-            color: theme.colors.icon,
-          }}
-        >
+        <Text style={[styles.leftText, { color: theme.colors.icon }]}>
           CKMCM
         </Text>
       </TouchableOpacity>
       {/* right */}
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-        }}
-      >
+      <View style={styles.right}>
         <Animated.View
           style={{
             alignItems: 'center',
@@ -70,17 +44,13 @@ const Header = ({ setQuery, theme }) => {
           }}
         >
           <TextInput
-            style={{
-              borderColor: theme.colors.foreground,
-              borderWidth: 0.2,
-              width: '100%',
-              height: 32,
-              borderRadius: 2,
-              paddingLeft: 12,
-              paddingVertical: 0,
-              marginRight: 6,
-              color: theme.colors.foreground,
-            }}
+            style={[
+              styles.input,
+              {
+                borderColor: theme.colors.foreground,
+                color: theme.colors.foreground,
+              },
+            ]}
             onFocus={() => onToggleSearchFocus(true)}
             onBlur={() => onToggleSearchFocus(false)}
             placeholder="Search news"
@@ -108,15 +78,35 @@ const Header = ({ setQuery, theme }) => {
 export default Header;
 
 const styles = StyleSheet.create({
-  input: {
-    width: '50%',
-    height: 36,
-    paddingLeft: 12,
-    borderRadius: 6,
-  },
-  anim: {
+  container: {
     flexDirection: 'row',
     alignItems: 'center',
-    position: 'relative',
+    justifyContent: 'space-between',
+    marginTop: 20,
+    marginBottom: 12,
+  },
+  left: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  leftText: {
+    marginLeft: 6,
+    fontWeight: 'bold',
+    letterSpacing: 1.2,
+  },
+  right: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  input: {
+    borderWidth: 0.2,
+    width: '100%',
+    height: 32,
+    borderRadius: 2,
+    paddingLeft: 12,
+    paddingVertical: 0,
+    marginRight: 6,
   },
 });

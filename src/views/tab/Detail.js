@@ -82,7 +82,6 @@ const DetailView = ({ route, navigation }) => {
       } catch (err) {
         console.log('error while getting comments', err);
       }
-      console.log('focus!!');
     });
 
     return unsubscribe;

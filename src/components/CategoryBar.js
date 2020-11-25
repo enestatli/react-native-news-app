@@ -93,7 +93,7 @@ export default CategoryBar;
 const styles = StyleSheet.create({
   categoryContainer: {
     height: 24,
-    marginTop: 24,
+    marginBottom: 12,
     width: '100%',
   },
   categoryFlatList: {

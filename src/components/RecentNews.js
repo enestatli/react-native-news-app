@@ -102,7 +102,9 @@ const RecentNews = ({
 
   return (
     <View style={styles.recentNewsContainer}>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <View
+        style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}
+      >
         <Text
           style={{
             fontSize: 22,
@@ -120,20 +122,21 @@ const RecentNews = ({
             {countryCode.toUpperCase()}
           </Text>
         </TouchableOpacity>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          statusBarTranslucent={true}
-          onRequestClose={toggleModal}
-        >
-          <NewsLang
-            toggleModal={toggleModal}
-            mode={theme}
-            setCountryCode={setCountryCode}
-          />
-        </Modal>
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        statusBarTranslucent={true}
+        onRequestClose={toggleModal}
+      >
+        <NewsLang
+          toggleModal={toggleModal}
+          mode={theme}
+          setCountryCode={setCountryCode}
+        />
+      </Modal>
+
       <FlatList
         style={{ width: '100%', height: '100%' }}
         initialNumToRender={7}
@@ -156,11 +159,10 @@ export default RecentNews;
 const styles = StyleSheet.create({
   recentNewsContainer: {
     flex: 1,
-    marginTop: 20,
+    // marginTop: 20,
     marginBottom: 12,
   },
   recentNews: {
-    // marginTop: 12,
     borderRadius: 6,
     width: '100%',
     backgroundColor: '#F3F3F3',

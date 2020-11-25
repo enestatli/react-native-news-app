@@ -53,6 +53,7 @@ const HomeView = ({ route, navigation }) => {
   const [countryCode, setCountryCode] = useState('');
 
   //TODO google news rss
+  //TODO cleanup effects!!
 
   useEffect(() => {
     (async () => {

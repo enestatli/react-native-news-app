@@ -23,6 +23,7 @@ export const BookmarkProvider = ({ children }) => {
           const newUrl = md5(url);
           const article = (await commentsRef.doc(newUrl).get()).data();
           if (article !== undefined) {
+            //TODO gettin error check email falan filan!
             if (article.savedBy.includes(user.email)) {
               setIsBookmarked(true);
             } else {

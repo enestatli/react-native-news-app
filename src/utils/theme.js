@@ -17,9 +17,6 @@ const palette = {
   card: '#202024',
 };
 
-//TODO card color check!
-//TODO change some text icons to text color
-
 export const theme = {
   colors: {
     background: palette.white,
