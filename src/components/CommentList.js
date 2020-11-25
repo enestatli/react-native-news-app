@@ -23,6 +23,7 @@ const CommentList = ({
   commentText,
   setCommentText,
   str,
+  authenticated,
 }) => {
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
 
@@ -79,7 +80,7 @@ const CommentList = ({
             <Avatar
               size={32}
               color={mode.colors.primary}
-              fill={true && mode.colors.primary}
+              fill={authenticated ? mode.colors.primary : 'transparent'}
             />
           </TouchableOpacity>
         </View>

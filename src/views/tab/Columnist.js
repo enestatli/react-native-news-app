@@ -4,14 +4,12 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Image,
   FlatList,
-  ScrollView,
   Dimensions,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
-import { LeftIcon, RightIcon } from '../../components/icons';
+import { LeftIcon } from '../../components/icons';
 import { AuthContext, ThemeContext } from '../../context';
 
 const Columnist = ({ navigation }) => {
@@ -19,13 +17,9 @@ const Columnist = ({ navigation }) => {
   const [commentedNews, setCommentedNews] = React.useState([]);
   const { user } = React.useContext(AuthContext);
   const commentsRef = firestore().collection('testComments');
-  const [showMore, setShowMore] = useState(false);
   const [commentedByUser, setCommentedByUser] = useState([]);
   const [mentioned, setMentioned] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
-
-  //TODO add removeBookmarks button to check if commentsBy and
-  //SavedBy empty delete article completely
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
@@ -37,7 +31,7 @@ const Columnist = ({ navigation }) => {
 
   const getCommentedNews = async () => {
     try {
-      const snap = await commentsRef.get();
+      const snap = await commentsRef.orderBy('publishedAt', 'desc').get();
       if (snap.docs) {
         const articlesWithComments = [];
         snap.docs.map((doc) => {
@@ -47,7 +41,6 @@ const Columnist = ({ navigation }) => {
           }
         });
         setCommentedNews(articlesWithComments);
-        //TODO get comments by userId
         if (user) {
           const commentsByUser = [];
           articlesWithComments.map((article) => {
@@ -68,6 +61,8 @@ const Columnist = ({ navigation }) => {
     }
   };
 
+  //TODO add quick filter by countries to comments
+
   const onRefresh = async () => {
     try {
       setIsRefreshing(true);
@@ -80,7 +75,6 @@ const Columnist = ({ navigation }) => {
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.preferences}
-      // onPress={() => setShowMore(!showMore)}
       onPress={() => navigation.navigate('Detail', { data: item })}
     >
       <Text
@@ -89,14 +83,7 @@ const Columnist = ({ navigation }) => {
           color: mode.colors.icon,
         }}
       >
-        {/* {item.title?.slice(0, 55) + (item.title?.length > 55 ? '...' : '')} */}
-        {item.title.slice(0, 177) +
-          (showMore
-            ? item.title.slice(177, item.title.length)
-            : item.title.length > 177
-            ? '...'
-            : '') +
-          ` (${item.commentsBy.length})`}
+        {item.title + ` (${item.commentsBy.length})`}
       </Text>
     </TouchableOpacity>
   );

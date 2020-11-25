@@ -52,9 +52,7 @@ const HomeView = ({ route, navigation }) => {
   const { strings } = useContext(LanguageContext);
   const [countryCode, setCountryCode] = useState('');
 
-  //TODO sometimes news come with same key, drop this
   //TODO google news rss
-  //TODO search button
 
   useEffect(() => {
     (async () => {

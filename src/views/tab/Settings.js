@@ -243,20 +243,11 @@ const SettingsView = ({ navigation }) => {
           <Avatar
             size={64}
             color={mode.colors.primary}
-            fill={user ? mode.colors.primary : ''}
+            authColor={user ? mode.colors.primary : 'transparent'}
           />
           {!user && (
             <TouchableOpacity
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 32,
-                borderRadius: 6,
-                borderColor: mode.colors.icon,
-                borderWidth: 1,
-                marginHorizontal: 24,
-              }}
+              style={[styles.loginButton, { borderColor: mode.colors.icon }]}
               onPress={authButton}
             >
               <Text style={{ color: mode.colors.icon }}>{strings.login}</Text>
@@ -278,14 +269,10 @@ const SettingsView = ({ navigation }) => {
                 }}
               >
                 <TouchableOpacity
-                  style={{
-                    backgroundColor: mode.colors.primary,
-                    width: 60,
-                    height: 30,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 6,
-                  }}
+                  style={[
+                    styles.logoutButton,
+                    { backgroundColor: mode.colors.primary },
+                  ]}
                   onPress={() => logout()}
                 >
                   <Text style={{ color: 'white' }}>{strings.logout}</Text>
@@ -309,8 +296,9 @@ const SettingsView = ({ navigation }) => {
           renderItem={renderItem}
         />
       </View>
+      {/* TimeChart Modal */}
       <TimeChart bs={timeStatus} tb={showTimeChart} theme={mode} />
-      {/* TODO move languagemodal to components */}
+      {/* App Language Modal */}
       <BottomSheet
         visible={langModalVisible}
         closeBottomSheet={toggleLangModal}
@@ -418,5 +406,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 6,
     borderColor: '#ffffff',
+  },
+  loginButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 32,
+    borderRadius: 6,
+    borderWidth: 1,
+    marginHorizontal: 24,
+  },
+  logoutButton: {
+    width: 60,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 6,
   },
 });

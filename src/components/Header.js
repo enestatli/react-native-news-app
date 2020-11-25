@@ -71,32 +71,34 @@ const Header = ({ setQuery, theme }) => {
         >
           <TextInput
             style={{
-              borderColor: theme.colors.icon,
-              borderWidth: 0.5,
+              borderColor: theme.colors.foreground,
+              borderWidth: 0.2,
               width: '100%',
               height: 32,
-              borderRadius: 6,
+              borderRadius: 2,
               paddingLeft: 12,
               paddingVertical: 0,
               marginRight: 6,
+              color: theme.colors.foreground,
             }}
             onFocus={() => onToggleSearchFocus(true)}
             onBlur={() => onToggleSearchFocus(false)}
             placeholder="Search news"
+            placeholderTextColor={theme.colors.icon}
             onChangeText={(query) => setQuery(query)}
           />
           <TouchableOpacity
             style={{ position: 'absolute', right: 12 }}
             onPress={() => onToggleSearchFocus(true)}
           >
-            <SearchIcon />
+            <SearchIcon color={theme.colors.icon} />
           </TouchableOpacity>
         </Animated.View>
 
         <Avatar
           size={30}
           color={theme.colors.primary}
-          authColor={user ? theme.colors.primary : ''}
+          authColor={user ? theme.colors.primary : 'transparent'}
         />
       </View>
     </View>

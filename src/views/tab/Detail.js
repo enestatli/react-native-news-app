@@ -154,7 +154,6 @@ const DetailView = ({ route, navigation }) => {
   const saveArt = async (url) => {
     try {
       if (user) {
-        const submitedDate = firestore.FieldValue.serverTimestamp();
         const newUrl = md5(url);
         if (newUrl) {
           const ref = commentsRef.doc(newUrl);
@@ -277,6 +276,7 @@ const DetailView = ({ route, navigation }) => {
           commentText={commentText}
           setCommentText={setCommentText}
           str={strings}
+          authenticated={user ? true : false}
         />
       </Modal>
       <BottomSheet

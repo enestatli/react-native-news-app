@@ -1,8 +1,7 @@
-import React, { useContext, useCallback, useRef, useState } from 'react';
+import React, { useContext, useCallback, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
 import {
-  Dimensions,
   FlatList,
   Image,
   Platform,
@@ -17,64 +16,22 @@ import { LeftIcon, RightIcon } from '../../components/icons';
 import { BookmarkContext, LanguageContext, ThemeContext } from '../../context';
 
 const SaveView = ({ navigation }) => {
-  const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
-  const [isSelectable, setIsSelectable] = useState(false);
-  const [selectedList, setSelectedList] = useState([]);
-
   const { mode, darkMode } = useContext(ThemeContext);
   const { bookmarks } = useContext(BookmarkContext);
   const { strings } = useContext(LanguageContext);
 
-  React.useEffect(() => {
-    // console.log(bookmarks.length);
-  }, [bookmarks]);
-
-  const select = (item) => {
-    if (!selectedList.includes(item)) {
-      console.log('do not included I am adding ');
-      selectedList.push(item);
-      // setSelectedList([...selectedList, item]);
-    } else {
-      const itemIndex = selectedList.indexOf(item);
-      if (itemIndex > 0) {
-        console.log(`my index is ${itemIndex} bigger than 0 let me try remove`);
-        selectedList.splice(itemIndex, 1);
-      } else if (itemIndex === 0) {
-        console.log(`son kalan element im ben index: ${itemIndex}`);
-
-        selectedList.shift();
-      }
-    }
-    setSelectedList([...selectedList]);
-  };
-
-  const onLongPress = () => {
-    setIsSelectable((f) => !f);
-    setSelectedList([]);
-  };
-
   useFocusEffect(
     useCallback(() => {
       StatusBar.setBarStyle(darkMode ? 'light-content' : 'dark-content');
-      // StatusBar.setTranslucent(false);
       Platform.OS === 'android' &&
         StatusBar.setBackgroundColor(mode.colors.background);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [darkMode]),
   );
 
-  const toggleBottomSheet = () => {
-    setBottomSheetVisible(!bottomSheetVisible);
-  };
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.preferences}
-      onLongPress={onLongPress}
-      onPress={
-        isSelectable
-          ? () => select(item)
-          : () => navigation.navigate('Detail', { data: item })
-      }
+      onPress={() => navigation.navigate('Detail', { data: item })}
     >
       <View style={styles.border}>
         <Image
@@ -90,7 +47,6 @@ const SaveView = ({ navigation }) => {
             borderRadius: 6,
           }}
           resizeMode="cover"
-          // resizeMode="contain"
         />
       </View>
       <Text
@@ -131,8 +87,6 @@ const SaveView = ({ navigation }) => {
           {strings.bookmarks}
         </Text>
       </View>
-      {/* User Info */}
-      {/* Preferences */}
       <View style={{ flex: 1, marginHorizontal: 20, marginTop: 20 }}>
         <FlatList
           data={bookmarks}
@@ -141,13 +95,6 @@ const SaveView = ({ navigation }) => {
           renderItem={renderItem}
         />
       </View>
-      {/* TODO remove overlay to select items! */}
-      {/* <BottomSheet
-        closeBottomSheet={toggleBottomSheet}
-        visible={false}
-        cover={2}
-      /> */}
-      {/* son */}
     </View>
   );
 };
