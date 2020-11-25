@@ -48,8 +48,7 @@ export const TabNavigator = () => {
   const dateObj = new Date();
   const day = dateObj.getDate();
   const dayId = dateObj.getDay();
-  const timeId = dateObj.getTime();
-  //TODO add getTime to the timeSpent, and check if it is same with current getTime
+  const sessionId = dateObj.getTime();
 
   const { user, isAuth } = React.useContext(AuthContext);
 
@@ -60,15 +59,17 @@ export const TabNavigator = () => {
         setTimeout(async () => {
           if (user) {
             const userDoc = (await timeRef.doc(user.uid).get()).data();
-            if (userDoc.timeSpent === undefined) {
+            if (userDoc.timeSpent.length === 7) {
               userDoc.timeSpent = [
                 {
+                  sessionId,
                   dateObj,
                   dayId,
                   day,
-                  totalTime: [{ t: 0, sessionId: timeId }],
+                  totalTime: [{ t: 0, sessionId }],
                 },
               ];
+              await timeRef.doc(user.uid).set(userDoc);
             } else {
               const ind = userDoc.timeSpent.findIndex((d) => d.dayId === dayId);
               if (ind === -1) {
@@ -76,21 +77,15 @@ export const TabNavigator = () => {
                   dateObj,
                   dayId,
                   day,
-                  totalTime: [{ t: 0, sessionId: timeId }],
+                  totalTime: [{ t: 0, sessionId }],
                 });
-              } else {
-                // userDoc.timeSpent = [{}]
-                console.log('ELSE');
-                //TODO check if timeSpent list length equals 7 then reubild
-                // userDoc.timeSpent = [{ timeId, dateObj, dayId, day, totalTime: 0 }];
-                // await timeRef.doc(user.uid).add(userDoc);
               }
             }
             await timeRef.doc(user.uid).set(userDoc);
           }
         }, 1000);
       } catch (err) {
-        console.log('error while creating timeSpent', err);
+        console.log('error while creating timeSpent', err.message);
       }
     })();
 
@@ -100,17 +95,15 @@ export const TabNavigator = () => {
     };
   }, [user]);
 
-  //TODO add talk/chat stack, list commented news
-
   //TODO notification context, pass data to notification context and call schedule in tabstack
 
-  //TODO add collection (new Date()) obj as doc id and try to store each week of the month
   //TODO add appcenter cfg!!
   //TODO try to move timer flow to context when app completed
 
   const handleAppStateChange = (state) => {
     switch (state) {
       case 'active':
+        console.log('active!');
         timer.resume();
         setIsAppBackground(false);
         break;
@@ -122,9 +115,11 @@ export const TabNavigator = () => {
           try {
             if (user) {
               const userDoc = (await timeRef.doc(user.uid).get()).data();
+
               const ind = userDoc.timeSpent.findIndex((d) => d.dayId === dayId);
+
               const tIndex = userDoc.timeSpent[ind].totalTime.findIndex(
-                (f) => f.sessionId === timeId,
+                (f) => f.sessionId === sessionId,
               );
 
               if (tIndex > -1) {
@@ -132,13 +127,13 @@ export const TabNavigator = () => {
               } else {
                 userDoc.timeSpent[ind].totalTime.push({
                   t: timer.totalTime,
-                  sessionId: timeId,
+                  sessionId,
                 });
               }
               await timeRef.doc(user.uid).set(userDoc);
             }
           } catch (err) {
-            console.log('error while updating user timeSpent', err);
+            console.log('error while updating user timeSpent', err.message);
           }
         })();
         break;
