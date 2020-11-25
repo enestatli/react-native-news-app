@@ -99,9 +99,13 @@ const TimeChart = ({ bs, tb, theme }) => {
             Time you spent on reading news
           </Text>
           <Text style={{ fontSize: 18, color: theme.colors.icon }}>
-            {`Dailiy average ${Math.floor(average / 3600)} hours ${Math.floor(
-              (average % 3600) / 60,
-            )} minutes`}
+            {Math.floor(average / 3600) !== 0
+              ? `Daily average ${Math.floor(average / 3600)} hours ${Math.floor(
+                  (average % 3600) / 60,
+                )} minutes`
+              : `Daily average 0 hours ${Math.floor(
+                  (average % 3600) / 60,
+                )} minutes`}
           </Text>
         </View>
         <VictoryChart

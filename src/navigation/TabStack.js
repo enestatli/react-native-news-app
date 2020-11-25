@@ -153,11 +153,7 @@ export const TabNavigator = () => {
               <Tab.Screen name="Bookmark" component={BookmarkView} />
               <Tab.Screen name="Columnist" component={ColumnistView} />
               <Tab.Screen name="Home" component={HomeStack} />
-              <Tab.Screen
-                name="Settings"
-                component={SettingsView}
-                // children={() => <SettingsView propName={timer.totalTime} />}
-              />
+              <Tab.Screen name="Settings" component={SettingsView} />
             </Tab.Navigator>
           </NavigationContainer>
         ) : (
