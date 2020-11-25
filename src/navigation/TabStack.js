@@ -55,36 +55,40 @@ export const TabNavigator = () => {
 
   useEffect(() => {
     timer.resume();
-
     (async () => {
       try {
-        if (user) {
-          const userDoc = (await timeRef.doc(user.uid).get()).data();
-          if (userDoc.timeSpent === undefined) {
-            // userDoc.timeSpent = [{ timeId, dateObj, dayId, day, totalTime: [0] }];
-            // userDoc.timeSpent = [{ timeId, dateObj, dayId, day, totalTime: 0 }];
-            userDoc.timeSpent = [
-              { dateObj, dayId, day, totalTime: [{ t: 0, sessionId: timeId }] },
-            ];
-          } else {
-            const ind = userDoc.timeSpent.findIndex((d) => d.dayId === dayId);
-            if (ind === -1) {
-              userDoc.timeSpent.push({
-                dateObj,
-                dayId,
-                day,
-                totalTime: [{ t: 0, sessionId: timeId }],
-              });
+        setTimeout(async () => {
+          if (user) {
+            const userDoc = (await timeRef.doc(user.uid).get()).data();
+            if (userDoc.timeSpent === undefined) {
+              userDoc.timeSpent = [
+                {
+                  dateObj,
+                  dayId,
+                  day,
+                  totalTime: [{ t: 0, sessionId: timeId }],
+                },
+              ];
             } else {
-              // userDoc.timeSpent = [{}]
-              console.log('ELSE');
-              //TODO check if timeSpent list length equals 7 then reubild
-              // userDoc.timeSpent = [{ timeId, dateObj, dayId, day, totalTime: 0 }];
-              // await timeRef.doc(user.uid).add(userDoc);
+              const ind = userDoc.timeSpent.findIndex((d) => d.dayId === dayId);
+              if (ind === -1) {
+                userDoc.timeSpent.push({
+                  dateObj,
+                  dayId,
+                  day,
+                  totalTime: [{ t: 0, sessionId: timeId }],
+                });
+              } else {
+                // userDoc.timeSpent = [{}]
+                console.log('ELSE');
+                //TODO check if timeSpent list length equals 7 then reubild
+                // userDoc.timeSpent = [{ timeId, dateObj, dayId, day, totalTime: 0 }];
+                // await timeRef.doc(user.uid).add(userDoc);
+              }
             }
+            await timeRef.doc(user.uid).set(userDoc);
           }
-          await timeRef.doc(user.uid).set(userDoc);
-        }
+        }, 1000);
       } catch (err) {
         console.log('error while creating timeSpent', err);
       }
@@ -94,7 +98,7 @@ export const TabNavigator = () => {
     return () => {
       AppState.removeEventListener('change', handleAppStateChange);
     };
-  }, []);
+  }, [user]);
 
   //TODO add talk/chat stack, list commented news
 
@@ -137,7 +141,6 @@ export const TabNavigator = () => {
             console.log('error while updating user timeSpent', err);
           }
         })();
-        console.log('app is closed!');
         break;
     }
   };

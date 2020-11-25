@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
+import firestore from '@react-native-firebase/firestore';
 
 export const AuthContext = createContext({});
 
@@ -9,6 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
   const [isAuth, setIsAuth] = useState(false);
+  const usersRef = firestore().collection('users');
 
   useEffect(() => {
     (async () => {
@@ -53,21 +55,17 @@ export const AuthProvider = ({ children }) => {
     try {
       if (isAuth) {
         if (email && password) {
-          await auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then((res) => {
-              if (!res.user.displayName) {
-                res.user.updateProfile({
-                  displayName: name,
-                });
-              }
-            })
-            .catch((err) => {
-              Alert.alert(
-                'Error happened while updating display name, please try again!',
-                err.message,
-              );
-            });
+          const registeredUser = await auth().createUserWithEmailAndPassword(
+            email,
+            password,
+          );
+
+          setTimeout(async () => {
+            const id = registeredUser.user.uid;
+            const data = { id, email, name, timeSpent: [] };
+            await usersRef.doc(id).set(data);
+          }, 500);
+
           setError('');
           // setIsAuth(false);
           // await AsyncStorage.setItem('auth', JSON.stringify(false));

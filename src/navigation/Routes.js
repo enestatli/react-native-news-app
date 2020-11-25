@@ -13,15 +13,14 @@ export const Routes = () => {
   const { setUser, setIsAuth } = useContext(AuthContext);
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged((user) => {
-      setTimeout(async () => {
-        setUser(user);
-        if (loading) {
-          setLoading(false);
-          setIsAuth(false);
-          await AsyncStorage.setItem('auth', JSON.stringify(false));
-        }
-      }, 500);
+    const subscriber = auth().onAuthStateChanged(async (user) => {
+      console.log(user);
+      setUser(user);
+      if (loading) {
+        setLoading(false);
+        setIsAuth(false);
+        await AsyncStorage.setItem('auth', JSON.stringify(false));
+      }
     });
     return () => {
       subscriber;
