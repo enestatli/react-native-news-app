@@ -14,7 +14,7 @@ import { AuthContext } from '../context';
 
 const Header = ({ setQuery, theme }) => {
   const widthValue = useRef(new Animated.Value(windowWidth / 3)).current;
-  const { isAuth } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const onToggleSearchFocus = (isFocused) => {
     Animated.timing(widthValue, {
@@ -96,7 +96,7 @@ const Header = ({ setQuery, theme }) => {
         <Avatar
           size={30}
           color={theme.colors.primary}
-          authColor={isAuth ? '' : theme.colors.primary}
+          authColor={user ? theme.colors.primary : ''}
         />
       </View>
     </View>

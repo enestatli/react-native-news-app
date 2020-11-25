@@ -240,7 +240,11 @@ const SettingsView = ({ navigation }) => {
       {/* User Info */}
       <View style={{ padding: 20 }}>
         <View style={styles.userInfo}>
-          <Avatar size={64} color={mode.colors.primary} />
+          <Avatar
+            size={64}
+            color={mode.colors.primary}
+            fill={user ? mode.colors.primary : ''}
+          />
           {!user && (
             <TouchableOpacity
               style={{
@@ -262,7 +266,7 @@ const SettingsView = ({ navigation }) => {
             <>
               <View style={styles.userInfoTextContainer}>
                 <Text style={{ color: mode.colors.icon, marginTop: 6 }}>
-                  Enes Tatli
+                  {user.displayName}
                 </Text>
                 <Text style={{ color: mode.colors.icon, marginTop: 6 }}>
                   {user?.email}

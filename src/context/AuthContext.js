@@ -1,6 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 
@@ -32,10 +31,10 @@ export const AuthProvider = ({ children }) => {
         if (email && password) {
           await auth().signInWithEmailAndPassword(email, password);
           setError('');
-          await AsyncStorage.setItem('auth', JSON.stringify(false));
-          setIsAuth(false);
+          // await AsyncStorage.setItem('auth', JSON.stringify(false));
+          // setIsAuth(false);
         } else {
-          setError('Email or passowrd cannot be empty');
+          setError('Email or passowrd cannot be empty.');
         }
       }
     } catch (err) {
@@ -56,18 +55,24 @@ export const AuthProvider = ({ children }) => {
         if (email && password) {
           await auth()
             .createUserWithEmailAndPassword(email, password)
-            .then((user) => {
-              if (!user.user.displayName) {
-                user.user.updateProfile({
+            .then((res) => {
+              if (!res.user.displayName) {
+                res.user.updateProfile({
                   displayName: name,
                 });
               }
+            })
+            .catch((err) => {
+              Alert.alert(
+                'Error happened while updating display name, please try again!',
+                err.message,
+              );
             });
           setError('');
-          setIsAuth(false);
-          await AsyncStorage.setItem('auth', JSON.stringify(false));
+          // setIsAuth(false);
+          // await AsyncStorage.setItem('auth', JSON.stringify(false));
         } else {
-          setError('Email or passowrd or name cannot be empty');
+          setError('Name, email or passowrd cannot be empty.');
         }
       }
     } catch (err) {
@@ -80,7 +85,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       if (err.code === 'auth/weak-password') {
-        setError('The password is not strong enough');
+        setError('The password is not strong enough.');
       }
     }
   };
@@ -90,8 +95,8 @@ export const AuthProvider = ({ children }) => {
       if (!isAuth) {
         await auth().signOut();
         setError('');
-        setIsAuth(false);
-        await AsyncStorage.setItem('auth', JSON.stringify(false));
+        // setIsAuth(false);
+        // await AsyncStorage.setItem('auth', JSON.stringify(false));
       }
     } catch (err) {
       Alert.alert('There is an error while logout, please refresh the app');
