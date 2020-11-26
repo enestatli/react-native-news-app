@@ -60,4 +60,6 @@ export default {
   yourMentions: '你的评论',
   mentioned: '提及',
   noComment: '您尚未发表评论',
+  //bookmark screen
+  noBookmark: '尚无收藏',
 };

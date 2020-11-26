@@ -99,7 +99,6 @@ export default TrendNews;
 const styles = StyleSheet.create({
   trendNewsContainer: {
     flex: 1,
-    // marginTop: 12,
     marginBottom: 12,
   },
   trendNews: {

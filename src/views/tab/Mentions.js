@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
-import { LeftIcon } from '../../components/icons';
+import { ChatBubble, LeftIcon } from '../../components/icons';
 import { AuthContext, LanguageContext, ThemeContext } from '../../context';
 
 const Mentions = ({ navigation }) => {
@@ -106,7 +106,6 @@ const Mentions = ({ navigation }) => {
           <LeftIcon width={24} color={mode.colors.icon} />
         </TouchableOpacity>
         <Text style={{ color: mode.colors.foreground, fontSize: 24 }}>
-          {/* {strings.comments} */}
           {strings.mentions}
         </Text>
       </View>
@@ -179,6 +178,11 @@ const Mentions = ({ navigation }) => {
                 alignItems: 'center',
               }}
             >
+              <ChatBubble
+                color={mode.colors.icon}
+                size={72}
+                style={{ marginBottom: 12 }}
+              />
               <Text style={{ fontSize: 20, color: mode.colors.icon }}>
                 {strings.noComment}
               </Text>

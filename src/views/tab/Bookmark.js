@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { LeftIcon, RightIcon } from '../../components/icons';
+import { Bookmark, LeftIcon, RightIcon } from '../../components/icons';
 
 import { BookmarkContext, LanguageContext, ThemeContext } from '../../context';
 
@@ -88,12 +88,31 @@ const SaveView = ({ navigation }) => {
         </Text>
       </View>
       <View style={{ flex: 1, marginHorizontal: 20, marginTop: 20 }}>
-        <FlatList
-          data={bookmarks}
-          keyExtractor={(item) => item.url.toString()}
-          showsVerticalScrollIndicator={false}
-          renderItem={renderItem}
-        />
+        {bookmarks.length > 0 ? (
+          <FlatList
+            data={bookmarks}
+            keyExtractor={(item) => item.url.toString()}
+            showsVerticalScrollIndicator={false}
+            renderItem={renderItem}
+          />
+        ) : (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Bookmark
+              color={mode.colors.icon}
+              size={72}
+              style={{ marginBottom: 12 }}
+            />
+            <Text style={{ fontSize: 20, color: mode.colors.icon }}>
+              {strings.noBookmark}
+            </Text>
+          </View>
+        )}
       </View>
     </View>
   );

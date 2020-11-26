@@ -60,4 +60,6 @@ export default {
   yourMentions: 'Your Comments',
   mentioned: 'Mentioned',
   noComment: 'You have not commented yet.',
+  //bookmark screen
+  noBookmark: 'No favorites yet.',
 };

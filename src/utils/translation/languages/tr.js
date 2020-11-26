@@ -64,4 +64,6 @@ export default {
   yourMentions: 'Yorumladıkların',
   mentioned: 'Bahsedilenler',
   noComment: 'Henüz yorum yapmadınız.',
+  //bookmark screen
+  noBookmark: 'Henüz favori yok.',
 };
