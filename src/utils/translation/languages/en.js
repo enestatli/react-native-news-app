@@ -55,4 +55,9 @@ export default {
   haveAccount: 'Already have an account ? ',
   loginNow: 'Login now!',
   login: 'Login',
+  //columnist screen
+  mentions: 'Mentions',
+  yourMentions: 'Your Comments',
+  mentioned: 'Mentioned',
+  noComment: 'You have not commented yet.',
 };

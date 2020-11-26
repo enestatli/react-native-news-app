@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
 
 import {
@@ -11,6 +11,7 @@ import { LanguageContext, ThemeContext } from '../../context';
 import { CategoryBar, Header, RecentNews, TrendNews } from '../../components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import data from '../../utils/newsLangCode';
+import { useFocusEffect } from '@react-navigation/native';
 
 const tabs = [
   {
@@ -116,12 +117,13 @@ const HomeView = ({ route, navigation }) => {
     }
   }, [selectedTab, countryCode]);
 
-  useEffect(() => {
-    StatusBar.setBarStyle(darkMode ? 'light-content' : 'dark-content');
-    StatusBar.setTranslucent(false);
-    Platform.OS === 'android' &&
-      StatusBar.setBackgroundColor(mode.colors.background);
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle(darkMode ? 'light-content' : 'dark-content');
+      Platform.OS === 'android' &&
+        StatusBar.setBackgroundColor(mode.colors.background);
+    }, [darkMode]),
+  );
 
   return (
     <View

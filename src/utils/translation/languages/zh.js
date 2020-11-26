@@ -55,4 +55,9 @@ export default {
   haveAccount: '已经有帐号了？',
   loginNow: '现在登录',
   login: '登录',
+  //columnist screen
+  mentions: '提及',
+  yourMentions: '你的评论',
+  mentioned: '提及',
+  noComment: '您尚未发表评论',
 };

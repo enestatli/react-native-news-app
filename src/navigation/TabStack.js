@@ -4,9 +4,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import firestore from '@react-native-firebase/firestore';
 
-import { BookmarkView, DetailView, HomeView, SettingsView } from '../views';
+import {
+  BookmarkView,
+  DetailView,
+  HomeView,
+  SettingsView,
+  Mentions,
+} from '../views';
 import TabBar from '../components/TabBar';
-import ColumnistView from '../views/tab/Columnist';
 import {
   AuthContext,
   BookmarkProvider,
@@ -153,7 +158,7 @@ export const TabNavigator = () => {
               tabBar={(props) => <TabBar {...props} />}
             >
               <Tab.Screen name="Bookmark" component={BookmarkView} />
-              <Tab.Screen name="Columnist" component={ColumnistView} />
+              <Tab.Screen name="Mentions" component={Mentions} />
               <Tab.Screen name="Home" component={HomeStack} />
               <Tab.Screen name="Settings" component={SettingsView} />
             </Tab.Navigator>

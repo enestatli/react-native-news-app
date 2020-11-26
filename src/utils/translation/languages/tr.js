@@ -59,4 +59,9 @@ export default {
   haveAccount: 'Zaten bir hesabın var mı ? ',
   loginNow: 'Hemen giriş yap!',
   login: 'Giriş',
+  //columnist screen
+  mentions: 'Konuşulanlar',
+  yourMentions: 'Yorumladıkların',
+  mentioned: 'Bahsedilenler',
+  noComment: 'Henüz yorum yapmadınız.',
 };

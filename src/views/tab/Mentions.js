@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,12 +10,13 @@ import {
 import firestore from '@react-native-firebase/firestore';
 
 import { LeftIcon } from '../../components/icons';
-import { AuthContext, ThemeContext } from '../../context';
+import { AuthContext, LanguageContext, ThemeContext } from '../../context';
 
-const Columnist = ({ navigation }) => {
-  const { mode } = React.useContext(ThemeContext);
-  const [commentedNews, setCommentedNews] = React.useState([]);
-  const { user } = React.useContext(AuthContext);
+const Mentions = ({ navigation }) => {
+  const { mode } = useContext(ThemeContext);
+  const [commentedNews, setCommentedNews] = useState([]);
+  const { user } = useContext(AuthContext);
+  const { strings } = useContext(LanguageContext);
   const commentsRef = firestore().collection('testComments');
   const [commentedByUser, setCommentedByUser] = useState([]);
   const [mentioned, setMentioned] = useState(false);
@@ -106,7 +107,7 @@ const Columnist = ({ navigation }) => {
         </TouchableOpacity>
         <Text style={{ color: mode.colors.foreground, fontSize: 24 }}>
           {/* {strings.comments} */}
-          Konuşulanlar
+          {strings.mentions}
         </Text>
       </View>
 
@@ -123,7 +124,7 @@ const Columnist = ({ navigation }) => {
           onPress={() => setMentioned(false)}
         >
           <Text style={{ color: mode.colors.icon, fontSize: 20 }}>
-            Yorumladiklarin
+            {strings.yourMentions}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -131,7 +132,7 @@ const Columnist = ({ navigation }) => {
           onPress={() => setMentioned(true)}
         >
           <Text style={{ color: mode.colors.icon, fontSize: 20 }}>
-            Bahsedilenler
+            {strings.mentioned}
           </Text>
         </TouchableOpacity>
         {!mentioned ? (
@@ -178,7 +179,9 @@ const Columnist = ({ navigation }) => {
                 alignItems: 'center',
               }}
             >
-              <Text>You did not comment any</Text>
+              <Text style={{ fontSize: 20, color: mode.colors.icon }}>
+                {strings.noComment}
+              </Text>
             </View>
           )
         ) : (
@@ -196,7 +199,7 @@ const Columnist = ({ navigation }) => {
   );
 };
 
-export default Columnist;
+export default Mentions;
 
 const styles = StyleSheet.create({
   headerContainer: {

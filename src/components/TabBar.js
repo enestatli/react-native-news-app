@@ -41,7 +41,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
             key={label}
             onPress={onPress}
           >
-            {label === 'Columnist' && (
+            {label === 'Mentions' && (
               <ChatBubble size={24} color="#777" focused={isFocused} />
             )}
             {label === 'Home' && <HomeIcon width={24} color="#777" />}
@@ -51,7 +51,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
               style={[
                 styles.focused,
                 isFocused &&
-                  label !== 'Columnist' && { backgroundColor: 'black' },
+                  label !== 'Mentions' && { backgroundColor: 'black' },
               ]}
             />
           </TouchableOpacity>
