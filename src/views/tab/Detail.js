@@ -56,8 +56,6 @@ const DetailView = ({ route, navigation }) => {
 
   const commentsRef = firestore().collection('testComments');
 
-  //TODO add timestamp recentNews in homeView, add bookmark too!
-
   useEffect(() => {
     setUrl(data.url);
   }, []);
@@ -84,7 +82,7 @@ const DetailView = ({ route, navigation }) => {
   //TODO change lang
   const authButton = () =>
     Alert.alert(
-      'No Auth Detected',
+      'No Authentication Detected',
       'You have to login to save the news',
       [
         {
@@ -237,16 +235,6 @@ const DetailView = ({ route, navigation }) => {
     }
   };
 
-  //TODO fix run!!
-
-  const run = `
-      document.body.style.backgroundColor = "${mode.colors.background}";
-      document.body.style.color = ${mode.colors.icon};
-      document.html.style.fontSize = "8";
-
-      true;
-    `;
-
   return (
     <View
       style={{
@@ -285,24 +273,13 @@ const DetailView = ({ route, navigation }) => {
         />
       </BottomSheet>
       <View
-        style={{
-          width: '100%',
-          flexDirection: 'row',
-          backgroundColor: mode.colors.background,
-          paddingBottom: 12,
-        }}
+        style={[
+          styles.buttonsContainer,
+          { backgroundColor: mode.colors.background },
+        ]}
       >
         <TouchableOpacity
-          style={{
-            height: 48,
-            width: '60%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 3,
-            borderColor: mode.colors.icon,
-            borderWidth: 0.1,
-            marginLeft: 6,
-          }}
+          style={[styles.allComments, { borderColor: mode.colors.icon }]}
           onPress={toggleAddToModal}
         >
           <Text
@@ -317,21 +294,13 @@ const DetailView = ({ route, navigation }) => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+          style={styles.otherButtons}
           onPress={toggleBottomSheet}
         >
           <Bubble width={24} color={mode.colors.icon} />
         </TouchableOpacity>
         <TouchableOpacity
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+          style={styles.otherButtons}
           onPress={
             isBookmarked ? () => removeArt(data.url) : () => saveArt(data.url)
           }
@@ -342,14 +311,7 @@ const DetailView = ({ route, navigation }) => {
             color={mode.colors.icon}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          onPress={onShare}
-        >
+        <TouchableOpacity style={styles.otherButtons} onPress={onShare}>
           <ShareIcon size={24} color={mode.colors.icon} />
         </TouchableOpacity>
       </View>
@@ -374,9 +336,6 @@ const DetailView = ({ route, navigation }) => {
         userAgent={
           'Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 XL Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3714.0 Mobile Safari/537.36'
         }
-        injectedJavaScript={run}
-        //TODO try to block ads, for turkish just set to false javascript
-        //TODO add modal warn user it blocks some other functionality of the website
       />
     </View>
   );
@@ -384,4 +343,24 @@ const DetailView = ({ route, navigation }) => {
 
 export default DetailView;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  buttonsContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    paddingBottom: 12,
+  },
+  allComments: {
+    height: 48,
+    width: '60%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 3,
+    borderWidth: 0.1,
+    marginLeft: 6,
+  },
+  otherButtons: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

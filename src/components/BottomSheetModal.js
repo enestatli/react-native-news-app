@@ -10,8 +10,6 @@ import {
 } from 'react-native';
 import { ThemeContext } from '../context';
 
-//TODO remove modal from bottomsheet make your own
-
 const BottomSheet = ({
   visible,
   closeBottomSheet,

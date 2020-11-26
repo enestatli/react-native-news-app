@@ -7,7 +7,11 @@ import {
   getCategoryNews,
 } from '../../utils/api';
 
-import { LanguageContext, ThemeContext } from '../../context';
+import {
+  LanguageContext,
+  NotificationContext,
+  ThemeContext,
+} from '../../context';
 import { CategoryBar, Header, RecentNews, TrendNews } from '../../components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import data from '../../utils/newsLangCode';
@@ -51,6 +55,9 @@ const HomeView = ({ route, navigation }) => {
   const [query, setQuery] = useState('');
   const { mode, darkMode } = useContext(ThemeContext);
   const { strings } = useContext(LanguageContext);
+  const { getNotifyData, enableNotifications } = useContext(
+    NotificationContext,
+  );
   const [countryCode, setCountryCode] = useState('');
 
   //TODO google news rss
@@ -90,6 +97,9 @@ const HomeView = ({ route, navigation }) => {
       getTopHeadlines(countryCode)
         .then((data) => {
           setTestData(data);
+          if (enableNotifications) {
+            getNotifyData(data.articles[Math.floor(Math.random() * 11)]);
+          }
         })
         .catch((error) => {
           console.log('error while fetching topHeadlines', error);

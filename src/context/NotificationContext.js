@@ -1,24 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { scheduleNotification } from '../utils/notification.android';
+import { Alert } from 'react-native';
 
 export const NotificationContext = React.createContext({});
 
 export const NotificationProvider = ({ children }) => {
   const [enableNotifications, setEnableNotifications] = useState(true);
   const [isAppBackground, setIsAppBackground] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
+
+  const getNotifyData = (article) => {
+    setData(article);
+  };
 
   const toggleNotifications = async (value) => {
     try {
       setEnableNotifications(!value);
       await AsyncStorage.setItem('notification', JSON.stringify(!value));
     } catch (err) {
-      console.log('error when adding notification value to storage', err);
+      Alert.alert(
+        'Error occured',
+        'error when adding notification value to storage try again please',
+      );
     }
   };
 
   useEffect(() => {
+    console.log(data);
     (async () => {
       try {
         const val = await AsyncStorage.getItem('notification');
@@ -27,11 +36,10 @@ export const NotificationProvider = ({ children }) => {
           setEnableNotifications(parsedVal);
         }
         if (parsedVal || parsedVal === null) {
-          console.log(typeof parsedVal, parsedVal);
           if (isAppBackground) {
             scheduleNotification(
-              'title',
-              'message',
+              'Son Dakika',
+              data.title,
               'channel-id',
               'red',
               'https://raw.githubusercontent.com/rebus007/HeaderView/master/img/ic_launcher-web.png',
@@ -39,15 +47,19 @@ export const NotificationProvider = ({ children }) => {
           }
         }
       } catch (err) {
-        console.log('error while getting notification value from storage', err);
+        Alert.alert(
+          'Error occured',
+          'Error while getting notification value from storage try again please',
+        );
       }
     })();
-  }, [enableNotifications, isAppBackground]);
+  }, [enableNotifications, isAppBackground, data]);
 
   const values = {
     enableNotifications,
     toggleNotifications,
     setIsAppBackground,
+    getNotifyData,
   };
 
   return (

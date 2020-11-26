@@ -34,8 +34,6 @@ export const AuthProvider = ({ children }) => {
         if (email && password) {
           await auth().signInWithEmailAndPassword(email, password);
           setError('');
-          // await AsyncStorage.setItem('auth', JSON.stringify(false));
-          // setIsAuth(false);
         } else {
           setError('Email or passowrd cannot be empty.');
         }
@@ -68,8 +66,6 @@ export const AuthProvider = ({ children }) => {
           }, 500);
 
           setError('');
-          // setIsAuth(false);
-          // await AsyncStorage.setItem('auth', JSON.stringify(false));
         } else {
           setError('Name, email or passowrd cannot be empty.');
         }
@@ -94,8 +90,6 @@ export const AuthProvider = ({ children }) => {
       if (!isAuth) {
         await auth().signOut();
         setError('');
-        // setIsAuth(false);
-        // await AsyncStorage.setItem('auth', JSON.stringify(false));
       }
     } catch (err) {
       Alert.alert(

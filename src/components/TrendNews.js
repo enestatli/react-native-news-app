@@ -6,36 +6,14 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Platform,
-  Share,
 } from 'react-native';
 import { dateFormat } from '../utils/dateFormat';
 import { windowHeight, windowWidth } from '../utils/dimensions';
+import { onShare } from '../utils/share';
 import { ShareIcon } from './icons';
 import Placeholder from './Placeholder';
 
 const TrendNews = ({ navigation, trendNews, str }) => {
-  const onShare = async (item) => {
-    try {
-      let text = `${item.title} \n\n See more about the news...\n Download CekmecemNews App\n`;
-      if (Platform.OS === 'android') {
-        text = text.concat(
-          'https://play.google.com/store/apps/details?id=com.tdksozlukreactnative',
-        );
-      } else {
-        text = text.concat('https://itunes.apple.com');
-      }
-      await Share.share({
-        title: 'Cekmecem News',
-        // message: data.title,
-        message: text,
-        url: 'app://cekmecemnews',
-      });
-    } catch (err) {
-      console.log('error while trying to share a news', err.message);
-    }
-  };
-
   return (
     <View style={styles.trendNewsContainer}>
       <View style={{ flexDirection: 'row' }}>
