@@ -1,6 +1,7 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useContext, useState } from 'react';
 import {
+  Platform,
   StatusBar,
   StyleSheet,
   Text,

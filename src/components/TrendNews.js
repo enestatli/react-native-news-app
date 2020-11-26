@@ -6,21 +6,34 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Platform,
+  Share,
 } from 'react-native';
+import { dateFormat } from '../utils/dateFormat';
 import { windowHeight, windowWidth } from '../utils/dimensions';
+import { ShareIcon } from './icons';
 import Placeholder from './Placeholder';
 
 const TrendNews = ({ navigation, trendNews, str }) => {
-  const dateFormat = (date) => {
-    const monthIndex = date.substring(5, 7).replace(/^0+/, '');
-    const monthName = str.months[monthIndex - 1];
-    const day = date.substring(8, 10).replace(/^0+/, '');
-    const year = date.substring(0, 4);
-    const hour = date.substring(11, 16);
-    const formated =
-      monthName + ' ' + day + ',' + ' ' + year + ' ' + '-' + ' ' + hour;
-
-    return formated;
+  const onShare = async (item) => {
+    try {
+      let text = `${item.title} \n\n See more about the news...\n Download CekmecemNews App\n`;
+      if (Platform.OS === 'android') {
+        text = text.concat(
+          'https://play.google.com/store/apps/details?id=com.tdksozlukreactnative',
+        );
+      } else {
+        text = text.concat('https://itunes.apple.com');
+      }
+      await Share.share({
+        title: 'Cekmecem News',
+        // message: data.title,
+        message: text,
+        url: 'app://cekmecemnews',
+      });
+    } catch (err) {
+      console.log('error while trying to share a news', err.message);
+    }
   };
 
   return (
@@ -84,8 +97,18 @@ const TrendNews = ({ navigation, trendNews, str }) => {
                   (item.title.length > 60 ? '...' : '')}
               </Text>
               <Text style={styles.trendNewsTime}>
-                {dateFormat(item.publishedAt)}
+                {dateFormat(item.publishedAt, str)}
               </Text>
+              <TouchableOpacity
+                style={{
+                  position: 'absolute',
+                  top: 15,
+                  right: 5,
+                }}
+                onPress={() => onShare(item)}
+              >
+                <ShareIcon size={24} color="white" />
+              </TouchableOpacity>
             </TouchableOpacity>
           </View>
         )}

@@ -3,12 +3,16 @@ import {
   FlatList,
   Image,
   Modal,
+  Platform,
+  Share,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import { dateFormat } from '../utils/dateFormat';
 import { windowWidth } from '../utils/dimensions';
+import { ShareIcon } from './icons';
 
 import NewsLang from './NewsLangModal';
 import Placeholder from './Placeholder';
@@ -27,6 +31,27 @@ const RecentNews = ({
     setModalVisible(!modalVisible);
   };
 
+  const onShare = async (item) => {
+    try {
+      let text = `${item.title} \n\n See more about the news...\n Download CekmecemNews App\n`;
+      if (Platform.OS === 'android') {
+        text = text.concat(
+          'https://play.google.com/store/apps/details?id=com.tdksozlukreactnative',
+        );
+      } else {
+        text = text.concat('https://itunes.apple.com');
+      }
+      await Share.share({
+        title: 'Cekmecem News',
+        // message: data.title,
+        message: text,
+        url: 'app://cekmecemnews',
+      });
+    } catch (err) {
+      console.log('error while trying to share a news', err.message);
+    }
+  };
+
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={[styles.recentNewsButton, { backgroundColor: theme.colors.card }]}
@@ -42,7 +67,18 @@ const RecentNews = ({
         style={styles.image}
         resizeMode="cover"
       />
-
+      <Text
+        style={{
+          position: 'absolute',
+          bottom: 4,
+          left: (windowWidth - (151 + 20)) / 2,
+          fontSize: 10,
+          fontWeight: 'bold',
+          color: theme.colors.foreground,
+        }}
+      >
+        {dateFormat(item.publishedAt, str)}
+      </Text>
       <View
         style={{
           padding: 12,
@@ -56,11 +92,21 @@ const RecentNews = ({
           <Text style={[styles.description, { color: theme.colors.icon }]}>
             {!item.description
               ? ''
-              : item.description?.slice(0, 99) +
-                (item.description?.length > 99 ? '...' : '')}
+              : item.description?.slice(0, 95) +
+                (item.description?.length > 95 ? '...' : '')}
           </Text>
         </View>
       </View>
+      <TouchableOpacity
+        style={{
+          position: 'absolute',
+          bottom: 5,
+          right: 45,
+        }}
+        onPress={() => onShare(item)}
+      >
+        <ShareIcon size={24} color={theme.colors.icon} />
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 
@@ -184,5 +230,5 @@ const styles = StyleSheet.create({
   },
   image: { width: windowWidth / 2 - 100, height: '99%', borderRadius: 6 },
   title: { fontSize: 12, fontWeight: 'bold' },
-  description: { fontSize: 15, fontWeight: '100' },
+  description: { fontSize: 14, fontWeight: '100' },
 });

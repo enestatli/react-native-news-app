@@ -57,12 +57,6 @@ const DetailView = ({ route, navigation }) => {
   const commentsRef = firestore().collection('testComments');
 
   //TODO add timestamp recentNews in homeView, add bookmark too!
-  //TODO add bookmark, make webview look likes your app with colors, borders etc.
-  //TODO cleanup for each useEffects!!
-
-  //TODO saveList and commentList lengths 0 then remove article
-
-  //TODO javascript ads blocker!!!
 
   useEffect(() => {
     setUrl(data.url);

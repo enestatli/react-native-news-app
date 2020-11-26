@@ -104,11 +104,11 @@ const SaveView = ({ navigation }) => {
             }}
           >
             <Bookmark
-              color={mode.colors.icon}
+              color={mode.colors.primary}
               size={72}
               style={{ marginBottom: 12 }}
             />
-            <Text style={{ fontSize: 20, color: mode.colors.icon }}>
+            <Text style={{ fontSize: 16, color: mode.colors.icon }}>
               {strings.noBookmark}
             </Text>
           </View>
