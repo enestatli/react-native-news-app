@@ -1,5 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Platform, StatusBar, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 import {
   getTopHeadlines,
@@ -13,9 +15,7 @@ import {
   ThemeContext,
 } from '../../context';
 import { CategoryBar, Header, RecentNews, TrendNews } from '../../components';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import data from '../../utils/newsLangCode';
-import { useFocusEffect } from '@react-navigation/native';
 
 const tabs = [
   {
@@ -48,10 +48,11 @@ const tabs = [
   },
 ];
 
-const HomeView = ({ route, navigation }) => {
+const HomeView = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState(tabs[0].id);
   const [testData, setTestData] = useState([]);
   const [trendNews, setTrendNews] = useState([]);
+  const [isSubmit, setIsSubmit] = useState(false);
   const [query, setQuery] = useState('');
   const { mode, darkMode } = useContext(ThemeContext);
   const { strings } = useContext(LanguageContext);
@@ -61,7 +62,6 @@ const HomeView = ({ route, navigation }) => {
   const [countryCode, setCountryCode] = useState('');
 
   //TODO google news rss
-  //TODO cleanup effects!!
 
   useEffect(() => {
     (async () => {
@@ -85,46 +85,61 @@ const HomeView = ({ route, navigation }) => {
   }, []);
 
   useEffect(() => {
-    if (query.length > 3) {
-      getSearchNews(query)
-        .then((data) => {
-          setTestData(data);
-        })
-        .catch((error) => {
-          console.log('error while fetching searchNews: ', error);
-        });
-    } else {
-      getTopHeadlines(countryCode)
-        .then((data) => {
-          setTestData(data);
-          if (enableNotifications) {
-            getNotifyData(data.articles[Math.floor(Math.random() * 11)]);
-          }
-        })
-        .catch((error) => {
-          console.log('error while fetching topHeadlines', error);
-        });
+    let mounted = true;
+    if (mounted) {
+      if (isSubmit) {
+        getSearchNews(query)
+          .then((data) => {
+            setTestData(data);
+            if (enableNotifications) {
+              getNotifyData(data?.articles[Math.floor(Math.random() * 11)]);
+            }
+          })
+          .catch((error) => {
+            console.log('error while fetching searchNews: ', error);
+          });
+      } else {
+        getTopHeadlines(countryCode)
+          .then((data) => {
+            setTestData(data);
+            if (enableNotifications) {
+              getNotifyData(data?.articles[Math.floor(Math.random() * 11)]);
+            }
+          })
+          .catch((error) => {
+            console.log('error while fetching topHeadlines', error);
+          });
+      }
     }
-  }, [query, countryCode]);
+    return function cleanup() {
+      mounted = false;
+    };
+  }, [query, countryCode, isSubmit]);
 
   useEffect(() => {
-    if (selectedTab === 'general') {
-      getTopHeadlines(countryCode)
-        .then((data) => {
-          setTrendNews(data);
-        })
-        .catch((error) => {
-          console.log('error while fetching topHeadlines: ', error);
-        });
-    } else {
-      getCategoryNews(selectedTab, countryCode)
-        .then((data) => {
-          setTrendNews(data);
-        })
-        .catch((error) => {
-          console.log('error while fetching categoryNews: ', error);
-        });
+    let mounted = true;
+    if (mounted) {
+      if (selectedTab === 'general') {
+        getTopHeadlines(countryCode)
+          .then((data) => {
+            setTrendNews(data);
+          })
+          .catch((error) => {
+            console.log('error while fetching topHeadlines: ', error);
+          });
+      } else {
+        getCategoryNews(selectedTab, countryCode)
+          .then((data) => {
+            setTrendNews(data);
+          })
+          .catch((error) => {
+            console.log('error while fetching categoryNews: ', error);
+          });
+      }
     }
+    return () => {
+      mounted = false;
+    };
   }, [selectedTab, countryCode]);
 
   useFocusEffect(
@@ -142,7 +157,6 @@ const HomeView = ({ route, navigation }) => {
         flex: 1,
       }}
     >
-      {/* remove flex 1 */}
       <View style={{ paddingHorizontal: 20, flex: 1 }}>
         {/* Header */}
         <Header
@@ -150,6 +164,9 @@ const HomeView = ({ route, navigation }) => {
           setQuery={setQuery}
           nav={navigation}
           theme={mode}
+          query={query}
+          isSubmit={isSubmit}
+          setIsSubmit={setIsSubmit}
         />
         {/* Category */}
         <CategoryBar

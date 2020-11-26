@@ -36,6 +36,7 @@ import {
 import TimeChart from '../../components/TimeChart';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomSheet from '../../components/BottomSheetModal';
+import { windowHeight } from '../../utils/dimensions';
 
 const SettingsView = ({ navigation }) => {
   const { mode, darkMode, toggleDarkMode } = useContext(ThemeContext);
@@ -283,9 +284,14 @@ const SettingsView = ({ navigation }) => {
         </View>
       </View>
       {/* Preferences */}
-      <View style={{ flex: 1, marginHorizontal: 20, marginTop: 20 }}>
+      <View style={{ flex: 1, marginHorizontal: 20, marginVertical: 20 }}>
         <Text
-          style={{ fontSize: 16, fontWeight: 'bold', color: mode.colors.icon }}
+          style={{
+            fontSize: 16,
+            fontWeight: 'bold',
+            color: mode.colors.icon,
+            marginBottom: 20,
+          }}
         >
           {strings.preferences}
         </Text>
@@ -294,6 +300,7 @@ const SettingsView = ({ navigation }) => {
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
+          ItemSeparatorComponent={() => <View style={{ marginBottom: 12 }} />}
         />
       </View>
       {/* TimeChart Modal */}
@@ -356,7 +363,6 @@ const styles = StyleSheet.create({
   headerContainer: {
     height: 44,
     width: '100%',
-    position: 'relative',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -378,12 +384,9 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   preferences: {
-    // height: 48,
-    height: (Dimensions.get('screen').height - 44 - 84) / 14,
+    height: (windowHeight - 44 - 84) / 14,
     flexDirection: 'row',
     alignItems: 'center',
-    // justifyContent: 'space-between',
-    marginTop: 12,
   },
   border: {
     borderWidth: 1,

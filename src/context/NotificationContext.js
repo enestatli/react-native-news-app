@@ -26,8 +26,9 @@ export const NotificationProvider = ({ children }) => {
     }
   };
 
+  //TODO fix topheadlines data notify data
+
   useEffect(() => {
-    console.log(data);
     (async () => {
       try {
         const val = await AsyncStorage.getItem('notification');
@@ -37,13 +38,15 @@ export const NotificationProvider = ({ children }) => {
         }
         if (parsedVal || parsedVal === null) {
           if (isAppBackground) {
-            scheduleNotification(
-              'Son Dakika',
-              data.title,
-              'channel-id',
-              'red',
-              'https://raw.githubusercontent.com/rebus007/HeaderView/master/img/ic_launcher-web.png',
-            );
+            if (data) {
+              scheduleNotification(
+                'Son Dakika',
+                data.title,
+                'channel-id',
+                'red',
+                'https://raw.githubusercontent.com/rebus007/HeaderView/master/img/ic_launcher-web.png',
+              );
+            }
           }
         }
       } catch (err) {

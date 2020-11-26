@@ -18,7 +18,7 @@ function SvgComponent(props) {
         strokeMiterlimit={10}
         strokeWidth={40}
       />
-      <Circle cx={248} cy={399.99} r={32} />
+      <Circle cx={248} cy={399.99} r={32} fill={props.color} />
     </Svg>
   );
 }

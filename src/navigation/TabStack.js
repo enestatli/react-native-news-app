@@ -100,8 +100,6 @@ export const TabNavigator = () => {
     };
   }, [user]);
 
-  //TODO notification context, pass data to notification context and call schedule in tabstack
-
   //TODO add appcenter cfg!!
   //TODO try to move timer flow to context when app completed
 

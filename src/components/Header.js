@@ -8,11 +8,11 @@ import {
   View,
 } from 'react-native';
 
-import { Avatar, NewsIcon, SearchIcon } from './icons';
+import { Avatar, Close, NewsIcon, SearchIcon } from './icons';
 import { windowWidth } from '../utils/dimensions';
 import { AuthContext } from '../context';
 
-const Header = ({ setQuery, theme }) => {
+const Header = ({ setQuery, theme, query, setIsSubmit }) => {
   const widthValue = useRef(new Animated.Value(windowWidth / 3)).current;
   const { user } = useContext(AuthContext);
 
@@ -56,13 +56,27 @@ const Header = ({ setQuery, theme }) => {
             placeholder="Search news"
             placeholderTextColor={theme.colors.icon}
             onChangeText={(query) => setQuery(query)}
+            value={query}
+            onSubmitEditing={() => query.length > 3 && setIsSubmit(true)}
           />
-          <TouchableOpacity
-            style={{ position: 'absolute', right: 12 }}
-            onPress={() => onToggleSearchFocus(true)}
-          >
-            <SearchIcon color={theme.colors.icon} />
-          </TouchableOpacity>
+          {query ? (
+            <TouchableOpacity
+              style={{ position: 'absolute', right: 12 }}
+              onPress={() => {
+                setIsSubmit(false);
+                setQuery('');
+              }}
+            >
+              <Close color={theme.colors.icon} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={{ position: 'absolute', right: 12 }}
+              onPress={() => onToggleSearchFocus(true)}
+            >
+              <SearchIcon color={theme.colors.icon} />
+            </TouchableOpacity>
+          )}
         </Animated.View>
 
         <Avatar
