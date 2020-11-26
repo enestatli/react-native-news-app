@@ -100,6 +100,8 @@ export const TabNavigator = () => {
   //TODO add appcenter cfg!!
   //TODO try to move timer flow to context when app completed
 
+  //TODO if user here then active timer!!
+
   const handleAppStateChange = (state) => {
     switch (state) {
       case 'active':

@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Dimensions,
   FlatList,
   Image,
   Modal,
@@ -9,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { windowWidth } from '../utils/dimensions';
 
 import NewsLang from './NewsLangModal';
 import Placeholder from './Placeholder';
@@ -27,83 +27,51 @@ const RecentNews = ({
     setModalVisible(!modalVisible);
   };
 
-  //TODO flatlist placeholder doesn't work!
-
   const renderItem = ({ item }) => (
-    <View style={[styles.recentNews, { backgroundColor: theme.colors.card }]}>
-      <TouchableOpacity
-        style={styles.recentNewsButton}
-        onPress={() => navigation.navigate('Detail', { data: item })}
-      >
-        <Placeholder
-          autoRun
-          visible={item.url.length > 0 ? true : false}
-          width={106}
-          height={151}
-        >
-          <Image
-            source={{
-              uri:
-                item.urlToImage !== '' && item.urlToImage !== null
-                  ? item.urlToImage
-                  : 'https://images.unsplash.com/photo-1592312040171-267aa90d4783?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1376&q=80',
-            }}
-            style={{ width: 106, height: 151, borderRadius: 6 }}
-          />
-        </Placeholder>
+    <TouchableOpacity
+      style={[styles.recentNewsButton, { backgroundColor: theme.colors.card }]}
+      onPress={() => navigation.navigate('Detail', { data: item })}
+    >
+      <Image
+        source={{
+          uri:
+            item.urlToImage !== '' && item.urlToImage !== null
+              ? item.urlToImage
+              : 'https://images.unsplash.com/photo-1592312040171-267aa90d4783?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1376&q=80',
+        }}
+        style={styles.image}
+        resizeMode="cover"
+      />
 
-        <View
-          style={{
-            padding: 12,
-          }}
-        >
-          <View style={styles.recentNewsBody}>
-            <Placeholder
-              autoRun
-              visible={item.url.length > 0 ? true : false}
-              width={150}
-              height={12}
-            >
-              <Text
-                style={{
-                  fontSize: 13,
-                  color: theme.colors.icon,
-                  fontWeight: 'bold',
-                }}
-              >
-                {item.title}
-              </Text>
-            </Placeholder>
-            <Placeholder
-              shimmerStyle={{ marginTop: 10 }}
-              autoRun
-              visible={item.url.length > 0 ? true : false}
-              width={225}
-              height={80}
-            >
-              <Text
-                style={{
-                  fontSize: 18,
-                  color: theme.colors.icon,
-                  fontWeight: '100',
-                }}
-              >
-                {!item.description
-                  ? 'No description title'
-                  : item.description?.slice(0, 75) +
-                    (item.description?.length > 75 ? '...' : '')}
-              </Text>
-            </Placeholder>
-          </View>
+      <View
+        style={{
+          padding: 12,
+        }}
+      >
+        <View style={styles.recentNewsBody}>
+          <Text style={[styles.title, { color: theme.colors.icon }]}>
+            {item.title}
+          </Text>
+
+          <Text style={[styles.description, { color: theme.colors.icon }]}>
+            {!item.description
+              ? ''
+              : item.description?.slice(0, 99) +
+                (item.description?.length > 99 ? '...' : '')}
+          </Text>
         </View>
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 
   return (
     <View style={styles.recentNewsContainer}>
       <View
-        style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingBottom: 6,
+        }}
       >
         <Text
           style={{
@@ -137,6 +105,43 @@ const RecentNews = ({
         />
       </Modal>
 
+      {[1, 2].map((item) => (
+        <View style={{ flexDirection: 'row' }} key={item}>
+          <Placeholder
+            autoRun
+            visible={articles ? true : false}
+            shimmerStyle={{
+              marginBottom: 12,
+              borderRadius: 6,
+              width: 106,
+              height: 151,
+            }}
+          />
+          <View style={{ paddingVertical: articles ? 0 : 10 }}>
+            <Placeholder
+              autoRun
+              visible={articles ? true : false}
+              shimmerStyle={{
+                marginBottom: 12,
+                marginLeft: 12,
+                width: 100,
+                height: 16,
+              }}
+            />
+            <Placeholder
+              autoRun
+              visible={articles ? true : false}
+              shimmerStyle={{
+                marginBottom: 12,
+                marginLeft: 12,
+                width: windowWidth / 2,
+                height: 80,
+              }}
+            />
+          </View>
+        </View>
+      ))}
+
       <FlatList
         style={{ width: '100%', height: '100%' }}
         initialNumToRender={7}
@@ -144,10 +149,6 @@ const RecentNews = ({
         keyExtractor={(item) => item.url}
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}
-        // getItemLayout={(data, index) => {
-        //   console.log('get item layout ' + index);
-        //   return { length: 140, offset: 140 * index, index };
-        // }}
         ItemSeparatorComponent={() => <View style={{ marginBottom: 12 }} />}
       />
     </View>
@@ -159,29 +160,29 @@ export default RecentNews;
 const styles = StyleSheet.create({
   recentNewsContainer: {
     flex: 1,
-    // marginTop: 20,
     marginBottom: 12,
   },
-  recentNews: {
-    borderRadius: 6,
-    width: '100%',
-    backgroundColor: '#F3F3F3',
-  },
   recentNewsButton: {
+    width: windowWidth,
+    height: windowWidth / 2.7,
+    borderRadius: 6,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    position: 'relative',
   },
   recentNewsBody: {
-    width: Dimensions.get('window').width - (151 + 20),
+    width: windowWidth - (151 + 20),
+    height: '100%',
   },
   langButton: {
     marginLeft: 'auto',
-    borderWidth: 1,
+    borderWidth: 0.5,
     width: 50,
     height: 20,
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  image: { width: windowWidth / 2 - 100, height: '99%', borderRadius: 6 },
+  title: { fontSize: 12, fontWeight: 'bold' },
+  description: { fontSize: 15, fontWeight: '100' },
 });

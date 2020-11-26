@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }) => {
         }
       } catch (err) {
         Alert.alert(
+          'Error',
           'Error while getting authentication value from storage, please restart the app.',
         );
       }
@@ -97,7 +98,10 @@ export const AuthProvider = ({ children }) => {
         // await AsyncStorage.setItem('auth', JSON.stringify(false));
       }
     } catch (err) {
-      Alert.alert('There is an error while logout, please refresh the app');
+      Alert.alert(
+        'Error occured',
+        'There is an error while logout, please refresh the app',
+      );
     }
   };
   //TODO console.log should be removed for performance issues!!!

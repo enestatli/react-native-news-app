@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
-import isEqual from 'lodash.isequal';
 import md5 from 'md5';
 
 import { AuthContext } from './AuthContext';
+import { Alert } from 'react-native';
 
 export const BookmarkContext = React.createContext({});
 
@@ -24,7 +24,6 @@ export const BookmarkProvider = ({ children }) => {
             const newUrl = md5(url);
             const article = (await commentsRef.doc(newUrl).get()).data();
             if (article !== undefined) {
-              //TODO gettin error check email falan filan!
               if (article.savedBy.includes(user.email)) {
                 setIsBookmarked(true);
               } else {
@@ -36,7 +35,10 @@ export const BookmarkProvider = ({ children }) => {
           }
         }
       } catch (err) {
-        console.log('error while fetching bookmarkeds', err);
+        Alert.alert(
+          'Error occured',
+          'Error while fetching bookmarkeds, please restart the app',
+        );
       }
     })();
   }, [url]);
@@ -56,7 +58,10 @@ export const BookmarkProvider = ({ children }) => {
           setBookmarks(saveList);
         }
       } catch (err) {
-        console.log('error while fetching bookmark list', err);
+        Alert.alert(
+          'Error occured',
+          'Error while fetching bookmark list, please restart the app',
+        );
       }
     })();
   }, []);
