@@ -60,8 +60,6 @@ const LoginView = ({ navigation }) => {
           onPress={() => setHide(!hide)}
           show={hide}
         />
-
-        {/* //TODO empty string cause error fix */}
         <TouchableOpacity style={styles.eye} onPress={() => setHide(!hide)}>
           {hide ? (
             <EyeOff size={24} color={theme.colors.icon} />

@@ -32,7 +32,7 @@
     "react-native-screens": "^2.11.0",
     "react-native-shimmer-placeholder": "^2.0.6",
     "react-native-svg": "^12.1.0",
-    "react-native-webview": "^10.9.2",
+    "react-native-webview": "^10.10.2",
     "victory-native": "^35.0.1"
   },
   "devDependencies": {

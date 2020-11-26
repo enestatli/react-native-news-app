@@ -19,18 +19,20 @@ export const BookmarkProvider = ({ children }) => {
   useEffect(() => {
     (async () => {
       try {
-        if (url) {
-          const newUrl = md5(url);
-          const article = (await commentsRef.doc(newUrl).get()).data();
-          if (article !== undefined) {
-            //TODO gettin error check email falan filan!
-            if (article.savedBy.includes(user.email)) {
-              setIsBookmarked(true);
+        if (user) {
+          if (url) {
+            const newUrl = md5(url);
+            const article = (await commentsRef.doc(newUrl).get()).data();
+            if (article !== undefined) {
+              //TODO gettin error check email falan filan!
+              if (article.savedBy.includes(user.email)) {
+                setIsBookmarked(true);
+              } else {
+                setIsBookmarked(false);
+              }
             } else {
               setIsBookmarked(false);
             }
-          } else {
-            setIsBookmarked(false);
           }
         }
       } catch (err) {

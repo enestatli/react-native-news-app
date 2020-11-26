@@ -366,16 +366,10 @@ const DetailView = ({ route, navigation }) => {
         sharedCookiesEnabled={true}
         mediaPlaybackRequiresUserAction={true}
         javaScriptEnabled={isJSEnabled}
-        onShouldStartLoadWithRequest={(request) => {
-          // Only allow navigating within this website
-          if (request.url.startsWith('http')) {
-            return false;
-          }
-        }}
-        renderError={(err) =>
-          alert(
-            err,
-            'Website is not reacheable currently, maybe try to block ads and flashes on settings',
+        renderError={() =>
+          Alert.alert(
+            'Error occured',
+            'Website is not reacheable now, maybe try to block ads and flashes on settings',
           )
         }
         showsHorizontalScrollIndicator={false}
