@@ -19,5 +19,5 @@ Make sure:
 
 1. `git clone https://github.com/enestatli/react-native-news-app.git`
 2. Go inside the project directory `cd react-native-news-app/`
-3. Build and start dev server with `npm run start:macos`
-4. Open [http://localhost:3000](http://localhost:3000)
+3. Build and start dev server with `npx react-native run-android`
+4. Start `npm start`
