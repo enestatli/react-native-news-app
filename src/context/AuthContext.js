@@ -39,7 +39,10 @@ export const AuthProvider = ({ children }) => {
         }
       }
     } catch (err) {
-      if (err.code === 'auth/invalid-email') {
+      if (
+        err.code === 'auth/ınvalıd-emaıl' ||
+        err.code === 'auth/invalid-email'
+      ) {
         setError('The email address is badly formatted.');
       }
       if (err.code === 'auth/wrong-password') {
@@ -71,11 +74,17 @@ export const AuthProvider = ({ children }) => {
         }
       }
     } catch (err) {
-      if (err.code === 'auth/email-already-in-use') {
+      if (
+        err.code === 'auth/email-already-in-use' ||
+        err.code === 'auth/emaıl-already-ın-use'
+      ) {
         setError('The email address is already in use by another account.');
       }
 
-      if (err.code === 'auth/invalid-email') {
+      if (
+        err.code === 'auth/ınvalıd-emaıl' ||
+        err.code === 'auth/invalid-email'
+      ) {
         setError('The email address is badly formatted.');
       }
 
