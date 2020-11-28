@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as React from 'react';
 import {
   TouchableOpacity,
-  Alert,
   StatusBar,
   Dimensions,
   Animated,
@@ -209,12 +208,6 @@ const styles = StyleSheet.create({
     paddingTop: StatusBar.currentHeight,
     backgroundColor: theme.colors.background,
   },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
   itemWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -222,8 +215,8 @@ const styles = StyleSheet.create({
     height: ITEM_HEIGHT,
   },
   itemText: {
-    fontSize: 26,
-    fontWeight: '800',
+    fontSize: 24,
+    fontWeight: '600',
     textTransform: 'capitalize',
   },
 });

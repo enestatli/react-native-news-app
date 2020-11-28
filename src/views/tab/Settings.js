@@ -154,12 +154,9 @@ const SettingsView = ({ navigation }) => {
 
   useFocusEffect(
     useCallback(() => {
-      // console.log(Number(new Date().getHours()) < 20);
       StatusBar.setBarStyle(darkMode ? 'light-content' : 'dark-content');
-      // StatusBar.setTranslucent(false);
       Platform.OS === 'android' &&
         StatusBar.setBackgroundColor(mode.colors.background);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [darkMode]),
   );
 
@@ -284,7 +281,7 @@ const SettingsView = ({ navigation }) => {
         </View>
       </View>
       {/* Preferences */}
-      <View style={{ flex: 1, marginHorizontal: 20, marginVertical: 20 }}>
+      <View style={{ flex: 1, marginHorizontal: 20, paddingVertical: 20 }}>
         <Text
           style={{
             fontSize: 16,
@@ -301,6 +298,7 @@ const SettingsView = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
           ItemSeparatorComponent={() => <View style={{ marginBottom: 12 }} />}
+          // ListHeaderComponent={() => <View style={{ marginBottom: 12 }} />}
         />
       </View>
       {/* TimeChart Modal */}
