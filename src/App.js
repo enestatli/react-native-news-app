@@ -1,4 +1,5 @@
 import React from 'react';
+import RNBootSplash from 'react-native-bootsplash';
 
 import {
   LanguageProvider,
@@ -10,6 +11,12 @@ import {
 import Providers from './navigation';
 
 const App = () => {
+  React.useEffect(() => {
+    (async () => {
+      await RNBootSplash.hide({ fade: true });
+    })();
+  }, []);
+
   return (
     <ThemeProvider>
       <TimerContextProvider>
