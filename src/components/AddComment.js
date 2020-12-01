@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
-import firestore from '@react-native-firebase/firestore';
+import React, { useContext, useEffect } from 'react';
 
 import {
   StyleSheet,
@@ -8,7 +7,6 @@ import {
   View,
   TextInput,
   InteractionManager,
-  Alert,
 } from 'react-native';
 
 import { ThemeContext } from '../context';
@@ -25,8 +23,6 @@ const AddComment = ({
 }) => {
   const inputRef = React.useRef(null);
   const { mode } = useContext(ThemeContext);
-
-  const usersRef = firestore().collection('users');
 
   useEffect(() => {
     InteractionManager.runAfterInteractions(() => {

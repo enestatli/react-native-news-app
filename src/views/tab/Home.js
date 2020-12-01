@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { Platform, StatusBar, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
@@ -60,22 +66,25 @@ const HomeView = ({ navigation }) => {
     NotificationContext,
   );
   const [countryCode, setCountryCode] = useState('');
+  const mounted = useRef(true);
 
   //TODO google news rss
 
   useEffect(() => {
     (async () => {
       try {
-        const value = await AsyncStorage.getItem('newsLanguage');
-        if (value !== null) {
-          setCountryCode(value);
-        } else {
-          const code = strings.getInterfaceLanguage().substring(0, 2);
-          const f = data.find((i) => i.icon.toLowerCase() === code);
-          if (f !== undefined) {
-            setCountryCode(code);
+        if (mounted) {
+          const value = await AsyncStorage.getItem('newsLanguage');
+          if (value !== null) {
+            setCountryCode(value);
           } else {
-            setCountryCode('us');
+            const code = strings.getInterfaceLanguage().substring(0, 2);
+            const f = data.find((i) => i.icon.toLowerCase() === code);
+            if (f !== undefined) {
+              setCountryCode(code);
+            } else {
+              setCountryCode('us');
+            }
           }
         }
       } catch (err) {
@@ -85,7 +94,6 @@ const HomeView = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    let mounted = true;
     if (mounted) {
       if (isSubmit) {
         getSearchNews(query)
@@ -102,8 +110,8 @@ const HomeView = ({ navigation }) => {
         getTopHeadlines(countryCode)
           .then((data) => {
             setTestData(data);
-            if (enableNotifications) {
-              getNotifyData(data?.articles[Math.floor(Math.random() * 11)]);
+            if (enableNotifications && countryCode) {
+              getNotifyData(data?.articles[Math.floor(Math.random() * 5)]);
             }
           })
           .catch((error) => {
@@ -111,13 +119,12 @@ const HomeView = ({ navigation }) => {
           });
       }
     }
-    return function cleanup() {
-      mounted = false;
+    return () => {
+      mounted.current = false;
     };
   }, [query, countryCode, isSubmit]);
 
   useEffect(() => {
-    let mounted = true;
     if (mounted) {
       if (selectedTab === 'general') {
         getTopHeadlines(countryCode)
@@ -138,7 +145,7 @@ const HomeView = ({ navigation }) => {
       }
     }
     return () => {
-      mounted = false;
+      mounted.current = false;
     };
   }, [selectedTab, countryCode]);
 

@@ -136,8 +136,7 @@ const DetailView = ({ route, navigation }) => {
         const commentData = {
           id: timestamp,
           userId: user.id,
-          name: user.email,
-          imgUrl: 'avatarUrl',
+          name: dbUser.name,
           commentText,
           submitTime,
         };

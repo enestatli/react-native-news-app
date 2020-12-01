@@ -7,7 +7,7 @@ const scheduleNotification = (title, message, channelId, color, img) => {
     channelId,
     color,
     largeIconUrl: img,
-    date: new Date(Date.now() + 5 * 1000),
+    date: new Date(Date.now() + 3600 * 1000),
   });
 };
 
