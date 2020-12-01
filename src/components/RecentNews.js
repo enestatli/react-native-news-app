@@ -23,6 +23,7 @@ const RecentNews = ({
   setCountryCode,
   countryCode,
   theme,
+  query,
 }) => {
   const [modalVisible, setModalVisible] = React.useState(false);
 
@@ -104,7 +105,8 @@ const RecentNews = ({
             color: theme.colors.icon,
           }}
         >
-          {str.recentNews}
+          {str.recentNews}{' '}
+          {query && `- ${query[0].toUpperCase() + query.slice(1)}`}
         </Text>
         <TouchableOpacity
           style={[styles.langButton, { borderColor: theme.colors.icon }]}

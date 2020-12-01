@@ -80,7 +80,7 @@ const TrendNews = ({ navigation, trendNews, str }) => {
               <TouchableOpacity
                 style={{
                   position: 'absolute',
-                  top: 15,
+                  top: 5,
                   right: 5,
                 }}
                 onPress={() => onShare(item)}

@@ -8,8 +8,8 @@ export default [
     name: 'Turkish',
   },
   {
-    icon: 'ZH',
-    name: 'Chinese',
+    icon: 'FR',
+    name: 'French',
   },
   {
     icon: 'RU',

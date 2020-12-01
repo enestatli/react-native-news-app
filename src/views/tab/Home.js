@@ -152,8 +152,6 @@ const HomeView = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       StatusBar.setBarStyle(darkMode ? 'light-content' : 'dark-content');
-      //TODO fix NewsLangModal statusbar, setHidden(true)
-      //TODO or fix by responsivetivity
       Platform.OS === 'android' &&
         StatusBar.setBackgroundColor(mode.colors.background);
     }, [darkMode]),
@@ -203,6 +201,7 @@ const HomeView = ({ navigation }) => {
           setCountryCode={setCountryCode}
           countryCode={countryCode}
           theme={mode}
+          query={query}
         />
       </View>
     </View>
