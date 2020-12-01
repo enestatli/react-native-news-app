@@ -3,8 +3,6 @@ import {
   FlatList,
   Image,
   Modal,
-  Platform,
-  Share,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -52,12 +50,12 @@ const RecentNews = ({
           position: 'absolute',
           bottom: 4,
           left: (windowWidth - (151 + 20)) / 2,
-          fontSize: 10,
+          fontSize: 9,
           fontWeight: 'bold',
           color: theme.colors.foreground,
         }}
       >
-        {dateFormat(item.publishedAt, str)}
+        {item.source.name} - {dateFormat(item.publishedAt, str)}
       </Text>
       <View
         style={{

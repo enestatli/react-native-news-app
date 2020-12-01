@@ -117,11 +117,6 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     isAuth,
-    // setIsAuth: (f) => {
-    //   setTimeout(() => {
-    //     setIsAuth(!f);
-    //   }, 1000);
-    // },
     setIsAuth,
   };
 

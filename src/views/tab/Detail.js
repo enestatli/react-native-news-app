@@ -52,9 +52,34 @@ const DetailView = ({ route, navigation }) => {
   const [comms, setComms] = useState([]);
   const [commentText, setCommentText] = useState('');
 
+  const [dbUser, setDbUser] = useState(null);
+
   //----Bookmarks----//
 
   const commentsRef = firestore().collection('testComments');
+
+  const usersRef = firestore().collection('users');
+
+  useEffect(() => {
+    const unsub = navigation.addListener('focus', async () => {
+      try {
+        if (user) {
+          const snap = (await usersRef.doc(user.uid).get()).data();
+          if (snap) {
+            setDbUser(snap);
+          }
+        } else {
+          setDbUser(null);
+        }
+      } catch (error) {
+        Alert.alert(
+          'Error happened',
+          'Please refresh the app some error occured in database',
+        );
+      }
+    });
+    return unsub;
+  }, [navigation, user]);
 
   useEffect(() => {
     setUrl(data.url);
@@ -270,6 +295,8 @@ const DetailView = ({ route, navigation }) => {
           setCommentText={setCommentText}
           addComment={addComment}
           str={strings}
+          closeModal={toggleBottomSheet}
+          authenticatedUser={dbUser?.name}
         />
       </BottomSheet>
       <View

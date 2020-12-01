@@ -1,26 +1,32 @@
 import React, { useContext, useEffect, useState } from 'react';
+import firestore from '@react-native-firebase/firestore';
+
 import {
-  Image,
-  Keyboard,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   TextInput,
   InteractionManager,
+  Alert,
 } from 'react-native';
+
 import { ThemeContext } from '../context';
+import { Avatar } from '../components/icons';
 
 const AddComment = ({
-  cancel,
   commentText,
   setCommentText,
   addComment,
   data,
   str,
+  closeModal,
+  authenticatedUser,
 }) => {
   const inputRef = React.useRef(null);
   const { mode } = useContext(ThemeContext);
+
+  const usersRef = firestore().collection('users');
 
   useEffect(() => {
     InteractionManager.runAfterInteractions(() => {
@@ -39,19 +45,14 @@ const AddComment = ({
           padding: 20,
         }}
       >
-        <Image
-          source={{
-            uri:
-              'https://images.unsplash.com/photo-1603456219070-1aaca0805ec6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
-          }}
-          style={{
-            width: 30,
-            height: 30,
-            borderRadius: 9999,
-            marginRight: 10,
-          }}
+        <Avatar
+          size={32}
+          color={mode.colors.primary}
+          fill={authenticatedUser ? mode.colors.primary : 'transparent'}
         />
-        <Text style={{ color: mode.colors.icon }}>Enes Tatli</Text>
+        <Text style={{ color: mode.colors.icon, marginHorizontal: 12 }}>
+          {authenticatedUser}
+        </Text>
       </View>
       <View style={{ marginHorizontal: 20 }}>
         <TextInput
@@ -97,7 +98,7 @@ const AddComment = ({
             backgroundColor: mode.colors.card,
             borderRadius: 6,
           }}
-          onPress={cancel}
+          onPress={closeModal}
         >
           <Text
             style={{

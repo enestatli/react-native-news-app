@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import auth from '@react-native-firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { AuthContext } from '../context';
 
 import { Loading } from '../components';
 
 import { TabNavigator } from './TabStack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Routes = () => {
   const [loading, setLoading] = useState(true);

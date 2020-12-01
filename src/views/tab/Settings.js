@@ -1,5 +1,6 @@
 import React, { useContext, useCallback, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 
 import {
   Alert,
@@ -51,8 +52,32 @@ const SettingsView = ({ navigation }) => {
     changeLanguage,
     strings,
   } = useContext(LanguageContext);
+  const [dbUser, setDbUser] = useState(null);
 
   const [timeStatus, setTimeStatus] = useState(false);
+
+  const usersRef = firestore().collection('users');
+
+  React.useEffect(() => {
+    const unsub = navigation.addListener('focus', async () => {
+      try {
+        if (user) {
+          const snap = (await usersRef.doc(user.uid).get()).data();
+          if (snap) {
+            setDbUser(snap);
+          }
+        } else {
+          setDbUser(null);
+        }
+      } catch (error) {
+        Alert.alert(
+          'Error happened',
+          'Please refresh the app some error occured in database',
+        );
+      }
+    });
+    return unsub;
+  }, [navigation, user]);
 
   const showTimeChart = () => {
     setTimeStatus(!timeStatus);
@@ -255,10 +280,10 @@ const SettingsView = ({ navigation }) => {
             <>
               <View style={styles.userInfoTextContainer}>
                 <Text style={{ color: mode.colors.icon, marginTop: 6 }}>
-                  {user.displayName}
+                  {dbUser?.name}
                 </Text>
                 <Text style={{ color: mode.colors.icon, marginTop: 6 }}>
-                  {user?.email}
+                  {dbUser?.email}
                 </Text>
               </View>
               <View
