@@ -1,5 +1,6 @@
 import React from 'react';
 import RNBootSplash from 'react-native-bootsplash';
+import codePush from 'react-native-code-push';
 
 import {
   LanguageProvider,
@@ -30,4 +31,9 @@ const App = () => {
   );
 };
 
-export default App;
+let codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_START,
+  installMode: codePush.InstallMode.IMMEDIATE,
+};
+
+export default codePush(codePushOptions)(App);

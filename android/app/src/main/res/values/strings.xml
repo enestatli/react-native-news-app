@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">World News</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">VGM5Sx2KnuEoJlqCXPOwV01PERNH18DOMVglb</string>
 </resources>

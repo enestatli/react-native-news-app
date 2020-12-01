@@ -69,6 +69,8 @@ const HomeView = ({ navigation }) => {
   const mounted = useRef(true);
 
   //TODO google news rss
+  //TODO trendNews card maybe from rss without any picture
+  //TODO APPCENTER CONFIGURATION SHOULD START!!
 
   useEffect(() => {
     (async () => {

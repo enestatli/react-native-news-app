@@ -1,17 +1,21 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { ThemeContext } from '../context';
 
 import { Bookmark, HomeIcon, SettingsIcon, ChatBubble } from './icons';
 
 const TabBar = ({ state, descriptors, navigation }) => {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
+  const { mode } = React.useContext(ThemeContext);
 
   if (focusedOptions.tabBarVisible === false) {
     return null;
   }
 
   return (
-    <View style={{ flexDirection: 'row', backgroundColor: 'white' }}>
+    <View
+      style={{ flexDirection: 'row', backgroundColor: mode.colors.background }}
+    >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -42,16 +46,28 @@ const TabBar = ({ state, descriptors, navigation }) => {
             onPress={onPress}
           >
             {label === 'Mentions' && (
-              <ChatBubble size={24} color="#777" focused={isFocused} />
+              <ChatBubble
+                size={24}
+                color={mode.colors.icon}
+                focused={isFocused}
+              />
             )}
-            {label === 'Home' && <HomeIcon width={24} color="#777" />}
-            {label === 'Bookmark' && <Bookmark size={24} color="#777" />}
-            {label === 'Settings' && <SettingsIcon width={24} color="#777" />}
+            {label === 'Home' && (
+              <HomeIcon width={24} color={mode.colors.icon} />
+            )}
+            {label === 'Bookmark' && (
+              <Bookmark size={24} color={mode.colors.icon} />
+            )}
+            {label === 'Settings' && (
+              <SettingsIcon width={24} color={mode.colors.icon} />
+            )}
             <View
               style={[
                 styles.focused,
                 isFocused &&
-                  label !== 'Mentions' && { backgroundColor: 'black' },
+                  label !== 'Mentions' && {
+                    backgroundColor: mode.colors.icon,
+                  },
               ]}
             />
           </TouchableOpacity>
@@ -78,7 +94,6 @@ const styles = StyleSheet.create({
     width: 4,
     height: 4,
     marginTop: 2,
-    backgroundColor: 'white',
   },
   icons: {
     width: 24,
