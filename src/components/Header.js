@@ -57,7 +57,7 @@ const Header = ({ setQuery, theme, query, setIsSubmit }) => {
             placeholderTextColor={theme.colors.icon}
             onChangeText={(query) => setQuery(query)}
             value={query}
-            onSubmitEditing={() => query.length > 3 && setIsSubmit(true)}
+            onSubmitEditing={() => query.length >= 3 && setIsSubmit(true)}
           />
           {query ? (
             <TouchableOpacity

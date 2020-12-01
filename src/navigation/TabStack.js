@@ -100,19 +100,12 @@ export const TabNavigator = () => {
     };
   }, [user]);
 
-  //TODO add appcenter cfg!!
-  //TODO try to move timer flow to context when app completed
-
-  //TODO if user here then active timer!!
-
   const handleAppStateChange = (state) => {
     switch (state) {
       case 'active':
-        console.log('active!');
         timer.resume();
         setIsAppBackground(false);
         break;
-      // inactive or background
       default:
         timer.pause();
         setIsAppBackground(true);

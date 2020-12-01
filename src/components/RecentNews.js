@@ -119,7 +119,6 @@ const RecentNews = ({
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        statusBarTranslucent={true}
         onRequestClose={toggleModal}
       >
         <NewsLang
