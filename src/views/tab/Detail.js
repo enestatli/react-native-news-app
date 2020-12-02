@@ -135,7 +135,7 @@ const DetailView = ({ route, navigation }) => {
 
         const commentData = {
           id: timestamp,
-          userId: user.id,
+          userId: user.uid,
           name: dbUser.name,
           commentText,
           submitTime,

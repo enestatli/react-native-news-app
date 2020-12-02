@@ -30,7 +30,7 @@ const Header = ({ setQuery, theme, query, setIsSubmit }) => {
       <TouchableOpacity style={styles.left}>
         <NewsIcon width={24} color={theme.colors.icon} />
         <Text style={[styles.leftText, { color: theme.colors.icon }]}>
-          CKMCM
+          NEWS
         </Text>
       </TouchableOpacity>
       {/* right */}

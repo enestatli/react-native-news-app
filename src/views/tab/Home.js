@@ -70,7 +70,6 @@ const HomeView = ({ navigation }) => {
 
   //TODO google news rss
   //TODO trendNews card maybe from rss without any picture
-  //TODO APPCENTER CONFIGURATION SHOULD START!!
 
   useEffect(() => {
     (async () => {
@@ -169,17 +168,13 @@ const HomeView = ({ navigation }) => {
       <View style={{ paddingHorizontal: 20, flex: 1 }}>
         {/* Header */}
         <Header
-          avatar={'../../assets/images/ic_launcher.png'}
           setQuery={setQuery}
-          nav={navigation}
           theme={mode}
           query={query}
-          isSubmit={isSubmit}
           setIsSubmit={setIsSubmit}
         />
         {/* Category */}
         <CategoryBar
-          tabs={tabs}
           selected={selectedTab}
           onPress={(id) => setSelectedTab(id)}
           str={strings}

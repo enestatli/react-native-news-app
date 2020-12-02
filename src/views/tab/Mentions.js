@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -22,7 +22,7 @@ const Mentions = ({ navigation }) => {
   const [mentioned, setMentioned] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
       await getCommentedNews();
     });
@@ -46,7 +46,7 @@ const Mentions = ({ navigation }) => {
           const commentsByUser = [];
           articlesWithComments.map((article) => {
             article.commentsBy.map((comment) => {
-              if (comment.name === user.email) {
+              if (comment.userId === user.uid) {
                 if (commentsByUser.indexOf(article) === -1) {
                   commentsByUser.push(article);
                 }
@@ -169,6 +169,8 @@ const Mentions = ({ navigation }) => {
               keyExtractor={(item) => item.url.toString()}
               showsVerticalScrollIndicator={false}
               renderItem={renderItem}
+              onRefresh={onRefresh}
+              refreshing={isRefreshing}
             />
           ) : (
             <View
