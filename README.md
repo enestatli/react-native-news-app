@@ -1,11 +1,13 @@
 # React Native News App
 
-> Displaying News with other features such as commenting, saving and many others.
+<img src="https://i.imgur.com/2B17gGF.png">
+
+> Multi language world news app with features such as commenting, saving and many others.
 
 ## Technologies
 
 - [x] <b>JavaScript</b> - Language
-- [x] <b>React Native</b> - Mobile UI library
+- [x] <b>React Native</b> - Framework
 - [x] <b>MongoDB</b> - Database
 - [x] <b>Eslint</b> - Linting
 
