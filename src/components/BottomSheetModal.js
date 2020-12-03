@@ -107,10 +107,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     paddingTop: 12,
-    borderTopRightRadius: 12,
-    borderTopLeftRadius: 12,
-    borderBottomEndRadius: 12,
-    borderBottomLeftRadius: 12,
+    borderTopRightRadius: 6,
+    borderTopLeftRadius: 6,
+    borderBottomEndRadius: 6,
+    borderBottomLeftRadius: 6,
     flex: 0.5,
   },
 });

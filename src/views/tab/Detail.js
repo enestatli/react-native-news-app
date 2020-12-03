@@ -56,7 +56,7 @@ const DetailView = ({ route, navigation }) => {
 
   //----Bookmarks----//
 
-  const commentsRef = firestore().collection('testComments');
+  const commentsRef = firestore().collection('articles');
 
   const usersRef = firestore().collection('users');
 
@@ -104,7 +104,6 @@ const DetailView = ({ route, navigation }) => {
     return unsubscribe;
   }, [navigation, data.url]);
 
-  //TODO change lang
   const authButton = () =>
     Alert.alert(
       'No Authentication Detected',
@@ -119,7 +118,7 @@ const DetailView = ({ route, navigation }) => {
       { cancelable: true },
     );
 
-  const addComment = async (url) => {
+  const addComment = async (url, publishedAt, sourcName, title, urlToImage) => {
     try {
       if (user) {
         const d = new Date().toString().split(' ');
@@ -131,12 +130,10 @@ const DetailView = ({ route, navigation }) => {
           d[3] +
           ' ' +
           d[4].split(':').splice(0, 2).join(':');
-        const timestamp = new Date().getTime();
 
         const commentData = {
-          id: timestamp,
-          userId: user.uid,
-          name: dbUser.name,
+          id: user.uid,
+          name: dbUser?.name,
           commentText,
           submitTime,
         };
@@ -150,9 +147,15 @@ const DetailView = ({ route, navigation }) => {
             article.commentsBy.push(commentData);
             await checkedRef.set(article);
           } else {
-            data.commentsBy = [commentData];
-            data.savedBy = [];
-            await checkedRef.set(data);
+            await checkedRef.set({
+              commentsBy: [commentData],
+              savedBy: [],
+              url,
+              publishedAt,
+              sourcName,
+              title,
+              urlToImage,
+            });
           }
         }
       } else {
@@ -166,7 +169,7 @@ const DetailView = ({ route, navigation }) => {
     Keyboard.dismiss();
   };
 
-  const saveArt = async (url) => {
+  const saveArt = async (url, publishedAt, sourcName, title, urlToImage) => {
     try {
       if (user) {
         const newUrl = md5(url);
@@ -181,10 +184,17 @@ const DetailView = ({ route, navigation }) => {
             }
             await ref.set({ ...article });
           } else {
-            data.savedBy = [user.email];
-            data.commentsBy = [];
-            await ref.set(data);
-            setBookmarks([data, ...bookmarks]);
+            const data_ = {
+              savedBy: [user.email],
+              commentsBy: [],
+              url,
+              publishedAt,
+              sourcName,
+              title,
+              urlToImage,
+            };
+            await ref.set(data_);
+            setBookmarks([data_, ...bookmarks]);
             setIsBookmarked(true);
           }
         }
@@ -316,7 +326,7 @@ const DetailView = ({ route, navigation }) => {
             }}
           >
             {strings.comments}
-            {comms.length > 0 ? ` (${comms.length})` : ''}
+            {comms?.length > 0 ? ` (${comms?.length})` : ''}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -328,7 +338,16 @@ const DetailView = ({ route, navigation }) => {
         <TouchableOpacity
           style={styles.otherButtons}
           onPress={
-            isBookmarked ? () => removeArt(data.url) : () => saveArt(data.url)
+            isBookmarked
+              ? () => removeArt(data.url)
+              : () =>
+                  saveArt(
+                    data.url,
+                    data.publishedAt,
+                    data.source.name,
+                    data.title,
+                    data.urlToImage,
+                  )
           }
         >
           <Bookmark

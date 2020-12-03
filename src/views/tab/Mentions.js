@@ -6,6 +6,7 @@ import {
   View,
   FlatList,
   Dimensions,
+  Alert,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
@@ -17,7 +18,7 @@ const Mentions = ({ navigation }) => {
   const [commentedNews, setCommentedNews] = useState([]);
   const { user } = useContext(AuthContext);
   const { strings } = useContext(LanguageContext);
-  const commentsRef = firestore().collection('testComments');
+  const commentsRef = firestore().collection('articles');
   const [commentedByUser, setCommentedByUser] = useState([]);
   const [mentioned, setMentioned] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -46,7 +47,7 @@ const Mentions = ({ navigation }) => {
           const commentsByUser = [];
           articlesWithComments.map((article) => {
             article.commentsBy.map((comment) => {
-              if (comment.userId === user.uid) {
+              if (comment.id === user.uid) {
                 if (commentsByUser.indexOf(article) === -1) {
                   commentsByUser.push(article);
                 }
@@ -69,7 +70,10 @@ const Mentions = ({ navigation }) => {
       setIsRefreshing(true);
       await getCommentedNews();
     } catch (err) {
-      console.log('error while refreshing comments', err.message);
+      Alert.alert(
+        'Error occured',
+        'Error happened while refreshing the mention list please try again',
+      );
     }
   };
 
@@ -80,7 +84,8 @@ const Mentions = ({ navigation }) => {
     >
       <Text
         style={{
-          fontSize: 14,
+          fontSize: 15,
+          fontWeight: '700',
           color: mode.colors.icon,
         }}
       >
@@ -222,38 +227,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     height: '100%',
   },
-  userInfoContainer: {
-    padding: 20,
-  },
-  userInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  userInfoTextContainer: {
-    marginLeft: 12,
-  },
   preferences: {
-    // height: (Dimensions.get('screen').height - 44 - 84) / 14,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
-    // marginTop: 6,
+    marginBottom: 6,
     height: 72,
     width: '100%',
     borderRadius: 6,
-    // backgroundColor: 'red',
-  },
-  border: {
-    borderWidth: 1,
-    borderRadius: 6,
-    borderColor: '#c4c4c4',
-    width: 72,
-    height: 72,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  userInfoText: {
-    marginTop: 6,
   },
   mentionTabButtons: {
     flex: 1,
@@ -261,8 +241,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: Dimensions.get('screen').width / 3,
     height: 32,
-    // borderWidth: 1,
     borderRadius: 6,
-    // backgroundColor: mode.colors.primary,
   },
 });

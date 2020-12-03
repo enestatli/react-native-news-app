@@ -14,7 +14,7 @@ export const BookmarkProvider = ({ children }) => {
 
   const { user } = useContext(AuthContext);
 
-  const commentsRef = firestore().collection('testComments');
+  const commentsRef = firestore().collection('articles');
 
   useEffect(() => {
     (async () => {

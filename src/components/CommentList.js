@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import {
   FlatList,
-  Image,
   KeyboardAvoidingView,
   Platform,
   StatusBar,
@@ -88,7 +87,14 @@ const CommentList = ({
           style={styles.closeButton}
           onPress={
             commentText.length > 0
-              ? () => addComment(data.url)
+              ? () =>
+                  addComment(
+                    data.url,
+                    data.publishedAt,
+                    data.source?.name,
+                    data.title,
+                    data.urlToImage,
+                  )
               : () => closeModal()
           }
         >
@@ -103,7 +109,7 @@ const CommentList = ({
       <View style={{ flex: 1, padding: 20, zIndex: 9999 }}>
         <FlatList
           data={comms}
-          keyExtractor={(item) => item.id?.toString()}
+          keyExtractor={(item) => item.id + item.submitTime}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             <View
@@ -120,11 +126,17 @@ const CommentList = ({
                   alignItems: 'center',
                 }}
               >
-                <Image
-                  source={{ uri: data.urlToImage }}
-                  style={{ width: 30, height: 30, borderRadius: 9999 }}
+                <Avatar
+                  size={30}
+                  color={mode.colors.primary}
+                  fill={mode.colors.primary}
                 />
-                <Text style={{ paddingLeft: 10, color: mode.colors.icon }}>
+                <Text
+                  style={{
+                    paddingLeft: 10,
+                    color: mode.colors.icon,
+                  }}
+                >
                   {item.name}
                 </Text>
               </View>

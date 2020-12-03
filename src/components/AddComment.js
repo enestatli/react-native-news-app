@@ -73,7 +73,15 @@ const AddComment = ({
             backgroundColor: '#EA3B1E',
             borderRadius: 6,
           }}
-          onPress={() => addComment(data.url)}
+          onPress={() =>
+            addComment(
+              data.url,
+              data.publishedAt,
+              data.source?.name,
+              data.title,
+              data.urlToImage,
+            )
+          }
         >
           <Text
             style={{

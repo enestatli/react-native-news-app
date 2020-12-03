@@ -50,6 +50,9 @@ export const AuthProvider = ({ children }) => {
           'The password is invalid or the user does not have a password.',
         );
       }
+      if (err.code === 'auth/user-not-found') {
+        setError('There is no user record corresponding to this email');
+      }
     }
   };
 
@@ -61,13 +64,9 @@ export const AuthProvider = ({ children }) => {
             email,
             password,
           );
-
-          setTimeout(async () => {
-            const id = registeredUser.user.uid;
-            const data = { id, email, name, timeSpent: [] };
-            await usersRef.doc(id).set(data);
-          }, 500);
-
+          const id = registeredUser.user.uid;
+          const data = { id, email, name, timeSpent: [] };
+          await usersRef.doc(id).set(data);
           setError('');
         } else {
           setError('Name, email or passowrd cannot be empty.');
