@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 import {
   VictoryBar,
   VictoryChart,
@@ -70,8 +70,11 @@ const TimeChart = ({ bs, tb, theme }) => {
           }
         })();
       }
-    } catch (err) {
-      console.log('error while fetching timespent', err.message);
+    } catch {
+      Alert.alert(
+        'Error occured',
+        'Error while fetching time you spent please try again',
+      );
     }
   }, []);
 
@@ -130,42 +133,46 @@ const TimeChart = ({ bs, tb, theme }) => {
                 labelPlacement="perpendicular"
                 style={{
                   tickLabels: { fill: 'none' },
-                  // tickLabels: { fontSize: 6, padding: 15 },
                   axis: { stroke: theme.colors.icon },
                   axisLabel: {
-                    fontSize: 14,
+                    fontSize: 13,
                     padding: 12,
-                    fill: theme.colors.icon,
+                    fill: theme.colors.foreground,
                   },
-                  grid: {
-                    stroke: ({ tick }) =>
-                      tick > 0.5 ? theme.colors.icon : 'grey',
+
+                  ticks: {
+                    stroke: theme.colors.foreground,
+                    size: 35,
+                    opacity: 0.8,
                   },
-                  ticks: { stroke: theme.colors.primary, size: 5 },
+                  grid: { stroke: 'transparent' },
                 }}
                 axisValue={d}
               />
             );
           })}
           <VictoryBar
-            style={{ data: { fill: theme.colors.primary, width: 20 } }}
-            // style={{
-            //   data: {
-            //     fill: ({ datum }) => (datum.x === 3 ? '#000000' : '#c43a31'),
-            //     stroke: ({ index }) => (+index % 2 === 0 ? '#000000' : '#c43a31'),
-            //     fillOpacity: 0.7,
-            //     strokeWidth: 3,
-            //   },
-            //   labels: {
-            //     fontSize: 15,
-            //     fill: ({ datum }) => (datum.x === 5 ? '#000000' : '#c43a31'),
-            //   },
-            // }}
+            style={{
+              data: {
+                fill: ({ datum }) =>
+                  datum.x === 3
+                    ? theme.colors.foreground
+                    : theme.colors.primary,
+                stroke: ({ index }) =>
+                  +index % 2 === 0
+                    ? theme.colors.background
+                    : theme.colors.foreground,
+                fillOpacity: 0.7,
+                strokeWidth: 3,
+                borderRadius: 12,
+                width: 15,
+              },
+            }}
             data={data}
             animate={{
-              duration: 55,
+              duration: 555,
               easing: 'bounce',
-              onLoad: { duration: 755 },
+              onLoad: { duration: 555 },
             }}
           />
         </VictoryChart>
@@ -182,6 +189,5 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5fcff',
   },
 });
