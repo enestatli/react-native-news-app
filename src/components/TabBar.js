@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { ThemeContext } from '../context';
 
+import { ThemeContext } from '../context';
 import { Bookmark, HomeIcon, SettingsIcon, ChatBubble } from './icons';
 
 const TabBar = ({ state, descriptors, navigation }) => {
@@ -50,6 +50,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
                 size={24}
                 color={mode.colors.icon}
                 focused={isFocused}
+                fillColor={mode.colors.icon}
               />
             )}
             {label === 'Home' && (

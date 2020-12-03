@@ -27,7 +27,7 @@ function SvgComponent(props) {
     );
   };
 
-  return !props.focused ? <Icon /> : <Icon fillColor={'#777'} />;
+  return !props.focused ? <Icon /> : <Icon fillColor={props.fillColor} />;
 }
 
 export default SvgComponent;
