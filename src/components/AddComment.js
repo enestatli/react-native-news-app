@@ -70,7 +70,7 @@ const AddComment = ({
             width: '100%',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#EA3B1E',
+            backgroundColor: mode.colors.primary,
             borderRadius: 6,
           }}
           onPress={() =>
