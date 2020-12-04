@@ -27,7 +27,7 @@ export default {
   timeSpent: 'Okuma süresi',
   lang: 'Dil',
   block: 'Reklam ve flash engelle',
-  help: 'Yardım',
+  help: 'Yardım ve Öneriler',
   months: [
     'Ocak',
     'Şubat',

@@ -27,7 +27,7 @@ export default {
   timeSpent: 'Time to read',
   lang: 'Language',
   block: 'Block ads and flashes',
-  help: 'Help',
+  help: 'Help and Suggestions',
   months: [
     'Jan',
     'Feb',

@@ -27,7 +27,7 @@ export default {
   timeSpent: '时间阅读',
   lang: '语言',
   block: '屏蔽广告和闪烁',
-  help: '救命',
+  help: '帮助与建议',
   months: [
     '一月',
     '二月',

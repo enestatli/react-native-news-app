@@ -29,3 +29,6 @@ export { default as EyeOff } from './EyeOff';
 
 export { default as ShareIcon } from './ShareIcon';
 export { default as Avatar } from './Avatar';
+
+export { default as Email } from './Email';
+export { default as Whatsapp } from './Whatsapp';

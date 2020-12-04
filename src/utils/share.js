@@ -2,7 +2,7 @@ import { Alert, Platform, Share } from 'react-native';
 
 const onShare = async (item) => {
   try {
-    let text = `${item.title} \n\n See more about the news...\n Download CekmecemNews App\n`;
+    let text = `${item.title} \n\n See more about the news...\n Download World News App\n`;
     if (Platform.OS === 'android') {
       text = text.concat(
         'https://play.google.com/store/apps/details?id=com.tdksozlukreactnative',

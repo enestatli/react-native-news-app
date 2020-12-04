@@ -6,6 +6,7 @@ import {
   Alert,
   Dimensions,
   FlatList,
+  Modal,
   Platform,
   StatusBar,
   StyleSheet,
@@ -13,18 +14,20 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Linking,
 } from 'react-native';
 import {
   Avatar,
   Close,
   DarkModeIcon,
+  Email,
   HelpIcon,
   Language,
   LeftIcon,
-  LocationIcon,
   NotificationIcon,
   RightIcon,
   TimeIcon2,
+  Whatsapp,
 } from '../../components/icons';
 
 import {
@@ -40,6 +43,7 @@ import BottomSheet from '../../components/BottomSheetModal';
 import { windowHeight } from '../../utils/dimensions';
 
 const SettingsView = ({ navigation }) => {
+  const [addTodoVisible, setAddTodoVisible] = useState(false);
   const { mode, darkMode, toggleDarkMode } = useContext(ThemeContext);
   const { user, logout, setIsAuth } = useContext(AuthContext);
   const { isJSEnabled, setIsJSEnabled } = useContext(SettingsContext);
@@ -57,6 +61,26 @@ const SettingsView = ({ navigation }) => {
   const [timeStatus, setTimeStatus] = useState(false);
 
   const usersRef = firestore().collection('users');
+  const emailUrl = 'mailto:cekmecemapp@gmail.com';
+  const whatsappUrl = 'https://wa.me/905067758252';
+
+  const OpenEmailButton = ({ url, children }) => {
+    const handlePress = useCallback(async () => {
+      const supported = await Linking.canOpenURL(url);
+
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        Alert.alert(`Don't know how to open this URL: ${url}`);
+      }
+    }, [url]);
+
+    return (
+      <TouchableOpacity title={children} onPress={handlePress}>
+        {children}
+      </TouchableOpacity>
+    );
+  };
 
   React.useEffect(() => {
     const unsub = navigation.addListener('focus', async () => {
@@ -128,15 +152,15 @@ const SettingsView = ({ navigation }) => {
       ),
     },
     {
-      id: 'news',
-      title: strings.loc,
+      id: 'block',
+      title: strings.block,
       switch: true,
-      icon: <LocationIcon width={24} color={mode.colors.icon} />,
+      icon: <Close color={mode.colors.icon} />,
       switchComp: (
         <Switch
           style={{ marginLeft: 'auto', width: 36, height: 24 }}
-          // onValueChange={toggleSwitch}
-          // value={isEnabled}
+          onValueChange={setIsJSEnabled}
+          value={!isJSEnabled}
           trackColor={{ false: '#c4c4c4', true: mode.colors.primary }}
           thumbColor={'#f4f3f4'}
         />
@@ -153,21 +177,6 @@ const SettingsView = ({ navigation }) => {
       title: strings.lang,
       switch: false,
       icon: <Language width={24} color={mode.colors.icon} />,
-    },
-    {
-      id: 'block',
-      title: strings.block,
-      switch: true,
-      icon: <Close color={mode.colors.icon} />,
-      switchComp: (
-        <Switch
-          style={{ marginLeft: 'auto', width: 36, height: 24 }}
-          onValueChange={setIsJSEnabled}
-          value={!isJSEnabled}
-          trackColor={{ false: '#c4c4c4', true: mode.colors.primary }}
-          thumbColor={'#f4f3f4'}
-        />
-      ),
     },
     {
       id: 'help',
@@ -199,6 +208,10 @@ const SettingsView = ({ navigation }) => {
       { cancelable: true },
     );
 
+  const toggleHelp = () => {
+    setAddTodoVisible(!addTodoVisible);
+  };
+
   const renderItem = ({ item }) => (
     <View style={styles.preferences}>
       <View style={styles.border}>{item.icon}</View>
@@ -223,7 +236,7 @@ const SettingsView = ({ navigation }) => {
                 : authButton
               : item.id === 'language'
               ? toggleLangModal
-              : () => console.log('clicked')
+              : toggleHelp
           }
         >
           <RightIcon width={24} color={mode.colors.icon} />
@@ -375,6 +388,60 @@ const SettingsView = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </BottomSheet>
+      {/* help */}
+      <Modal
+        animationType="slide"
+        visible={addTodoVisible}
+        onRequestClose={toggleHelp}
+        statusBarTranslucent={addTodoVisible && true}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: mode.colors.background,
+            paddingTop: StatusBar.currentHeight + 24,
+          }}
+        >
+          <View style={styles.headerContainer}>
+            <TouchableOpacity style={styles.leftButton} onPress={toggleHelp}>
+              <LeftIcon width={24} color={mode.colors.icon} />
+            </TouchableOpacity>
+            <Text style={{ color: mode.colors.foreground, fontSize: 24 }}>
+              Help and Suggestions
+            </Text>
+          </View>
+          <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: 164,
+                marginBottom: 24,
+              }}
+            >
+              <OpenEmailButton url={whatsappUrl}>
+                <Whatsapp size={72} fill={mode.colors.primary} />
+              </OpenEmailButton>
+              <OpenEmailButton url={emailUrl}>
+                <Email size={72} color={mode.colors.primary} />
+              </OpenEmailButton>
+            </View>
+            <Text
+              numberOfLines={3}
+              ellipsizeMode="clip"
+              style={{
+                color: mode.colors.foreground,
+                fontSize: 16,
+                marginHorizontal: 20,
+              }}
+            >
+              Please help us to improve user experience
+            </Text>
+          </View>
+        </View>
+      </Modal>
       {/* son */}
     </View>
   );
