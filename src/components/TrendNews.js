@@ -13,7 +13,7 @@ import { onShare } from '../utils/share';
 import { ShareIcon } from './icons';
 import Placeholder from './Placeholder';
 
-const TrendNews = ({ navigation, trendNews, str }) => {
+const TrendNews = ({ navigation, trendNews, str, theme }) => {
   return (
     <View style={styles.trendNewsContainer}>
       <View style={{ flexDirection: 'row' }}>
@@ -69,7 +69,17 @@ const TrendNews = ({ navigation, trendNews, str }) => {
                 style={{ width: '100%', height: '100%', borderRadius: 6 }}
                 resizeMode="cover"
               />
-
+              <Text
+                style={[
+                  styles.source,
+                  {
+                    color: theme.colors.background,
+                    backgroundColor: theme.colors.foreground,
+                  },
+                ]}
+              >
+                {item.source.name}
+              </Text>
               <Text style={styles.trendNewsTitle}>
                 {item.title.slice(0, 60) +
                   (item.title.length > 60 ? '...' : '')}
@@ -113,7 +123,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     fontWeight: 'bold',
     fontSize: 16,
-    bottom: 55,
+    bottom: 45,
+    height: 70,
   },
   trendNewsTime: {
     position: 'absolute',
@@ -122,5 +133,15 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
     bottom: 15,
+  },
+  source: {
+    fontSize: 12,
+    paddingHorizontal: 12,
+    fontWeight: 'bold',
+    position: 'absolute',
+    bottom: 15,
+    right: 0,
+    borderTopLeftRadius: 3,
+    borderBottomLeftRadius: 3,
   },
 });

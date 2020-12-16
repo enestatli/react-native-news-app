@@ -186,6 +186,7 @@ const HomeView = ({ navigation }) => {
             trendNews={trendNews.articles}
             navigation={navigation}
             str={strings}
+            theme={mode}
           />
         )}
 

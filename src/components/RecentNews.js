@@ -64,7 +64,7 @@ const RecentNews = ({
         }}
       >
         <View style={styles.recentNewsBody}>
-          <Text style={[styles.title, { color: theme.colors.icon }]}>
+          <Text style={[styles.title, { color: theme.colors.foreground }]}>
             {item.title}
           </Text>
 
@@ -208,6 +208,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: { width: windowWidth / 2 - 100, height: '99%', borderRadius: 6 },
-  title: { fontSize: 12, fontWeight: 'bold' },
-  description: { fontSize: 14, fontWeight: '100' },
+  title: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    width: '100%',
+  },
+  description: {
+    fontSize: 14,
+    fontWeight: 'normal',
+    width: '100%',
+    height: windowWidth / 5.4,
+  },
 });
