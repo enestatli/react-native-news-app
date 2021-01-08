@@ -42,10 +42,12 @@ import TimeChart from '../../components/TimeChart';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomSheet from '../../components/BottomSheetModal';
 import { windowHeight } from '../../utils/dimensions';
+import { getNewsSources } from '../../utils/api';
 
 const SettingsView = ({ navigation }) => {
   const [addTodoVisible, setAddTodoVisible] = useState(false);
   const [sourcesVisible, setSourcesVisible] = useState(false);
+  const [sources, setSources] = useState(null);
 
   const { mode, darkMode, toggleDarkMode } = useContext(ThemeContext);
   const { user, logout, setIsAuth } = useContext(AuthContext);
@@ -59,7 +61,7 @@ const SettingsView = ({ navigation }) => {
     changeLanguage,
     strings,
   } = useContext(LanguageContext);
-  const [dbUser, setDbUser] = useState(null);
+  const [dbUser, setDbUser] = useState([]);
 
   const [timeStatus, setTimeStatus] = useState(false);
 
@@ -67,7 +69,7 @@ const SettingsView = ({ navigation }) => {
   const emailUrl = 'mailto:cekmecemapp@gmail.com';
   const whatsappUrl = 'https://wa.me/905067758252';
 
-  const OpenEmailButton = ({ url, children }) => {
+  const OpenEmailButton = ({ url, children, ...props }) => {
     const handlePress = useCallback(async () => {
       const supported = await Linking.canOpenURL(url);
 
@@ -79,7 +81,7 @@ const SettingsView = ({ navigation }) => {
     }, [url]);
 
     return (
-      <TouchableOpacity title={children} onPress={handlePress}>
+      <TouchableOpacity title={children} onPress={handlePress} {...props}>
         {children}
       </TouchableOpacity>
     );
@@ -105,6 +107,20 @@ const SettingsView = ({ navigation }) => {
     });
     return unsub;
   }, [navigation, user]);
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const newsSourcesData = await getNewsSources();
+        if (newsSourcesData.status !== 'ok') {
+          return;
+        }
+        setSources(newsSourcesData.sources);
+      } catch (error) {
+        Alert.alert('Error', 'Error occured while fetching news sources');
+      }
+    })();
+  }, []);
 
   const showTimeChart = () => {
     setTimeStatus(!timeStatus);
@@ -249,6 +265,8 @@ const SettingsView = ({ navigation }) => {
                 : authButton
               : item.id === 'language'
               ? toggleLangModal
+              : item.id === 'sources'
+              ? toggleSources
               : toggleHelp
           }
         >
@@ -273,7 +291,6 @@ const SettingsView = ({ navigation }) => {
         paddingVertical: 20,
       }}
     >
-      {/* Header */}
       <View style={styles.headerContainer}>
         <TouchableOpacity
           style={styles.leftButton}
@@ -286,7 +303,6 @@ const SettingsView = ({ navigation }) => {
         </Text>
       </View>
 
-      {/* User Info */}
       <View style={{ padding: 20 }}>
         <View style={styles.userInfo}>
           <Avatar
@@ -331,7 +347,7 @@ const SettingsView = ({ navigation }) => {
           )}
         </View>
       </View>
-      {/* Preferences */}
+
       <View style={{ flex: 1, marginHorizontal: 20, paddingVertical: 20 }}>
         <Text
           style={{
@@ -352,9 +368,9 @@ const SettingsView = ({ navigation }) => {
           // ListHeaderComponent={() => <View style={{ marginBottom: 12 }} />}
         />
       </View>
-      {/* TimeChart Modal */}
+
       <TimeChart bs={timeStatus} tb={showTimeChart} theme={mode} />
-      {/* App Language Modal */}
+
       <BottomSheet
         visible={langModalVisible}
         closeBottomSheet={toggleLangModal}
@@ -401,7 +417,7 @@ const SettingsView = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </BottomSheet>
-      {/* help */}
+
       <Modal
         animationType="slide"
         visible={addTodoVisible}
@@ -460,15 +476,38 @@ const SettingsView = ({ navigation }) => {
           </View>
         </View>
       </Modal>
-      {/* son */}
+
       <Modal
         animationType="slide"
         visible={sourcesVisible}
         onRequestClose={toggleSources}
         statusBarTranslucent={sourcesVisible && true}
       >
-        <View>
-          <Text>Hello Sources</Text>
+        <View style={styles.sourcesContainer}>
+          <View style={styles.headerContainer}>
+            <TouchableOpacity style={styles.leftButton} onPress={toggleHelp}>
+              <LeftIcon width={24} color={mode.colors.icon} />
+            </TouchableOpacity>
+            <Text
+              style={{
+                color: mode.colors.foreground,
+                fontSize: 24,
+              }}
+            >
+              Help and Suggestions
+            </Text>
+          </View>
+
+          <FlatList
+            data={sources}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <OpenEmailButton url={item.url} style={styles.sources}>
+                <Text>{item.name}</Text>
+                <Text>{item.url}</Text>
+              </OpenEmailButton>
+            )}
+          />
         </View>
       </Modal>
     </View>
@@ -543,5 +582,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 6,
+  },
+  sourcesContainer: {
+    flex: 1,
+    paddingTop: StatusBar.currentHeight + 24,
+  },
+  sources: {
+    padding: 20,
   },
 });
