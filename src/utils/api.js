@@ -30,7 +30,6 @@ const getCategoryNews = async (category, country) => {
 const getNewsSources = async () => {
   const response = await fetch(`${BASE_URL}sources?apiKey=${APIKEY}`);
   const data = await response.json();
-  console.log(data);
   return data;
 };
 

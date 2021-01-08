@@ -487,6 +487,7 @@ const SettingsView = ({ navigation }) => {
         visible={sourcesVisible}
         onRequestClose={toggleSources}
         statusBarTranslucent={sourcesVisible && true}
+        initialNumToRender={5}
       >
         <View
           style={[
