@@ -483,7 +483,12 @@ const SettingsView = ({ navigation }) => {
         onRequestClose={toggleSources}
         statusBarTranslucent={sourcesVisible && true}
       >
-        <View style={styles.sourcesContainer}>
+        <View
+          style={[
+            styles.sourcesContainer,
+            { backgroundColor: mode.colors.background },
+          ]}
+        >
           <View style={styles.headerContainer}>
             <TouchableOpacity style={styles.leftButton} onPress={toggleHelp}>
               <LeftIcon width={24} color={mode.colors.icon} />
@@ -494,18 +499,32 @@ const SettingsView = ({ navigation }) => {
                 fontSize: 24,
               }}
             >
-              Help and Suggestions
+              News Sources
             </Text>
           </View>
 
           <FlatList
+            contentContainerStyle={{ paddingVertical: 20 }}
+            showsVerticalScrollIndicator={false}
             data={sources}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <OpenEmailButton url={item.url} style={styles.sources}>
-                <Text>{item.name}</Text>
-                <Text>{item.url}</Text>
+                <Text style={{ color: mode.colors.icon }}>{item.name}</Text>
+                <Text style={{ color: mode.colors.icon }}>{item.url}</Text>
+                <Text style={{ fontWeight: 'bold', color: mode.colors.icon }}>
+                  {item.language.toUpperCase()}, {item.country.toUpperCase()}
+                </Text>
               </OpenEmailButton>
+            )}
+            ItemSeparatorComponent={() => (
+              <View
+                style={{
+                  marginHorizontal: 20,
+                  borderWidth: 1,
+                  borderColor: mode.colors.icon,
+                }}
+              />
             )}
           />
         </View>
@@ -588,6 +607,8 @@ const styles = StyleSheet.create({
     paddingTop: StatusBar.currentHeight + 24,
   },
   sources: {
-    padding: 20,
+    marginHorizontal: 20,
+    marginVertical: 10,
+    paddingVertical: 10,
   },
 });
