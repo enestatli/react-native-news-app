@@ -348,7 +348,13 @@ const SettingsView = ({ navigation }) => {
         </View>
       </View>
 
-      <View style={{ flex: 1, marginHorizontal: 20, paddingVertical: 20 }}>
+      <View
+        style={{
+          flex: 1,
+          marginHorizontal: 20,
+          paddingVertical: 20,
+        }}
+      >
         <Text
           style={{
             fontSize: 16,
@@ -365,7 +371,6 @@ const SettingsView = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
           ItemSeparatorComponent={() => <View style={{ marginBottom: 12 }} />}
-          // ListHeaderComponent={() => <View style={{ marginBottom: 12 }} />}
         />
       </View>
 
@@ -560,7 +565,7 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   preferences: {
-    height: (windowHeight - 44 - 84) / 14,
+    height: (windowHeight - 44) / 14,
     flexDirection: 'row',
     alignItems: 'center',
   },
