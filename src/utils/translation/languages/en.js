@@ -61,5 +61,5 @@ export default {
   mentioned: 'Mentioned',
   noComment: 'You have not commented yet.',
   //bookmark screen
-  noBookmark: 'No favorites yet.',
+  noBookmark: 'No bookmarks yet.',
 };

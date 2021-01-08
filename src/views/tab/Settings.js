@@ -26,6 +26,7 @@ import {
   LeftIcon,
   NotificationIcon,
   RightIcon,
+  Sources,
   TimeIcon2,
   Whatsapp,
 } from '../../components/icons';
@@ -44,6 +45,8 @@ import { windowHeight } from '../../utils/dimensions';
 
 const SettingsView = ({ navigation }) => {
   const [addTodoVisible, setAddTodoVisible] = useState(false);
+  const [sourcesVisible, setSourcesVisible] = useState(false);
+
   const { mode, darkMode, toggleDarkMode } = useContext(ThemeContext);
   const { user, logout, setIsAuth } = useContext(AuthContext);
   const { isJSEnabled, setIsJSEnabled } = useContext(SettingsContext);
@@ -184,6 +187,12 @@ const SettingsView = ({ navigation }) => {
       switch: false,
       icon: <HelpIcon width={24} color={mode.colors.icon} />,
     },
+    {
+      id: 'sources',
+      title: 'News Sources',
+      switch: false,
+      icon: <Sources size={24} color={mode.colors.icon} />,
+    },
   ];
 
   useFocusEffect(
@@ -210,6 +219,10 @@ const SettingsView = ({ navigation }) => {
 
   const toggleHelp = () => {
     setAddTodoVisible(!addTodoVisible);
+  };
+
+  const toggleSources = () => {
+    setSourcesVisible(!sourcesVisible);
   };
 
   const renderItem = ({ item }) => (
@@ -406,7 +419,12 @@ const SettingsView = ({ navigation }) => {
             <TouchableOpacity style={styles.leftButton} onPress={toggleHelp}>
               <LeftIcon width={24} color={mode.colors.icon} />
             </TouchableOpacity>
-            <Text style={{ color: mode.colors.foreground, fontSize: 24 }}>
+            <Text
+              style={{
+                color: mode.colors.foreground,
+                fontSize: 24,
+              }}
+            >
               Help and Suggestions
             </Text>
           </View>
@@ -443,6 +461,16 @@ const SettingsView = ({ navigation }) => {
         </View>
       </Modal>
       {/* son */}
+      <Modal
+        animationType="slide"
+        visible={sourcesVisible}
+        onRequestClose={toggleSources}
+        statusBarTranslucent={sourcesVisible && true}
+      >
+        <View>
+          <Text>Hello Sources</Text>
+        </View>
+      </Modal>
     </View>
   );
 };
