@@ -487,7 +487,6 @@ const SettingsView = ({ navigation }) => {
         visible={sourcesVisible}
         onRequestClose={toggleSources}
         statusBarTranslucent={sourcesVisible && true}
-        initialNumToRender={5}
       >
         <View
           style={[
@@ -513,12 +512,15 @@ const SettingsView = ({ navigation }) => {
             contentContainerStyle={{ paddingVertical: 20 }}
             showsVerticalScrollIndicator={false}
             data={sources}
+            initialNumToRender={5}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <OpenEmailButton url={item.url} style={styles.sources}>
-                <Text style={{ color: mode.colors.icon }}>{item.name}</Text>
-                <Text style={{ color: mode.colors.icon }}>{item.url}</Text>
                 <Text style={{ fontWeight: 'bold', color: mode.colors.icon }}>
+                  {item.name}
+                </Text>
+                <Text style={{ color: mode.colors.icon }}>{item.url}</Text>
+                <Text style={{ fontWeight: '700', color: mode.colors.icon }}>
                   {item.language.toUpperCase()}, {item.country.toUpperCase()}
                 </Text>
               </OpenEmailButton>

@@ -1,5 +1,5 @@
 {
-  "name": "NewsApp",
+  "name": "news-app",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -12,9 +12,9 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.1",
     "@react-native-community/masked-view": "^0.1.10",
-    "@react-native-firebase/app": "^8.4.6",
-    "@react-native-firebase/auth": "^9.3.1",
-    "@react-native-firebase/firestore": "^7.8.7",
+    "@react-native-firebase/app": "^10.4.0",
+    "@react-native-firebase/auth": "^10.4.0",
+    "@react-native-firebase/firestore": "^10.4.0",
     "@react-navigation/bottom-tabs": "^5.9.2",
     "@react-navigation/native": "^5.7.6",
     "@react-navigation/stack": "^5.9.3",
@@ -23,7 +23,7 @@
     "appcenter-crashes": "^3.1.1",
     "md5": "^2.3.0",
     "react": "16.13.1",
-    "react-native": "0.63.3",
+    "react-native": "0.63.4",
     "react-native-bootsplash": "^3.1.2",
     "react-native-code-push": "^6.4.0",
     "react-native-gesture-handler": "^1.8.0",
