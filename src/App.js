@@ -11,6 +11,8 @@ import {
 
 import Providers from './navigation';
 
+//TODO added react native scroll snap
+
 const App = () => {
   React.useEffect(() => {
     (async () => {

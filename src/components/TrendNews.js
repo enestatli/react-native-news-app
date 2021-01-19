@@ -39,6 +39,9 @@ const TrendNews = ({ navigation, trendNews, str, theme }) => {
       </View>
 
       <FlatList
+        decelerationRate={0.44}
+        snapToInterval={200}
+        snapToAlignment={'center'}
         style={{ width: '100%', height: '100%' }}
         data={trendNews}
         keyExtractor={(item) => item.url.toString()}
