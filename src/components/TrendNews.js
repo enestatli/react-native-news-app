@@ -39,8 +39,8 @@ const TrendNews = ({ navigation, trendNews, str, theme }) => {
       </View>
 
       <FlatList
-        decelerationRate={0.44}
-        snapToInterval={200}
+        decelerationRate={0}
+        snapToInterval={windowWidth / 1.5 + 12}
         snapToAlignment={'center'}
         style={{ width: '100%', height: '100%' }}
         data={trendNews}
