@@ -106,7 +106,7 @@ export const AuthProvider = ({ children }) => {
       );
     }
   };
-  //TODO console.log should be removed for performance issues!!!
+
   const values = {
     user,
     setUser,

@@ -11,7 +11,7 @@ import {
 
 import Providers from './navigation';
 
-//TODO added react native scroll snap
+//TODO responsive design!
 
 const App = () => {
   React.useEffect(() => {

@@ -68,9 +68,6 @@ const HomeView = ({ navigation }) => {
   const [countryCode, setCountryCode] = useState('');
   const mounted = useRef(true);
 
-  //TODO google news rss
-  //TODO trendNews card maybe from rss without any picture
-
   useEffect(() => {
     (async () => {
       try {

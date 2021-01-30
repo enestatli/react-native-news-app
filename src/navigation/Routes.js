@@ -26,7 +26,6 @@ export const Routes = () => {
     };
   }, []);
 
-  //TODO isAuth ? loading!!
   if (loading) {
     return <Loading />;
   }
