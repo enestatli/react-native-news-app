@@ -1,7 +1,7 @@
 const winston = require('winston');
 const colors = require('colors/safe');
 
-const logger = winston.createLogger({
+const prodLogger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),
   defaultMeta: { service: 'user-service' },
@@ -11,12 +11,12 @@ const logger = winston.createLogger({
   ],
 });
 
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(
-    new winston.transports.Console({
-      format: winston.format.simple(),
-    }),
-  );
-}
+const devLogger = {
+  info: (msg) => console.log(colors.yellow.underline(msg)),
+  error: (msg) => console.log(colors.red(msg)),
+};
 
-module.exports = { logger };
+module.exports =
+  process.env.NODE_ENV === 'development'
+    ? { logger: devLogger }
+    : { logger: prodLogger };
