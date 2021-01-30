@@ -62,3 +62,5 @@ buck-out/
 .env
 
 server/.env
+
+server/logs/combined.log
