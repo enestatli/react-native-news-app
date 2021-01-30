@@ -1,13 +1,16 @@
 const dev = {
-  api: 'selam',
+  baseUrl: process.env.BASE_URL,
+  apiKey1: process.env.APIKEY_1,
+  apiKey2: process.env.APIKEY_2,
+  port: process.env.PORT,
 };
 
 const prod = {
-  api: 'bye',
+  apiKey3: process.env.APIKEY_3,
 };
 
 const config = {
-  url: 'www',
+  newApi: process.env.NEWS_API,
 };
 
 const all =
