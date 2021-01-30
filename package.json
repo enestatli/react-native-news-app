@@ -21,6 +21,7 @@
     "appcenter": "^3.1.1",
     "appcenter-analytics": "^3.1.1",
     "appcenter-crashes": "^3.1.1",
+    "dotenv": "^8.2.0",
     "md5": "^2.3.0",
     "react": "16.13.1",
     "react-native": "0.63.4",
