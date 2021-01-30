@@ -24,6 +24,7 @@
     "body-parser": "^1.19.0",
     "colors": "^1.4.0",
     "md5": "^2.3.0",
+    "mongoose": "^5.11.14",
     "react": "16.13.1",
     "react-native": "0.63.4",
     "react-native-bootsplash": "^3.1.2",
