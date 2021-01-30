@@ -10,6 +10,8 @@ const prod = {
 };
 
 const config = {
+  dbUri: process.env.DB_URI || 'mongodb://localhost:27017',
+  dbName: process.env.DB_NAME,
   newApi: process.env.NEWS_API,
 };
 
