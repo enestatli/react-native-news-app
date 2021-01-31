@@ -3,19 +3,19 @@ const bcrypt = require('bcrypt');
 
 const Schema = mongoose.Schema;
 
-const User = new Schema({
+const UserSchema = new Schema({
   name: String,
   email: String,
   password: String,
 });
 
-User.pre('save', async function (next) {
+UserSchema.pre('save', async function (next) {
   const salt = await bcrypt.genSalt();
   this.password = await bcrypt.hash(this.password, salt);
   next();
 });
 
-User.statics.login = async function (email, password) {
+UserSchema.statics.login = async function (email, password) {
   const user = await this.findOne({ email });
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
@@ -27,4 +27,4 @@ User.statics.login = async function (email, password) {
   throw Error('incorrect email');
 };
 
-module.exports = mongoose.model('user', User);
+module.exports = mongoose.model('user', UserSchema);
