@@ -1,0 +1,17 @@
+# Save new user 
+POST http://localhost:3000/api/user/register 
+content-type: application/json
+
+{
+"name": "sampled", "email": "asdttaf@asdflcom", "password": "12345678"
+}
+
+###
+
+# Login new user 
+POST http://localhost:3000/api/user/login 
+content-type: application/json
+
+{
+"email": "asdttaf@asdflcom", "password": "12345678"
+}
