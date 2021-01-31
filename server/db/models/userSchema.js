@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const { User } = require('../../api/User');
-
 const UserSchema = new mongoose.Schema({
   name: String,
   email: {
@@ -52,4 +50,6 @@ UserSchema.statics.createNew = async function ({ email, password, name }) {
   return user;
 };
 
-module.exports = mongoose.model('user', UserSchema);
+var User = mongoose.model('user', UserSchema);
+
+module.exports = User;
