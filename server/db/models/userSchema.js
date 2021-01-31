@@ -1,12 +1,21 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const Schema = mongoose.Schema;
+const { User } = require('../../api/User');
 
-const UserSchema = new Schema({
+const UserSchema = new mongoose.Schema({
   name: String,
-  email: String,
-  password: String,
+  email: {
+    type: String,
+    required: [true, 'Please enter an email'],
+    unique: true,
+    lowercase: true,
+  },
+  password: {
+    type: String,
+    required: [true, 'Please enter a password'],
+    minlength: [6, 'Minimumum password length is 6 characters'],
+  },
 });
 
 UserSchema.pre('save', async function (next) {
@@ -25,6 +34,22 @@ UserSchema.statics.login = async function (email, password) {
     throw Error('incorrect password');
   }
   throw Error('incorrect email');
+};
+
+UserSchema.statics.createNew = async function ({ email, password, name }) {
+  const isUser = await this.findOne({ email });
+  if (isUser && isUser.email) {
+    return;
+  }
+  const user = new User({
+    name,
+    email,
+    password,
+  });
+
+  await user.save();
+
+  return user;
 };
 
 module.exports = mongoose.model('user', UserSchema);
