@@ -5,15 +5,15 @@ require('dotenv').config();
 
 const { config } = require('./config');
 const { logger } = require('./logger');
-const router = require('./api')
+const router = require('./api');
 
 const app = express();
 
-require('./db')
+require('./db');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(router)
+app.use(router);
 
 app.listen(config.port, () => logger.info(`Express is on ${config.port}`));

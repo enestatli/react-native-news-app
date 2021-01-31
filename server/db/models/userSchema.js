@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const Schema = mongoose.Schema;
 
@@ -25,6 +26,5 @@ User.statics.login = async function (email, password) {
   }
   throw Error('incorrect email');
 };
-
 
 module.exports = mongoose.model('user', User);
