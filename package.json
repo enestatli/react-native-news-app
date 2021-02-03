@@ -21,6 +21,7 @@
     "appcenter": "^3.1.1",
     "appcenter-analytics": "^3.1.1",
     "appcenter-crashes": "^3.1.1",
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "colors": "^1.4.0",
     "md5": "^2.3.0",

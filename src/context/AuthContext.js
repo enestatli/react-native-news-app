@@ -3,6 +3,7 @@ import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import axios from 'axios';
 
 export const AuthContext = createContext({});
 
@@ -28,24 +29,46 @@ export const AuthProvider = ({ children }) => {
     })();
   }, []);
 
+  // const login = async (email, password) => {
+  //   if (isAuth && email && password) {
+  //     const res = await fetch('http://192.168.0.33:3000/api/user/login', {
+  //       method: 'POST',
+  //       credentials: 'same-origin',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         apiKey: 'bbe44b27f2ea4464a198c929c1adc49e',
+  //       },
+  //       referrerPolicy: 'no-referrer',
+  //       body: JSON.stringify({
+  //         email,
+  //         password,
+  //       }),
+  //     });
+  //     const user = await res.json();
+  //     console.log(user);
+  //     setError('');
+  //   }
+  //   setError('Email or passowrd cannot be empty.');
+  // };
+
   const login = async (email, password) => {
     if (isAuth && email && password) {
-      const res = await fetch('http://192.168.0.33:3000/api/user/login', {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json',
-          apiKey: 'bbe44b27f2ea4464a198c929c1adc49e',
-        },
-        referrerPolicy: 'no-referrer',
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-      const user = await res.json();
-      console.log(user);
-      setError('');
+      try {
+        const res = await axios({
+          url: 'http://192.168.0.33:3000/api/user/login',
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            apiKey: 'bbe44b27f2ea4464a198c929c1adc49e',
+          },
+          data: { email, password },
+        });
+        // const user = await res.json();
+        console.log(res);
+        setError('');
+      } catch (err) {
+        console.log(err);
+      }
     }
     setError('Email or passowrd cannot be empty.');
   };
