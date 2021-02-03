@@ -29,31 +29,25 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    try {
-      if (isAuth) {
-        if (email && password) {
-          await auth().signInWithEmailAndPassword(email, password);
-          setError('');
-        } else {
-          setError('Email or passowrd cannot be empty.');
-        }
-      }
-    } catch (err) {
-      if (
-        err.code === 'auth/ınvalıd-emaıl' ||
-        err.code === 'auth/invalid-email'
-      ) {
-        setError('The email address is badly formatted.');
-      }
-      if (err.code === 'auth/wrong-password') {
-        setError(
-          'The password is invalid or the user does not have a password.',
-        );
-      }
-      if (err.code === 'auth/user-not-found') {
-        setError('There is no user record corresponding to this email');
-      }
+    if (isAuth && email && password) {
+      const res = await fetch('http://192.168.0.33:3000/api/user/login', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+          apiKey: 'bbe44b27f2ea4464a198c929c1adc49e',
+        },
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+      const user = await res.json();
+      console.log(user);
+      setError('');
     }
+    setError('Email or passowrd cannot be empty.');
   };
 
   const register = async (email, password, name) => {

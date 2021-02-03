@@ -14,6 +14,7 @@ const config = {
   dbName: process.env.DB_NAME,
   newsUrl: process.env.NEWS_API,
   mongoDbAtlasUri: process.env.MONGODB_ATLAS_URI,
+  myApi: process.env.MY_API,
 };
 
 const all =

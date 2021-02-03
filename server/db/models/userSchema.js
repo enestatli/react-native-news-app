@@ -24,14 +24,15 @@ UserSchema.pre('save', async function (next) {
 
 UserSchema.statics.login = async function (email, password) {
   const user = await this.findOne({ email });
-  if (user) {
-    const auth = await bcrypt.compare(password, user.password);
-    if (auth) {
-      return user;
-    }
-    throw Error('incorrect password');
+  if (!user) {
+    return 401; // unauthrozied
   }
-  throw Error('incorrect email');
+
+  const auth = await bcrypt.compare(password, user.password);
+  if (!auth) {
+    return 401;
+  }
+  return user;
 };
 
 UserSchema.statics.createNew = async function ({ email, password, name }) {

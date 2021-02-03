@@ -1,5 +1,8 @@
 const UserModel = require('../../db/models/userSchema');
 const { logger } = require('../../logger');
+const {
+  protectWithApiKey,
+} = require('../../middleware/protectWithApiKey/index');
 
 class User {
   constructor(router) {
@@ -8,25 +11,34 @@ class User {
   }
 
   registerRoutes() {
-    this.router.post('/user/register', this.registerUser.bind(this));
-    this.router.post('/user/login', this.loginUser.bind(this));
+    this.router.post(
+      '/user/register',
+      protectWithApiKey,
+      this.registerUser.bind(this),
+    );
+    this.router.post(
+      '/user/login',
+      protectWithApiKey,
+      this.loginUser.bind(this),
+    );
   }
 
   async loginUser(req, res) {
-    if (req && req.body && req.body.email && req.body.password) {
-      try {
-        const user = await UserModel.login(req.body.email, req.body.password);
-        if (user && user.email) {
-          return res.json(user);
-        }
-        res.sendStatus(401);
-      } catch (error) {
-        //TODO fix this incorrect email error
-        logger.error(error);
-        res.sendStatus(500);
+    if (!req || !req.body || !req.body.email || !req.body.password) {
+      res.sendStatus(422); // Unprocessable Entity
+      return;
+    }
+
+    const user = await UserModel.login(req.body.email, req.body.password);
+    try {
+      if (!user || !user.email) {
+        res.sendStatus(user);
+        return;
       }
-    } else {
-      res.sendStatus(403);
+      res.json(user);
+    } catch (error) {
+      logger.error(error);
+      res.sendStatus(500);
     }
   }
 
@@ -48,7 +60,7 @@ class User {
           res.json(user);
           return;
         }
-        res.sendStatus(409);
+        res.sendStatus(409); // conflict
       } catch (error) {
         logger.error(error);
         res.sendStatus(500);
