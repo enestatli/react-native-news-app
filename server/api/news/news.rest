@@ -1,0 +1,5 @@
+# Fetch top headlines  
+GET http://localhost:3000/api/news/topHeadlines
+content-type: application/json
+apiKey: bbe44b27f2ea4464a198c929c1adc49e
+

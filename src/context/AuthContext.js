@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
           data: { email, password },
         });
         // const user = await res.json();
-        console.log(res);
+        console.log(res.data);
         setError('');
       } catch (err) {
         console.log(err);
