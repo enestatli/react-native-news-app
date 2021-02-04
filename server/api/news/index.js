@@ -13,22 +13,30 @@ class News {
     this.router.get('/news/topHeadlines', this.fetchTopHeadlines.bind(this));
   }
 
-  // async fetchTopHeadlines(req, res) {
-  //   try {
-  //     const response = await axios.get(
-  //       // `${config.newsUrl}top-headlines?country=${req.body.code}&apiKey=${config.apiKey1}`,
-  //       `${config.newsUrl}top-headlines?country=tr&apiKey=${config.apiKey1}`,
-  //     );
-  //     logger.info(response);
-  //     // const data = await reponse.data();
-  //     // return data;
-  //   } catch (error) {
-  //     logger.error(error);
-  //   }
-  // }
+  async fetchTopHeadlines(req, res) {
+    if (req.body && req.body.code) {
+      try {
+        const response = await axios.get(
+          `${config.newsUrl}top-headlines?country=${req.body.code}&apiKey=${config.apiKey1}`,
+        );
+        res.send(response.data.articles[0]);
+      } catch (error) {
+        logger.error(error);
+      }
+    }
+  }
 
-  fetchTopHeadlines(req, res) {
-    res.send('Hello World');
+  async fetchSearchedNews(req, res) {
+    if (req.body && req.body.query) {
+      try {
+        const response = await axios.get(
+          `${config.newsUrl}everything?q=${req.body.query}&apiKey=${config.apiKey1}`,
+        );
+        res.send(response.data.articles[0]);
+      } catch (error) {
+        logger.error(error);
+      }
+    }
   }
 }
 
