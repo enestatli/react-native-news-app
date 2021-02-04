@@ -11,6 +11,12 @@ class News {
 
   fetchNews() {
     this.router.get('/news/topHeadlines', this.fetchTopHeadlines.bind(this));
+    this.router.get('/news/search', this.fetchSearchedNews.bind(this));
+    //TODO proper route name
+    this.router.get(
+      '/news/category&country',
+      this.fetchNewsByCategoryAndCountry.bind(this),
+    );
   }
 
   async fetchTopHeadlines(req, res) {
@@ -21,6 +27,7 @@ class News {
         );
         res.send(response.data.articles[0]);
       } catch (error) {
+        res.sendStatus(404);
         logger.error(error);
       }
     }
@@ -34,6 +41,23 @@ class News {
         );
         res.send(response.data.articles[0]);
       } catch (error) {
+        res.sendStatus(404);
+        logger.error(error);
+      }
+    }
+  }
+
+  async fetchNewsByCategoryAndCountry(req, res) {
+    if (req.body && req.body.category && req.body.country) {
+      try {
+        const response = await axios.get(
+          `${config.newsUrl}top-headlines?sortBy=${'publishedAt'}&category=${
+            req.body.category
+          }&country=${req.body.country}&apiKey=${config.apiKey1}`,
+        );
+        res.send(response.data.articles[0]);
+      } catch (error) {
+        res.sendStatus(404);
         logger.error(error);
       }
     }
