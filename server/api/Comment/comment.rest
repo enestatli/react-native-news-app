@@ -1,0 +1,5 @@
+# Add comment POST http://localhost:3000/api/comment/add content-type: application/json apiKey: bbe44b27f2ea4464a198c929c1adc49e
+
+{ "userName": "Cihangir", "userId": "das3857asdf", "commentText": "Hello this is the comment.", "url": "http:/d/dd:3000/api/comment/add" }
+
+###

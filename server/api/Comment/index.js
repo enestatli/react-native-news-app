@@ -1,5 +1,6 @@
 const {Utils} = require('../../utils')
 const CommentModel = require('../../db/models/commentSchema');
+const {protectWithApiKey} = require('../../middleware/protectWithApiKey')
 
 
 
@@ -10,7 +11,7 @@ class Comment {
     }
 
     commentRoutes(){
-        this.router.pos('/comment/add', protectWithApiKey, this.addComment.bind(this));
+        this.router.post('/comment/add', protectWithApiKey, this.addComment.bind(this));
     }
 
     async addComment(req, res) {
