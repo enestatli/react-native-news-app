@@ -14,6 +14,24 @@ class Comment {
       protectWithApiKey,
       this.addComment.bind(this),
     );
+    this.router.get(
+      '/comment/:url',
+      protectWithApiKey,
+      this.getComments.bind(this),
+    );
+  }
+
+  async getComments(req, res) {
+    if (!req || !req.params || !req.params.url) {
+      res.sendStatus(422); // unprocessable entity
+      return;
+    }
+    const model = await CommentModel.findOne({});
+    const arr = model.comments[req.params.url];
+    const totalSkip =
+      parseInt(req.query.skin, 10) * parseInt(req.query.limit, 10);
+
+    res.json(arr.slice(totalSkip, totalSkip + parseInt(req.query.limit, 10)));
   }
 
   async addComment(req, res) {

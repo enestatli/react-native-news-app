@@ -6,3 +6,8 @@ apiKey: bbe44b27f2ea4464a198c929c1adc49e
 { "userName": "Cihangir", "userId": "das3857asdf", "commentText": "Hello this is the comment.", "url": "http:/d/dd:3000/api/comment/add" }
 
 ###
+
+# pagination
+GET http://localhost:3000/api/comments/0bbd212a17c014f430ecda3259946d1d?skip=3&limit=2 
+content-type: application/json 
+apiKey: bbe44b27f2ea4464a198c929c1adc49e
