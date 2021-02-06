@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 
-
 const CommentSchema = new mongoose.Schema({
-  comments:{type:Object, default:{}}
+  comments: { type: Object, default: {} },
 });
 
 var Comment = mongoose.model('comment', CommentSchema);
