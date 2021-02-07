@@ -14,6 +14,7 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'Please enter a password'],
     minlength: [6, 'Minimumum password length is 6 characters'],
   },
+  saved_news: Array,
 });
 
 UserSchema.pre('save', async function (next) {

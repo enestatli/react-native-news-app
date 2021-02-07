@@ -17,3 +17,14 @@ apiKey: bbe44b27f2ea4464a198c929c1adc49e
 {
 "email": "enes1@enes.com", "password": "123qwe"
 }
+
+###
+
+# Save news 
+POST http://localhost:3000/api/user/save-news 
+content-type: application/json 
+apiKey: bbe44b27f2ea4464a198c929c1adc49e
+
+{ "title": "Now is the title2", "email": "enes@enes.com", "imgUrl": "img-url", "url": "ssnews-url23" }
+
+###
