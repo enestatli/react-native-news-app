@@ -15,7 +15,7 @@ class Comment {
       this.addComment.bind(this),
     );
     this.router.get(
-      '/comment/:url',
+      '/comments/:url',
       protectWithApiKey,
       this.getComments.bind(this),
     );
@@ -29,7 +29,7 @@ class Comment {
     const model = await CommentModel.findOne({});
     const arr = model.comments[req.params.url];
     const totalSkip =
-      parseInt(req.query.skin, 10) * parseInt(req.query.limit, 10);
+      parseInt(req.query.skip, 10) * parseInt(req.query.limit, 10);
 
     res.json(arr.slice(totalSkip, totalSkip + parseInt(req.query.limit, 10)));
   }
